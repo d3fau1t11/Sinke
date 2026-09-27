@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html class="light" lang="am"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ስንቅ • Senik | መገለጫ እና ማስተካከያ</title>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms & Container Queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Verbatim Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#261911",
+            "surface-variant": "#f7ddd0",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#822700",
+            "on-secondary-fixed": "#002204",
+            "surface-dim": "#efd5c8",
+            "on-secondary": "#ffffff",
+            "background": "#fff8f5",
+            "surface-bright": "#fff8f5",
+            "inverse-on-surface": "#ffede5",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb59c",
+            "secondary": "#1b6d24",
+            "surface-tint": "#ab3600",
+            "secondary-container": "#a0f399",
+            "on-error-container": "#93000a",
+            "on-secondary-container": "#217128",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#f7ddd0",
+            "secondary-fixed-dim": "#88d982",
+            "on-tertiary-fixed-variant": "#693c00",
+            "on-tertiary-fixed": "#2d1600",
+            "inverse-primary": "#ffb59c",
+            "on-secondary-fixed-variant": "#005312",
+            "on-surface-variant": "#594139",
+            "primary": "#a73400",
+            "on-primary-fixed": "#390c00",
+            "inverse-surface": "#3c2d25",
+            "secondary-fixed": "#a3f69c",
+            "tertiary-container": "#aa6400",
+            "surface-container-low": "#fff1eb",
+            "on-primary-container": "#fffbff",
+            "outline": "#8d7168",
+            "tertiary": "#874e00",
+            "on-background": "#261911",
+            "on-primary": "#ffffff",
+            "primary-container": "#cb4914",
+            "surface-container-high": "#fde3d6",
+            "surface": "#fff8f5",
+            "outline-variant": "#e1bfb5",
+            "tertiary-fixed-dim": "#ffb870",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-tertiary-container": "#fffbff",
+            "surface-container": "#ffeadf",
+            "tertiary-fixed": "#ffdcbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem",
+            "space-md": "1rem",
+            "margin": "1rem",
+            "margin-sm": "0.75rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "gutter-sm": "0.75rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "headline-lg": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-lg-mobile": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-md": [
+              "Plus Jakarta Sans"
+            ],
+            "label-sm": [
+              "Inter"
+            ],
+            "title-md": [
+              "Inter"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "label-md": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Inter"
+            ],
+            "display-lg": [
+              "Plus Jakarta Sans"
+            ],
+            "body-sm": [
+              "Inter"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "title-lg": [
+              "Plus Jakarta Sans"
+            ]
+          },
+          "fontSize": {
+            "headline-lg": [
+              "30px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-lg-mobile": [
+              "26px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "fontWeight": "600"
+              }
+            ],
+            "label-sm": [
+              "10px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.04em",
+                "fontWeight": "700"
+              }
+            ],
+            "title-md": [
+              "16px",
+              {
+                "lineHeight": "22px",
+                "fontWeight": "600"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "display-lg": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "400"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "title-lg": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Subtle decorative tibeb pattern top micro-strip */
+    .tibeb-edge {
+      background-image: repeating-linear-gradient(
+        90deg,
+        #a73400 0px,
+        #a73400 8px,
+        #aa6400 8px,
+        #aa6400 16px,
+        #1b6d24 16px,
+        #1b6d24 24px,
+        #261911 24px,
+        #261911 32px
+      );
+      height: 3px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-on-primary pb-28">
+<!-- TOP APP BAR -->
+<header class="sticky top-0 z-40 bg-surface shadow-sm">
+<div class="tibeb-edge w-full"></div>
+<div class="flex justify-between items-center w-full px-gutter py-space-sm max-w-xl mx-auto">
+<div class="flex items-center gap-space-sm">
+<button aria-label="ወደ ኋላ ተመለስ / Go Back" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform duration-100 text-on-surface" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<h1 class="font-title-lg text-title-lg text-primary tracking-tight">መገለጫ እና ማስተካከያ</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Profile &amp; Settings • ስንቅ Koye Feche</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="የደንበኞች አገልግሎት / Customer Support" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform duration-100 text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS CONTENT -->
+<main class="w-full max-w-xl mx-auto px-gutter py-space-md flex flex-col gap-space-lg flex-1">
+<!-- USER PROFILE SUMMARY BENTO CARD -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-surface-container rounded-full pointer-events-none opacity-50"></div>
+<div class="flex items-start gap-space-md relative z-10">
+<!-- User Avatar with Edit Badge -->
+<div class="relative shrink-0">
+<img class="w-16 h-16 rounded-full object-cover border-2 border-primary-container shadow-sm" data-alt="Warm documentary studio portrait photograph of Dawit Tefera, an Ethiopian man in his early 30s with friendly expression, warm natural sunlight highlighting cheekbones, soft clay and coffee roasted tones in the background, authentic Addis Ababa modern professional lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_W5GnfIPbKxTI0n-GGVLBGi1zSpdaHGJBje32LH_DNHW0hRtIdVkekpU7O0D4XmfO2Fg2BW2LM3-20sl6YQwIbQugBWfpgS1luZYOXxMyIT5RQ7FUACXokJEHyWbaGOA4BYG5dD0tNkChnGQooUsOFK5rI1GT4GeExu5OYQS3jwcmr9GXiOMhtbRr6mNtRC-Cc-_F0FzFaWt2JskUXt66g30qVvwQApe_h1kLDBFJioEwxx8vkdnUng"/>
+<button aria-label="ፎቶ ቀይር / Edit Avatar" class="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="edit">edit</span>
+</button>
+</div>
+<!-- Name, Phone & Hyperlocal Badge -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">ዳዊት ተፈራ</h2>
+<span class="font-label-md text-label-md text-on-surface-variant">(Dawit Tefera)</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-outline" data-icon="call">call</span>
+            +251 91 234 5678
+          </p>
+<div class="mt-2 inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span>ኮዬ ፈጬ ሳይት 2 (Koye Feche Site 2)</span>
+</div>
+</div>
+</div>
+<!-- Wallet Quick Pill -->
+<div class="mt-space-md pt-space-md border-t border-outline-variant flex items-center justify-between bg-surface-container-low p-space-sm rounded-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-xs border border-outline-variant">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">ቴሌብር ቀሪ ሂሳብ / Telebirr</div>
+<div class="font-body-sm text-body-sm text-secondary font-medium">የተገናኘ / Active Linked Wallet</div>
+</div>
+</div>
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-lowest border border-outline text-primary font-label-md text-label-md hover:bg-surface-container active:scale-95 transition-transform" type="button">
+          አስተዳድር / Manage
+        </button>
+</div>
+</section>
+<!-- SECTION 1: SAVED ADDRESSES & CONDOMINIUM INFO -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="home_pin">home_pin</span>
+          አድራሻዎቼ / Saved Addresses
+        </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ኮንዶሚኒየም መረጃ</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant shadow-sm flex flex-col gap-space-md">
+<!-- Address Card: Primary Home -->
+<div class="flex items-start justify-between gap-space-md p-space-sm rounded-lg bg-surface-container-low border border-outline-variant">
+<div class="flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface">ዋና መኖሪያ (Home)</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm">ነባሪ / Default</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1">
+                Koye Feche Site 2, Block 42, Floor 3, Apt 304
+              </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="flag">flag</span>
+                መለያ ምልክት: በኮንዶሚኒየም ገበያ ጀርባ (Behind Condo Market)
+              </p>
+</div>
+</div>
+<button aria-label="አድራሻ አስተካክል" class="text-on-surface-variant hover:text-primary active:scale-95 p-1" type="button">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Add New Address Button -->
+<button class="w-full py-3 px-space-md rounded-lg border-2 border-dashed border-outline-variant hover:border-primary text-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors duration-150 active:scale-98" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+          + አዲስ አድራሻ ያክሉ / Add New Address
+        </button>
+</div>
+</section>
+<!-- SECTION 2: ACTIVE NEIGHBORHOOD ZONE -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="near_me">near_me</span>
+          የሰፈር ምርጫ / Active Neighborhood Zone
+        </h3>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">ፈጣን ባጃጅ አገልግሎት</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant shadow-sm divide-y divide-outline-variant">
+<!-- Zone 1: Koye Feche (Active) -->
+<label class="flex items-center justify-between p-space-sm cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors duration-150">
+<div class="flex items-center gap-space-sm">
+<div class="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+                ኮዬ ፈጬ (Koye Feche)
+                <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">ገባሪ / Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ሳይት 1 እና ሳይት 2 ሙሉ ሽፋን (Site 1 &amp; Site 2 Full Coverage)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</label>
+<!-- Zone 2: Tuludimtu -->
+<label class="flex items-center justify-between p-space-sm cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors duration-150">
+<div class="flex items-center gap-space-sm">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center"></div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">ቱሉ ዲምቱ (Tuludimtu)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ዙሪያ አደባባይ እና ቶታል (Roundabout &amp; Total Station)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</label>
+<!-- Zone 3: Akaki Kality -->
+<label class="flex items-center justify-between p-space-sm cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors duration-150">
+<div class="flex items-center gap-space-sm">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center"></div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">አቃቂ ቃሊቲ (Akaki Kality)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ቃሊቲ መናኸሪያ እና ካድኮ (Terminal &amp; CADAC)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</label>
+</div>
+</section>
+<!-- SECTION 3: PAYMENT METHODS -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="payments">payments</span>
+          የክፍያ ዘዴዎች / Payment Methods
+        </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ፈጣን ክፍያ</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant shadow-sm flex flex-col gap-space-xs">
+<!-- Telebirr (Linked / Preferred) -->
+<div class="flex items-center justify-between p-space-sm rounded-lg border-2 border-primary bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest p-1 flex items-center justify-center border border-outline-variant">
+<span class="font-headline-md text-headline-md text-primary font-bold">tb</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+                ቴሌብር (Telebirr)
+                <span class="px-1.5 py-0.2 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm">ተመራጭ / Primary</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">+251 91 234 5678 • ፈጣን የባጃጅ ሂሳብ</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Chapa -->
+<div class="flex items-center justify-between p-space-sm rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors duration-150">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest p-1 flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-secondary" data-icon="credit_card">credit_card</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">ቻፓ / ባንክ ካርድ (Chapa &amp; Banks)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">CBE, Awash, Dashen, Card checkout</p>
+</div>
+</div>
+<button aria-label="ክፈት / Open" class="text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Cash on Delivery -->
+<div class="flex items-center justify-between p-space-sm rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors duration-150">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest p-1 flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary" data-icon="local_atm">local_atm</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">በእጅ ክፍያ (Cash on Delivery)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ምግቡ ወይም እቃው ሲደርስ ለአሽከርካሪው ይክፈሉ</p>
+</div>
+</div>
+<button aria-label="ክፈት / Open" class="text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECTION 4: LANGUAGE & PREFERENCES -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="tune">tune</span>
+          ቋንቋ እና ምርጫዎች / Preferences
+        </h3>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant shadow-sm flex flex-col gap-space-md">
+<!-- Language Selector Segmented Buttons -->
+<div class="flex items-center justify-between">
+<div>
+<div class="font-title-md text-title-md text-on-surface">የመተግበሪያ ቋንቋ / Language</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">የትርጉም ምርጫዎን ያስተካክሉ</p>
+</div>
+<div class="inline-flex rounded-lg bg-surface-container p-1 border border-outline-variant" role="group">
+<button class="px-space-md py-1 rounded-md bg-primary text-on-primary font-label-md text-label-md shadow-xs transition-all" type="button">
+              አማርኛ
+            </button>
+<button class="px-space-md py-1 rounded-md text-on-surface hover:text-primary font-label-md text-label-md transition-all" type="button">
+              English
+            </button>
+</div>
+</div>
+<div class="h-px bg-outline-variant w-full"></div>
+<!-- SMS Notifications Toggle Switch -->
+<div class="flex items-center justify-between">
+<div>
+<div class="font-title-md text-title-md text-on-surface">የኤስኤምኤስ ትዕዛዝ ማሳወቂያዎች (SMS Alerts)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ኢንተርኔት በማይኖርበት ጊዜ የትዕዛዝ ሁኔታ በ短信 ይደርሶታል</p>
+</div>
+<!-- Custom Native-style Toggle Switch -->
+<button aria-checked="true" class="w-12 h-7 bg-secondary rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none flex items-center" role="switch" type="button">
+<span class="w-5 h-5 bg-surface-container-lowest rounded-full shadow-md transform translate-x-5 transition-transform duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECTION 5: HELP & SUPPORT & ABOUT APP -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="help">help</span>
+          እርዳታ እና ድጋፍ / Help &amp; Support
+        </h3>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant shadow-sm flex flex-col gap-space-md">
+<!-- Call Dispatch Hub -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low border border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="phone_in_talk">phone_in_talk</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">ኮዬ ፈጬ ማስተባበሪያ / Dispatch Hub</div>
+<p class="font-body-md text-body-md text-primary font-bold mt-0.5">+251 90 000 0000</p>
+</div>
+</div>
+<a class="px-space-md py-2 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md flex items-center gap-1 active:scale-95 shadow-sm transition-transform" href="tel:+251900000000">
+<span class="material-symbols-outlined text-[16px]" data-icon="call">call</span>
+            ደውል / Call
+          </a>
+</div>
+<!-- About Senik App with Injected Identity Logo -->
+<div class="p-space-sm rounded-lg border border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-space-md bg-surface">
+<div class="flex items-center gap-space-md">
+<!-- Brand Logo provided in prompt assets -->
+<img alt="ስንቅ Senik Delivery Logo" class="h-12 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFkp4LF4Pp4WIa-SdltVxKOzxw7DTPKplT3hvZ94NTVH9alBvI9X1SvjFAGAPGF_gyw6gfTw9dZvDElL-hqOlYTwXsnJkZXab_cnTxIQVmCJp_xjrC6lsHQPlJ-AxqVYOOwWBkF30duI9DfoyoY1AwzdYrXgzkRxVkOTvNN0Z0YoLkXB9vkBpRGxV_LajPaIZdYeBaIZ4ojbVGURPQ-04_t-VTrd392z5UJZbk4EuW-WxqsguC22yL-QrDNxxr4uhVdN4"/>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">ስንቅ • Senik Delivery</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ስሪት / Version 1.2 (Build 2024.11)</p>
+<p class="font-label-sm text-label-sm text-primary font-semibold mt-0.5">ለከተማችን ምቾት የተሰራ • Made for Addis Ababa</p>
+</div>
+</div>
+<button aria-label="የመተግበሪያ ዝርዝር / App Details" class="text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- DANGER / LOGOUT ZONE -->
+<section class="pt-space-xs pb-space-md">
+<button class="w-full py-3.5 px-space-md rounded-xl border-1.5 border-error text-error bg-surface-container-lowest hover:bg-error-container hover:text-on-error-container transition-colors duration-150 font-title-md text-title-md flex items-center justify-center gap-2 active:scale-98 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+        ውጣ / Log Out
+      </button>
+<p class="text-center font-label-sm text-label-sm text-outline mt-3">
+        ስንቅ ዴሊቨሪ ቴክኖሎጂስ አ.ማ • Senik Delivery Technologies S.C.
+      </p>
+</section>
+</main>
+<!-- BOTTOM NAVIGATION BAR (Anchored & Fully Compliant with Shared JSON) -->
+<!-- Active state lock: 'መገለጫ / Profile' is active on this screen -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-xs py-space-xs bg-surface dark:bg-surface border-t border-outline-variant shadow-md">
+<!-- Item 0: ቤት / Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-space-sm py-space-xs hover:bg-surface-container dark:hover:bg-surface-container transition-colors duration-150 active:scale-95 transition-transform duration-100" href="#home">
+<span class="material-symbols-outlined text-[22px]" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">ቤት / Home</span>
+</a>
+<!-- Item 1: ፈልግ / Search -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-space-sm py-space-xs hover:bg-surface-container dark:hover:bg-surface-container transition-colors duration-150 active:scale-95 transition-transform duration-100" href="#search">
+<span class="material-symbols-outlined text-[22px]" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm mt-0.5">ፈልግ / Search</span>
+</a>
+<!-- Item 2: ትዕዛዞች / Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-space-sm py-space-xs hover:bg-surface-container dark:hover:bg-surface-container transition-colors duration-150 active:scale-95 transition-transform duration-100" href="#orders">
+<span class="material-symbols-outlined text-[22px]" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">ትዕዛዞች / Orders</span>
+</a>
+<!-- Item 3: ቅርጫት / Cart -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-space-sm py-space-xs hover:bg-surface-container dark:hover:bg-surface-container transition-colors duration-150 active:scale-95 transition-transform duration-100" href="#cart">
+<span class="material-symbols-outlined text-[22px]" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-label-sm text-label-sm mt-0.5">ቅርጫት / Cart</span>
+</a>
+<!-- Item 4: መገለጫ / Profile (ACTIVE DESTINATION) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-container text-on-primary-container dark:text-on-primary-container rounded-full px-space-md py-space-xs active:scale-95 transition-transform duration-100 shadow-xs" href="#profile">
+<span class="material-symbols-outlined text-[22px]" data-icon="person" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-0.5 font-bold">መገለጫ / Profile</span>
+</a>
+</nav>
+</body></html>

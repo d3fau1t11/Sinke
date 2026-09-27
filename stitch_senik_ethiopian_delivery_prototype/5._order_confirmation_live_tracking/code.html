@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="light" lang="am"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>ስንቅ • Senik | የቀጥታ ትዕዛዝ መከታተያ (Live Order Tracking)</title>
+<!-- Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "on-surface-variant": "#594139",
+            "secondary": "#1b6d24",
+            "inverse-primary": "#ffb59c",
+            "surface-container": "#ffeadf",
+            "tertiary-fixed": "#ffdcbe",
+            "secondary-container": "#a0f399",
+            "on-primary-fixed-variant": "#822700",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "surface-container-high": "#fde3d6",
+            "surface-container-highest": "#f7ddd0",
+            "inverse-on-surface": "#ffede5",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-fixed-variant": "#693c00",
+            "surface-dim": "#efd5c8",
+            "on-error": "#ffffff",
+            "surface-variant": "#f7ddd0",
+            "on-primary-fixed": "#390c00",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#217128",
+            "primary-container": "#cb4914",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "tertiary-container": "#aa6400",
+            "on-background": "#261911",
+            "background": "#fff8f5",
+            "surface-container-low": "#fff1eb",
+            "inverse-surface": "#3c2d25",
+            "tertiary": "#874e00",
+            "on-secondary-fixed": "#002204",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-fixed": "#2d1600",
+            "on-secondary-fixed-variant": "#005312",
+            "surface": "#fff8f5",
+            "outline": "#8d7168",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "primary": "#a73400",
+            "surface-tint": "#ab3600",
+            "secondary-fixed": "#a3f69c",
+            "secondary-fixed-dim": "#88d982",
+            "primary-fixed-dim": "#ffb59c",
+            "on-error-container": "#93000a",
+            "outline-variant": "#e1bfb5",
+            "tertiary-fixed-dim": "#ffb870",
+            "on-surface": "#261911"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-sm": "0.75rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Traditional Tibeb micro-pattern striping */
+    .tibeb-stripe {
+      background: repeating-linear-gradient(
+        90deg,
+        #cb4914 0px,
+        #cb4914 12px,
+        #aa6400 12px,
+        #aa6400 24px,
+        #1b6d24 24px,
+        #1b6d24 36px,
+        #261911 36px,
+        #261911 48px
+      );
+    }
+    .custom-map-grid {
+      background-size: 28px 28px;
+      background-image: 
+        linear-gradient(to right, rgba(225, 191, 181, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(225, 191, 181, 0.25) 1px, transparent 1px);
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.35); opacity: 0.15; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center pb-28">
+<!-- Mobile Screen Shell Canvas (Max Width for Android Viewport) -->
+<div class="w-full max-w-md min-h-screen bg-background flex flex-col shadow-2xl relative overflow-x-hidden">
+<!-- Top Tibeb Heritage Accent Border -->
+<div class="w-full h-1 tibeb-stripe"></div>
+<!-- Android System Bar Emulation -->
+<div class="w-full bg-surface px-gutter py-1.5 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm select-none">
+<div class="flex items-center space-x-1.5 font-bold tracking-tight">
+<span>02:45</span>
+<span class="text-primary font-bold ml-1">4G+</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="wifi">wifi</span>
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="battery_full">battery_full</span>
+</div>
+</div>
+<!-- Header Navigation Bar (Task-Focused: Back to Home & Share) -->
+<header class="bg-surface px-gutter py-space-sm flex items-center justify-between shadow-sm sticky top-0 z-30">
+<div class="flex items-center space-x-3">
+<button aria-label="Back to Home" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface active:scale-95 transition-all" onclick="window.history.back()">
+<span class="material-symbols-outlined text-xl" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider block font-bold">ስንቅ • የቀጥታ ክትትል</span>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">ትዕዛዝ መከታተያ</h1>
+</div>
+</div>
+<!-- Action Share Button -->
+<button aria-label="Share Tracking Link" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface active:scale-95 transition-all" title="አጋራ / Share link">
+<span class="material-symbols-outlined text-xl" data-icon="share">share</span>
+</button>
+</header>
+<!-- Main Content Flow -->
+<main class="flex-1 px-gutter py-space-md space-y-space-md">
+<!-- Confirmed Success Banner (Tibeb-Tinged Card) -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/60 shadow-sm relative overflow-hidden">
+<!-- Ethiopian Confetti celebratory elements -->
+<div class="absolute -right-4 -top-4 w-20 h-20 bg-secondary-container/30 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute right-8 top-3 text-secondary opacity-60 pointer-events-none text-xs">✦</div>
+<div class="absolute right-16 bottom-4 text-tertiary opacity-70 pointer-events-none text-sm">★</div>
+<div class="absolute right-4 bottom-8 text-primary opacity-60 pointer-events-none text-xs">◆</div>
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0 border border-secondary/30 mt-0.5">
+<span class="material-symbols-outlined text-2xl" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm mb-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+              የተረጋገጠ • Confirmed
+            </div>
+<h2 class="font-title-lg text-title-lg text-on-surface leading-snug">
+              ትዕዛዝዎ በተሳካ ሁኔታ ተልኳል!
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Order Placed Successfully! ምግብዎ በፍጥነት እየተዘጋጀ ነው።
+            </p>
+<!-- Key Metadata Strip -->
+<div class="mt-3 pt-2.5 border-t border-outline-variant/40 flex flex-wrap items-center justify-between gap-2 text-on-surface">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface-variant">መለያ:</span>
+<span class="font-label-md text-label-md font-bold bg-surface-container px-2 py-0.5 rounded text-primary">#SNK-8924</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-md text-label-md font-semibold text-secondary">
+<span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+<span>20–30 ደቂቃ (25m left)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Neighborhood Route Map Simulation (Koye Feche / Condominium Zone) -->
+<section class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/60 shadow-sm">
+<div class="px-space-md py-2.5 bg-surface-container flex items-center justify-between border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="near_me">near_me</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">የቀጥታ ካርታ • Koye Feche Corridor</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">GPS ፈጣን ዝመና</span>
+</div>
+<!-- Simulated Map Viewport with Architectural Layout of Koye Feche -->
+<div class="relative w-full h-56 bg-[#f4ede4] custom-map-grid overflow-hidden flex items-center justify-center select-none" data-location="Addis Ababa" style="">
+<!-- Abstract Roads / Condominium Avenues -->
+<svg class="absolute inset-0 w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 400 240">
+<!-- Ring Road Arteries -->
+<path d="M-20 60 C 100 70, 180 30, 420 50" stroke="#dfd2c4" stroke-linecap="round" stroke-width="18"></path>
+<path d="M-20 60 C 100 70, 180 30, 420 50" stroke="#ffffff" stroke-linecap="round" stroke-width="12"></path>
+<!-- Access Road to Condominium Sites -->
+<path d="M80 65 L 140 140 L 260 140 L 330 190" stroke="#dfd2c4" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></path>
+<path d="M80 65 L 140 140 L 260 140 L 330 190" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"></path>
+<!-- Delivery Path (Active Dashed Acacia Green Line) -->
+<path d="M80 65 L 140 140 L 210 140" stroke="#1b6d24" stroke-dasharray="6 4" stroke-linecap="round" stroke-width="4"></path>
+<path d="M210 140 L 260 140 L 330 190" opacity="0.6" stroke="#cb4914" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- Condo Blocks Map Representation -->
+<div class="absolute top-4 left-6 bg-[#e8ded3] border border-[#d6c7b7] rounded px-1.5 py-0.5 text-[9px] font-bold text-on-surface-variant opacity-80">
+            ኮዬ ፈጬ ሳይት 1
+          </div>
+<div class="absolute bottom-6 left-6 bg-[#e8ded3] border border-[#d6c7b7] rounded px-1.5 py-0.5 text-[9px] font-bold text-on-surface-variant opacity-80">
+            ቱሉዲምቱ አደባባይ
+          </div>
+<div class="absolute top-24 right-4 bg-[#e8ded3] border border-[#d6c7b7] rounded px-1.5 py-0.5 text-[9px] font-bold text-on-surface-variant opacity-80">
+            ብሎክ 40-48 ዞን
+          </div>
+<!-- 1. Origin Node: Restaurant (Bete Tibs) -->
+<div class="absolute left-14 top-10 flex flex-col items-center group">
+<div class="bg-surface-container-lowest text-primary shadow-md p-1.5 rounded-full border border-primary/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="restaurant">restaurant</span>
+</div>
+<div class="bg-on-surface text-surface-bright text-[10px] font-bold px-2 py-0.5 rounded shadow mt-1 whitespace-nowrap">
+              ቤተ ጥብስ (Bete Tibs)
+            </div>
+</div>
+<!-- 2. Moving Motorbike Rider Pin (Active Position) -->
+<div class="absolute left-[48%] top-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+<!-- Pulsing Radar Glow -->
+<div class="absolute -inset-3 rounded-full bg-primary/20 animate-pulse-ring"></div>
+<!-- Rider Vehicle Bubble -->
+<div class="relative bg-primary text-on-primary w-9 h-9 rounded-full shadow-lg flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-lg" data-icon="two_wheeler">two_wheeler</span>
+</div>
+<!-- Interactive Rider Badge -->
+<div class="bg-surface-container-lowest border border-outline-variant shadow-md rounded-full px-2.5 py-0.5 mt-1 flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">ዮናስ • TVS Apache 150</span>
+</div>
+</div>
+<!-- 3. Destination Node: Customer Gate -->
+<div class="absolute right-10 bottom-6 flex flex-col items-center">
+<div class="bg-secondary text-on-secondary shadow-lg p-2 rounded-full border-2 border-white flex items-center justify-center animate-bounce">
+<span class="material-symbols-outlined text-lg" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface font-bold text-[10px] px-2 py-0.5 rounded shadow border border-outline-variant mt-1 text-center whitespace-nowrap">
+              ኮዬ ፈጬ ሳይት 2 (በር 3)
+            </div>
+</div>
+<!-- Compass & Zoom utility on map -->
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<div class="w-7 h-7 bg-surface-container-lowest/90 backdrop-blur rounded-full flex items-center justify-center shadow text-on-surface-variant font-bold text-[11px] border border-outline-variant/40">
+              ሰ
+            </div>
+</div>
+</div>
+<!-- Hyperlocal Waypoint Indicator Footer -->
+<div class="px-space-md py-2 bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="near_me">near_me</span>
+<span class="truncate">ወደ ኮዬ ፈጬ ሳይት 2 መግቢያ በ3 ደቂቃ ይደርሳል</span>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded">1.4 ኪ.ሜ ቀርቷል</span>
+</div>
+</section>
+<!-- 6-Stage Delivery Progress Stepper -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/60 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">የማድረስ ደረጃዎች • Live Stages</h3>
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase bg-surface-container px-2 py-0.5 rounded">ደረጃ 4 ከ 6</span>
+</div>
+<!-- Vertical Stepper Layout -->
+<div class="relative pl-6 space-y-5">
+<!-- Continuous Connection Line -->
+<div class="absolute left-2.5 top-2 bottom-3 w-0.5 bg-outline-variant/40"></div>
+<!-- Completed Line Overlay -->
+<div class="absolute left-2.5 top-2 h-[60%] w-0.5 bg-secondary"></div>
+<!-- Step 1: Order Confirmed (Completed) -->
+<div class="relative flex items-start group">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-xs ring-4 ring-background z-10">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+</div>
+<div class="flex-1 ml-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">ተረጋግጧል (Order Confirmed)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">02:30</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ሬስቶራንቱ ትዕዛዝዎን ተቀብሏል</p>
+</div>
+</div>
+<!-- Step 2: Preparing Food (Completed) -->
+<div class="relative flex items-start group">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-xs ring-4 ring-background z-10">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+</div>
+<div class="flex-1 ml-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">በመዘጋጀት ላይ (Preparing Food)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">02:34</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ትኩስ ጥብስ እና ክትፎ በድስት ላይ እየበሰለ ነው</p>
+</div>
+</div>
+<!-- Step 3: Rider Assigned (Completed) -->
+<div class="relative flex items-start group">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-xs ring-4 ring-background z-10">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+</div>
+<div class="flex-1 ml-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">አሽከርካሪ ተመድቧል (Rider Assigned)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">02:38</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ዮናስ አበበ ትዕዛዙን ለመውሰድ ደርሷል</p>
+</div>
+</div>
+<!-- Step 4: Picked Up (ACTIVE PULSATING STATUS) -->
+<div class="relative flex items-start group">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center ring-4 ring-surface-container-high z-10 animate-pulse">
+<span class="w-2 h-2 rounded-full bg-white"></span>
+</div>
+<div class="flex-1 ml-2 p-2.5 rounded-lg bg-surface-container-low border border-primary/20 shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                  ተነስቷል (Picked Up) • አሁን ላይ
+                </span>
+<span class="font-label-sm text-label-sm font-bold text-primary">02:44</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-1">
+                ምግቡ በጥንቃቄ ተጭኖ ወደ እርስዎ አቅጣጫ ጉዞ ጀምሯል
+              </p>
+</div>
+</div>
+<!-- Step 5: On The Way (Upcoming) -->
+<div class="relative flex items-start opacity-70">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-surface-dim text-on-surface-variant flex items-center justify-center ring-4 ring-background z-10 border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+</div>
+<div class="flex-1 ml-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface-variant">በመንገድ ላይ (On The Way)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ይጠበቃል</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">የኮዬ ፈጬ የውስጥ አስፋልት ላይ</p>
+</div>
+</div>
+<!-- Step 6: Delivered (Upcoming) -->
+<div class="relative flex items-start opacity-50">
+<div class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-surface-dim text-on-surface-variant flex items-center justify-center ring-4 ring-background z-10 border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+</div>
+<div class="flex-1 ml-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface-variant">ደርሷል (Delivered)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">~02:55</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">በር ላይ መረከብ እና በሰላም መመገብ</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Rider Profile & Rapid Contact Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/60 shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">የስንቅ ፈጣን አሽከርካሪ</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-bold px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs text-tertiary" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+            4.95 (1,200+ ጉዞዎች)
+          </span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Rider Photo with Senik Uniform -->
+<div class="relative">
+<img class="w-16 h-16 rounded-full object-cover border-2 border-primary shadow" data-alt="A warm and professional portrait of a friendly young Ethiopian male delivery driver named Yonas wearing a branded terracotta orange Senik delivery vest and motorcycle helmet under natural outdoor daylight in Addis Ababa with smiling eyes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdj-K8JG1mBtjb0RdjMCnVuXSBM_OuqMDtNMgz1lKcKK1lZ8_ytQ3gQlHoh7K9Q5qWl6arNj8AfS0oVxvcRymGZbHEyDQ7Nng7A0ymz9Fxc_zd_eYbzSxHPKy3UGk2e6GMEhcfHOYpsavh-2zgy8kZGKwBEspnck4bAVh3_7s7427hDOoyaSqaFkfXzfhl7z5obndI2NPgj6YSTfL9Ardx6-aPnOUcvn8ow2lLWc9ldlBl9LKHXLojwA"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-secondary border-2 border-white rounded-full" title="Active On Road"></div>
+</div>
+<!-- Rider Name & Vehicle Details -->
+<div class="flex-1 min-w-0">
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate">ዮናስ አበበ (Yonas Abebe)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">ሞተርሳይክል: TVS Apache 150 (ሰሌዳ 3-45892)</p>
+<p class="font-label-sm text-label-sm text-secondary font-semibold mt-0.5">የኮዬ ፈጬ ሳይት 2 ነዋሪ • አካባቢውን ጠንቅቆ የሚያውቅ</p>
+</div>
+</div>
+<!-- Rapid Actions for Driver Engagement -->
+<div class="grid grid-cols-2 gap-3 mt-4">
+<!-- Call Rider Button -->
+<a class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-surface border-2 border-on-surface text-on-surface font-label-lg text-label-lg font-bold hover:bg-surface-container active:scale-98 transition-all text-center" href="tel:+251911000000">
+<span class="material-symbols-outlined text-lg" data-icon="call">call</span>
+<span>ደውል (Call)</span>
+</a>
+<!-- Chat / SMS Button -->
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-lg text-label-lg font-bold border border-primary/20 active:scale-98 transition-all text-center">
+<span class="material-symbols-outlined text-lg" data-icon="chat">chat</span>
+<span>መልዕክት (Chat)</span>
+</button>
+</div>
+</section>
+<!-- Order Details Drawer / Preview Accordion -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden">
+<!-- Header -->
+<div class="px-space-md py-3.5 flex items-center justify-between bg-surface-container-low border-b border-outline-variant/40 cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="receipt_long">receipt_long</span>
+<div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface leading-tight">የትዕዛዝ ዝርዝር • Order Items</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ቤተ ጥብስ እና ክትፎ (Bete Tibs) • 2 እቃዎች</p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-primary">
+<span class="font-label-md text-label-md font-bold">595 ETB</span>
+<span class="material-symbols-outlined text-lg" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Items Content Preview -->
+<div class="p-space-md space-y-3">
+<!-- Item 1 -->
+<div class="flex items-center justify-between pb-2.5 border-b border-outline-variant/20">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 rounded bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">1×</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">ልዩ የበሬ ጥብስ (Special Beef Tibs)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ከትኩስ ቃሪያ እና ከሰላጣ ጋር • በደንብ የበሰለ</p>
+</div>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">360 ETB</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between pb-2.5 border-b border-outline-variant/20">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 rounded bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">1×</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">ክብ እንጀራ እና አጃክስ ድልህ (Injera pack)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">3 ፍሬ የሀበሻ ንፁህ ጤፍ እንጀራ</p>
+</div>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">110 ETB</span>
+</div>
+<!-- Delivery Fee & Service -->
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>የማድረሻ ክፍያ (Koye Feche Bajaj/Moto Transit)</span>
+<span class="font-semibold text-on-surface">100 ETB</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>የአገልግሎት ክፍያ (Service)</span>
+<span class="font-semibold text-on-surface">25 ETB</span>
+</div>
+<!-- Payment Method Verification -->
+<div class="mt-3 pt-3 border-t border-outline-variant/40 flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex items-center gap-2">
+<div class="w-8 h-6 bg-[#005cb9] rounded flex items-center justify-center text-white text-[10px] font-bold tracking-tight">
+                telebirr
+              </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">በቴሌብር ተከፍሏል (Paid)</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Txn: ETB-98421890</span>
+</div>
+</div>
+<span class="font-title-md text-title-md font-bold text-primary">595 ETB</span>
+</div>
+</div>
+</section>
+<!-- Neighborhood Landmark Context Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/60 shadow-sm flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg" data-icon="flag">flag</span>
+</div>
+<div>
+<h5 class="font-label-lg text-label-lg font-bold text-on-surface">የማስረከቢያ መመሪያ (Delivery Instruction)</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            "ኮዬ ፈጬ ሳይት 2፣ ብሎክ 42፣ በር 3 ላይ ሲደርሱ ይደውሉ። ከኮንዶሚኒየም ንግድ ባንክ ጀርባ ያለው ደረጃ ጋር እጠብቃለሁ።"
+          </p>
+</div>
+</section>
+</main>
+<!-- Persistent Bottom Operational CTA Bar -->
+<div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-surface/95 backdrop-blur-md px-gutter py-3 border-t border-outline-variant/50 shadow-2xl z-40">
+<div class="flex items-center gap-3">
+<!-- Back to Home Button -->
+<a class="flex-1 h-[52px] bg-primary text-on-primary rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-md hover:bg-primary-container active:scale-98 transition-all" href="#home">
+<span class="material-symbols-outlined text-xl" data-icon="home">home</span>
+<span>ወደ መነሻ ገጽ / Home</span>
+</a>
+<!-- Support / Help Button -->
+<button class="h-[52px] px-4 bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-1.5 active:scale-98 transition-all" title="የደንበኞች ድጋፍ">
+<span class="material-symbols-outlined text-xl text-primary" data-icon="support_agent">support_agent</span>
+<span>እርዳታ (Help)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive Demo Script -->
+<script>
+    // Lightweight atmospheric feedback
+    document.querySelectorAll('button, a').forEach(elem => {
+      elem.addEventListener('click', function() {
+        if (navigator.vibrate) {
+          navigator.vibrate(20);
+        }
+      });
+    });
+  </script>
+</body></html>

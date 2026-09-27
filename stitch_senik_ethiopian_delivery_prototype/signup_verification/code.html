@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="am"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ስንቅ • Senik Delivery | ይመዝገቡ (Sign Up)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#261911",
+            "surface-variant": "#f7ddd0",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#822700",
+            "on-secondary-fixed": "#002204",
+            "surface-dim": "#efd5c8",
+            "on-secondary": "#ffffff",
+            "background": "#fff8f5",
+            "surface-bright": "#fff8f5",
+            "inverse-on-surface": "#ffede5",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb59c",
+            "secondary": "#1b6d24",
+            "surface-tint": "#ab3600",
+            "secondary-container": "#a0f399",
+            "on-error-container": "#93000a",
+            "on-secondary-container": "#217128",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#f7ddd0",
+            "secondary-fixed-dim": "#88d982",
+            "on-tertiary-fixed-variant": "#693c00",
+            "on-tertiary-fixed": "#2d1600",
+            "inverse-primary": "#ffb59c",
+            "on-secondary-fixed-variant": "#005312",
+            "on-surface-variant": "#594139",
+            "primary": "#a73400",
+            "on-primary-fixed": "#390c00",
+            "inverse-surface": "#3c2d25",
+            "secondary-fixed": "#a3f69c",
+            "tertiary-container": "#aa6400",
+            "surface-container-low": "#fff1eb",
+            "on-primary-container": "#fffbff",
+            "outline": "#8d7168",
+            "tertiary": "#874e00",
+            "on-background": "#261911",
+            "on-primary": "#ffffff",
+            "primary-container": "#cb4914",
+            "surface-container-high": "#fde3d6",
+            "surface": "#fff8f5",
+            "outline-variant": "#e1bfb5",
+            "tertiary-fixed-dim": "#ffb870",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-tertiary-container": "#fffbff",
+            "surface-container": "#ffeadf",
+            "tertiary-fixed": "#ffdcbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem",
+            "space-md": "1rem",
+            "margin": "1rem",
+            "margin-sm": "0.75rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "gutter-sm": "0.75rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "title-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "title-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Subtle Tibeb textile geometric motif separator */
+    .tibeb-border {
+      background: repeating-linear-gradient(
+        45deg,
+        #cb4914 0px,
+        #cb4914 6px,
+        #aa6400 6px,
+        #aa6400 12px,
+        #261911 12px,
+        #261911 18px,
+        #fff8f5 18px,
+        #fff8f5 24px
+      );
+      height: 3px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Micro Tibeb Pattern Top Accent Strip -->
+<div class="tibeb-border w-full"></div>
+<!-- Focused Header: Linear/Auth Flow with Back button & Language Switcher -->
+<header class="w-full max-w-md mx-auto px-gutter pt-space-md pb-space-sm flex items-center justify-between">
+<button aria-label="ተመለስ / Back" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface-container active:scale-95 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<div class="flex items-center space-x-1.5 bg-surface-container-low px-space-sm py-space-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">translate</span>
+<button class="font-label-md text-label-md text-primary font-bold hover:underline" type="button">አማርኛ</button>
+<span class="text-outline text-[12px] font-mono">/</span>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" type="button">EN</button>
+</div>
+</header>
+<!-- Main Onboarding & Signup Canvas -->
+<main class="w-full max-w-md mx-auto px-gutter flex-1 flex flex-col justify-start pb-space-xl">
+<!-- Hero Brand Identity Card with Senik Official Logo -->
+<div class="mt-space-sm mb-space-lg flex flex-col items-center text-center">
+<div class="relative mb-space-sm p-space-sm rounded-2xl bg-surface-container-lowest border border-outline-variant shadow-sm flex items-center justify-center">
+<!-- Logo Image Placeholder -->
+<img alt="ስንቅ Senik Delivery Logo" class="h-16 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH9yMVVvkddJQ9pMmHI9R9ozXyoLuFbd1_DclThH61tjzfwyYYnm63ICoqfLbnxOTNuOrAovQdVIg34WS6QW8R_Smr--Xr5UilLszV3TaBDv16cEAkIHUSfO6ned9dVwbA5dGVWzL_HbNy0CXkV-keYkve4Z3wkDobN_jtOUqiYqkzAx2mqCUyRl2AtPRlOjwkb2jZEyZ3qA_wZqbDl750KQ2xb39CbaclhiozGA91_U7j91lMCzoWtFTISZVDxuslW-8"/>
+</div>
+<div class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container text-primary font-label-md text-label-md mb-space-xs">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">electric_moped</span>
+<span>ስንቅ • Senik Delivery</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mt-1">
+        ይመዝገቡ
+      </h1>
+<p class="font-label-lg text-label-lg text-primary mt-0.5 font-bold">
+        Create Account
+      </p>
+<!-- Hyperlocal Addis Suburban Delivery Coverage Subtitle -->
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 px-space-sm max-w-xs leading-relaxed">
+        ፈጣን የምግብና የሸቀጥ አቅርቦት በኮዬ ፈጬ፣ ቱሉ ዲምቱ እና አቃቂ ቃሊቲ (Fast delivery across Koye Feche, Tuludimtu &amp; Akaki Kality)
+      </p>
+</div>
+<!-- Registration Card Container -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant shadow-[0_4px_16px_rgba(45,31,23,0.04)]">
+<form class="space-y-space-md" onsubmit="event.preventDefault();">
+<!-- Field 1: Full Name -->
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface" for="full-name">
+            ሙሉ ስም <span class="text-on-surface-variant font-normal">/ Full Name</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px] pointer-events-none">person</span>
+<input class="w-full h-[52px] pl-10 pr-space-md bg-surface-container-lowest rounded-lg border border-outline-variant font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all" id="full-name" name="fullname" placeholder="ዳዊት ተፈራ (Dawit Tefera)" required="" type="text"/>
+</div>
+</div>
+<!-- Field 2: Phone Input with Pre-filled Ethiopian Code -->
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface" for="phone-number">
+            የስልክ ቁጥር <span class="text-on-surface-variant font-normal">/ Mobile Phone</span>
+</label>
+<div class="flex items-center gap-2">
+<!-- Country Code Indicator -->
+<div class="h-[52px] px-3 bg-surface-container-low border border-outline-variant rounded-lg flex items-center gap-1.5 shrink-0 select-none">
+<!-- Ethiopian flag emblem representation -->
+<span aria-label="Ethiopian Flag" class="text-base" role="img">🇪🇹</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">+251</span>
+</div>
+<!-- Phone Number Input -->
+<div class="relative flex-1">
+<input class="w-full h-[52px] px-space-md bg-surface-container-lowest rounded-lg border border-outline-variant font-title-md text-title-md tracking-wider text-on-surface placeholder:text-outline placeholder:tracking-normal focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all" id="phone-number" maxlength="9" name="phone" placeholder="9XX XXX XXX" required="" type="tel"/>
+</div>
+</div>
+</div>
+<!-- Field 3: Preferred Neighborhood Selector (Hyperlocal Addis Ababa Condominiums) -->
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface" for="neighborhood-select">
+            የእርስዎ ሰፈር <span class="text-on-surface-variant font-normal">/ Neighborhood</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px] pointer-events-none">location_on</span>
+<select class="w-full h-[52px] pl-10 pr-10 bg-surface-container-lowest rounded-lg border border-outline-variant font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-container/20 appearance-none transition-all cursor-pointer" id="neighborhood-select" name="neighborhood">
+<option selected="" value="koye_feche">ኮዬ ፈጬ (Koye Feche) • Site 1 &amp; 2</option>
+<option value="tulu_dimtu">ቱሉ ዲምቱ (Tuludimtu) • Sites &amp; Condos</option>
+<option value="akaki_kality">አቃቂ ቃሊቲ (Akaki Kality) • Gelan &amp; Environs</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline text-[20px] pointer-events-none">expand_more</span>
+</div>
+<!-- Landmark helper chip -->
+<div class="flex items-center gap-1.5 pt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary">near_me</span>
+<span>ትክክለኛ የበርና የብሎክ ቁጥርዎን በሚቀጥለው ገጽ ያስገባሉ</span>
+</div>
+</div>
+<!-- OTP Informational Preview Chip -->
+<div class="flex items-start gap-2.5 p-3 rounded-lg bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5 shrink-0" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<div class="flex-1 text-on-surface">
+<p class="font-label-md text-label-md font-semibold">የማረጋገጫ ኮድ በ SMS ይላካል</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">A 4-digit verification code will be sent immediately via Ethio Telecom SMS.</p>
+</div>
+</div>
+<!-- Primary CTA Button (52px thumb ergonomics, high contrast warm red-orange) -->
+<div class="pt-space-xs">
+<button class="w-full h-[52px] bg-primary-container hover:bg-primary text-on-primary-container font-title-md text-title-md font-semibold rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-transform duration-100" type="submit">
+<span>ቀጥል / Continue &amp; Send Code</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Secondary Quick Login Action -->
+<div class="mt-space-lg pt-space-md border-t border-outline-variant text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">
+          መለያ አለዎት? <span class="text-outline">/ Already have an account?</span>
+</p>
+<button class="w-full h-11 bg-surface-container-lowest border-2 border-on-surface text-on-surface hover:bg-surface-container font-label-lg text-label-lg font-bold rounded-lg transition-colors flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">login</span>
+<span>ይግቡ / Log In</span>
+</button>
+</div>
+</div>
+<!-- Terms and Conditions Footnote -->
+<div class="mt-space-lg text-center px-space-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">
+        በመመዝገብዎ የ Senik 
+        <a class="text-primary font-semibold underline underline-offset-2" href="#">የአገልግሎት ደንቦችንና</a> 
+        የግላዊነት መመሪያ ተስማምተዋል።
+      </p>
+<p class="font-label-sm text-label-sm text-outline mt-1">
+        By signing up, you agree to Senik Terms &amp; Conditions and Privacy Policy.
+      </p>
+</div>
+<!-- Hyperlocal Delivery Promise Pill -->
+<div class="mt-space-md flex items-center justify-center gap-3 py-2 px-4 rounded-full bg-surface-container-low border border-outline-variant self-center">
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>ፈጣን ባጃጅና ሞተር</span>
+</div>
+<span class="text-outline-variant text-xs">•</span>
+<div class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>ኮዬ ፈጬ • ቱሉ ዲምቱ</span>
+</div>
+</div>
+</main>
+<!-- Android Navigation Bar Indicator Accent -->
+<div class="w-full flex justify-center pb-2 pt-1 bg-transparent">
+<div class="w-32 h-1 bg-outline-variant rounded-full"></div>
+</div>
+</body></html>

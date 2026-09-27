@@ -1,0 +1,429 @@
+<!DOCTYPE html><html class="light" lang="am"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>ስንቅ • Senik | Onboarding &amp; Neighborhood Selection</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "on-surface-variant": "#594139",
+            "secondary": "#1b6d24",
+            "inverse-primary": "#ffb59c",
+            "surface-container": "#ffeadf",
+            "tertiary-fixed": "#ffdcbe",
+            "secondary-container": "#a0f399",
+            "on-primary-fixed-variant": "#822700",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "surface-container-high": "#fde3d6",
+            "surface-container-highest": "#f7ddd0",
+            "inverse-on-surface": "#ffede5",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-fixed-variant": "#693c00",
+            "surface-dim": "#efd5c8",
+            "on-error": "#ffffff",
+            "surface-variant": "#f7ddd0",
+            "on-primary-fixed": "#390c00",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#217128",
+            "primary-container": "#cb4914",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "tertiary-container": "#aa6400",
+            "on-background": "#261911",
+            "background": "#fff8f5",
+            "surface-container-low": "#fff1eb",
+            "inverse-surface": "#3c2d25",
+            "tertiary": "#874e00",
+            "on-secondary-fixed": "#002204",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-fixed": "#2d1600",
+            "on-secondary-fixed-variant": "#005312",
+            "surface": "#fff8f5",
+            "outline": "#8d7168",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "primary": "#a73400",
+            "surface-tint": "#ab3600",
+            "secondary-fixed": "#a3f69c",
+            "secondary-fixed-dim": "#88d982",
+            "primary-fixed-dim": "#ffb59c",
+            "on-error-container": "#93000a",
+            "outline-variant": "#e1bfb5",
+            "tertiary-fixed-dim": "#ffb870",
+            "on-surface": "#261911"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-sm": "0.75rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Restrained Ethiopian Tibeb micro-pattern ribbon */
+    .tibeb-accent-strip {
+      background: repeating-linear-gradient(
+        45deg,
+        #a73400 0px,
+        #a73400 4px,
+        #aa6400 4px,
+        #aa6400 8px,
+        #1b6d24 8px,
+        #1b6d24 12px,
+        #fff8f5 12px,
+        #fff8f5 14px
+      );
+      height: 3px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center selection:bg-surface-container selection:text-primary">
+<!-- Mobile Screen Container -->
+<main class="w-full max-w-[430px] min-h-screen bg-background flex flex-col relative pb- space-xl shadow-2xl">
+<!-- Tibeb Top Cultural Accent -->
+<div class="tibeb-accent-strip w-full"></div>
+<!-- Android System Status Bar -->
+<header class="w-full px-gutter pt-space-sm pb-space-xs flex justify-between items-center bg-background text-on-surface select-none z-30">
+<span class="font-label-md text-label-md text-on-surface font-semibold tracking-tight">09:41</span>
+<div class="flex items-center space-x-space-xs text-on-surface">
+<span class="material-symbols-outlined text-[16px]">network_wifi</span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[16px]">battery_full</span>
+</div>
+</header>
+<!-- Top App Brand Bar & Language Switcher -->
+<section class="px-gutter pt-space-xs pb-space-sm flex justify-between items-center w-full">
+<div class="flex items-center gap-space-xs">
+<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbYIs-Ka6QpjmuQ1o2odsA2ldkjRWiA9SQPDKb2moQ8h9MmW2gYoBIsPNPuHyIDQpekrOJjpfAc7P9hgkGrLO7So-jZU4VRxaDnt9nTy9BpQJLno0SCyjhZqLeyK5mpIseeyeEjg1d9ZJboI4TCR4a9shR37vzvNe8A39KgkxOJJP93VBpACyWrzyxh3krSdrkofJ5HF58inqBw1lZQQFEEHqBrLAHcI722uhX_YNTQEkbjEttyrSpUYxmS-6_u7iAOk" alt="ስንቅ Senik Logo" class="w-9 h-9 rounded-lg object-contain bg-white shadow-sm border border-outline-variant p-0.5">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1">
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight font-extrabold leading-none">ስንቅ</h1>
+<span class="font-label-sm text-label-sm text-tertiary tracking-wide font-bold">SENIK</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">የሰፈር ፈጣን ማድረሻ</span>
+</div>
+</div>
+<!-- Language Toggle Chip -->
+<button aria-label="Toggle language" class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px] text-primary">translate</span>
+<span class="font-label-md text-label-md text-primary font-bold">አማርኛ</span>
+<span class="text-outline text-xs">/</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">EN</span>
+</button>
+</section>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 px-gutter space-y-space-md flex flex-col pb-36">
+<!-- Hero Visual Bento Card -->
+<section class="w-full rounded-xl bg-surface-container-lowest p-space-md border border-outline-variant shadow-sm relative overflow-hidden">
+<!-- Warm glowing circle backdrop -->
+<div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-surface-container-high pointer-events-none opacity-60"></div>
+<div class="flex flex-col gap-space-xs relative z-10">
+<div class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container text-primary w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Koye Feche &amp; Tuludimtu Hub</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-snug font-bold">
+            የሰፈርዎ ፈጣን አቅርቦት
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant -mt-1">
+            Your neighborhood, delivered. Authentic taste, daily essentials, and pharmacy right to your condominium gate.
+          </p>
+</div>
+<!-- Visual Image Anchor -->
+<div class="mt-space-sm w-full h-36 rounded-lg overflow-hidden relative border border-outline-variant shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A warm and vibrant Ethiopian urban street scene in Addis Ababa with modern condominium apartment blocks in the background under clear high altitude sunlight. A modern delivery rider on a motorcycle wearing warm terracotta orange accents carries freshly packed injera, local meal containers, and grocery parcels. The scene uses earthy terracotta, warm ochre, and deep coffee tones conveying fast neighborhood community delivery and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7jz9JuVQqcFijMAyslonvUJ5Na9xKk8kIjTZbAhgROl_5nRF2qLRpYR0661PnjMTc4JXBirSFf1kqVroaGgDCPtUnVXkoIKwGpTgiac9soxT9KdewX3u3wZ8uIlRIhwkkmmFYQk7Idaofs0doXy4Spw6T7xIMWZR08c-18qQ3mJxqToAuCtzqWrIo7Ga7vVu3AucVy7ezJlLEWSA29L-EP92J3LcPHf88uyplEg92Ld1IGjqIVBGWfA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-space-sm">
+<span class="font-label-sm text-label-sm text-white flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[13px] text-secondary-fixed">bolt</span>
+              20–35 min Bajaj &amp; Motor delivery
+            </span>
+</div>
+</div>
+<!-- Value Proposition Mini-Grid -->
+<div class="grid grid-cols-3 gap-space-xs mt-space-sm pt-space-xs border-t border-surface-variant">
+<div class="flex flex-col items-center text-center p-1.5 rounded-lg bg-surface-container-low">
+<div class="w-7 h-7 rounded-full bg-primary-container/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[16px]">two_wheeler</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">20–35 ደቂቃ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[9px] leading-tight">Hyperfast</span>
+</div>
+<div class="flex flex-col items-center text-center p-1.5 rounded-lg bg-surface-container-low">
+<div class="w-7 h-7 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-1">
+<span class="material-symbols-outlined text-[16px]">restaurant</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">ትኩስ ምግብ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[9px] leading-tight">Fresh Meals</span>
+</div>
+<div class="flex flex-col items-center text-center p-1.5 rounded-lg bg-surface-container-low">
+<div class="w-7 h-7 rounded-full bg-tertiary-container/15 flex items-center justify-center text-tertiary mb-1">
+<span class="material-symbols-outlined text-[16px]">local_pharmacy</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">መድሃኒትና ሸቀጥ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[9px] leading-tight">Pharmacy</span>
+</div>
+</div>
+</section>
+<!-- Neighborhood Location Selector Section -->
+<section class="space-y-space-xs">
+<div class="flex justify-between items-baseline px-0.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">near_me</span>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">
+              የእርስዎን ሰፈር ይምረጡ
+            </h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Choose Zone</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant px-0.5">
+          Tuned for specific condominium blocks and gates across suburban Addis Ababa.
+        </p>
+<!-- Location Cards List -->
+<div aria-label="Select delivery neighborhood" class="space-y-space-xs pt-1" id="zone-container" role="radiogroup">
+<!-- Option 1: Koye Feche (ኮዬ ፈጬ) - Active / Selected -->
+<div aria-checked="true" class="zone-card active-zone cursor-pointer rounded-xl bg-surface-container-lowest p-space-md border-2 border-primary shadow-sm transition-all duration-150 relative overflow-hidden" data-zone="koye-feche" role="radio">
+<div class="flex items-start justify-between">
+<div class="flex gap-space-sm items-start">
+<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">location_city</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold">ኮዬ ፈጬ • Koye Feche</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Site 1, Site 2 Condominium, Block 1–55, Commercial Gate
+                  </p>
+<div class="mt-2 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                      Site 2 / Condominium Active
+                    </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]">motorcycle</span>
+                      20–30 mins
+                    </span>
+</div>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+</div>
+<!-- Option 2: Tuludimtu (ቱሉ ዲምቱ) -->
+<div aria-checked="false" class="zone-card cursor-pointer rounded-xl bg-surface-container-lowest p-space-md border border-outline-variant hover:border-outline shadow-sm transition-all duration-150" data-zone="tuludimtu" role="radio">
+<div class="flex items-start justify-between">
+<div class="flex gap-space-sm items-start">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">apartment</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold">ቱሉ ዲምቱ • Tuludimtu</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Total Roundabout, Block 12–38, Shegole Bus Stop
+                  </p>
+<div class="mt-2 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed-dim/40 text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Available Now • 25–35 mins
+                    </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-full">
+                      18 Restaurants open
+                    </span>
+</div>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border border-outline-variant flex items-center justify-center shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+</div>
+</div>
+</div>
+<!-- Option 3: Akaki Kality (አቃቂ ቃሊቲ) -->
+<div aria-checked="false" class="zone-card cursor-pointer rounded-xl bg-surface-container-lowest p-space-md border border-outline-variant hover:border-outline shadow-sm transition-all duration-150" data-zone="akaki" role="radio">
+<div class="flex items-start justify-between">
+<div class="flex gap-space-sm items-start">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">domain</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold">አቃቂ ቃሊቲ • Akaki Kality</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Crown Hotel Area, Kality Sub-city Admin, Market Square
+                  </p>
+<div class="mt-2 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed-dim/40 text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Available Now • 30–40 mins
+                    </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-full">
+                      Express Bajaj
+                    </span>
+</div>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border border-outline-variant flex items-center justify-center shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Hyperlocal Assurance Badge -->
+<section class="rounded-lg bg-surface-container-low p-space-sm border border-outline-variant flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[22px]" style="font-variation-settings: 'FILL' 1;">security</span>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface font-bold">ቀጥታ በቴሌብር እና በካሽ ይክፈሉ</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Seamless payment via Telebirr, CBE Birr, or Cash on Delivery.</p>
+</div>
+</section>
+</div>
+<!-- Sticky Bottom Conversion Sheet (Thumb-Zone Priority) -->
+<div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-surface-container-lowest/95 backdrop-blur-md px-gutter pt-space-sm pb-space-lg shadow-[0_-8px_24px_rgba(45,31,23,0.08)] z-40">
+<div class="w-10 h-1 rounded-full bg-outline-variant mx-auto mb-space-sm"></div>
+<!-- Hyperlocal landmark guidance preview -->
+<div class="flex items-center justify-between mb-space-xs text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">pin_drop</span>
+<span class="font-label-md text-label-md">መድረሻ: <strong class="text-on-surface" id="target-label">ኮዬ ፈጬ (Koye Feche Site 2)</strong></span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">ክፍት ነው • Open</span>
+</div>
+<!-- Primary Action CTA -->
+<button class="w-full h-[52px] bg-primary text-on-primary font-title-md text-title-md font-bold rounded-lg shadow-md flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.98] transition-all duration-150" id="cta-button" type="button">
+<span id="cta-text" class="">ጀምር / Get Started in Koye Feche</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<!-- Bottom Home Indicator bar (Android 3-button / gesture space) -->
+<div class="w-32 h-1 bg-outline/40 rounded-full mx-auto mt-space-sm"></div>
+</div>
+</main>
+<!-- Interactive script for neighborhood selection -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.zone-card');
+      const ctaText = document.getElementById('cta-text');
+      const targetLabel = document.getElementById('target-label');
+
+      const zoneData = {
+        'koye-feche': {
+          amharic: 'ኮዬ ፈጬ',
+          english: 'Koye Feche',
+          display: 'ኮዬ ፈጬ (Koye Feche Site 2)'
+        },
+        'tuludimtu': {
+          amharic: 'ቱሉ ዲምቱ',
+          english: 'Tuludimtu',
+          display: 'ቱሉ ዲምቱ (Total Roundabout)'
+        },
+        'akaki': {
+          amharic: 'አቃቂ ቃሊቲ',
+          english: 'Akaki Kality',
+          display: 'አቃቂ ቃሊቲ (Sub-City)'
+        }
+      };
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Reset all
+          cards.forEach(c => {
+            c.classList.remove('border-2', 'border-primary');
+            c.classList.add('border', 'border-outline-variant');
+            c.setAttribute('aria-checked', 'false');
+            
+            const radioCircle = c.querySelector('.w-6.h-6');
+            if (radioCircle) {
+              radioCircle.className = 'w-6 h-6 rounded-full border border-outline-variant flex items-center justify-center shrink-0';
+              radioCircle.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>';
+            }
+          });
+
+          // Activate clicked card
+          card.classList.remove('border', 'border-outline-variant');
+          card.classList.add('border-2', 'border-primary');
+          card.setAttribute('aria-checked', 'true');
+
+          const radioCircle = card.querySelector('.w-6.h-6');
+          if (radioCircle) {
+            radioCircle.className = 'w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white shrink-0';
+            radioCircle.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
+          }
+
+          // Update CTA Label
+          const zoneKey = card.getAttribute('data-zone');
+          const zone = zoneData[zoneKey];
+          if (zone) {
+            ctaText.textContent = `ጀምር / Get Started in ${zone.english}`;
+            targetLabel.textContent = zone.display;
+          }
+        });
+      });
+    });
+  </script>
+
+
+</body></html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html><html class="light" lang="am"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>የእርስዎ ቅርጫት / Checkout (Senik)</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "on-surface-variant": "#594139",
+            "secondary": "#1b6d24",
+            "inverse-primary": "#ffb59c",
+            "surface-container": "#ffeadf",
+            "tertiary-fixed": "#ffdcbe",
+            "secondary-container": "#a0f399",
+            "on-primary-fixed-variant": "#822700",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "surface-container-high": "#fde3d6",
+            "surface-container-highest": "#f7ddd0",
+            "inverse-on-surface": "#ffede5",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-fixed-variant": "#693c00",
+            "surface-dim": "#efd5c8",
+            "on-error": "#ffffff",
+            "surface-variant": "#f7ddd0",
+            "on-primary-fixed": "#390c00",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#217128",
+            "primary-container": "#cb4914",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "tertiary-container": "#aa6400",
+            "on-background": "#261911",
+            "background": "#fff8f5",
+            "surface-container-low": "#fff1eb",
+            "inverse-surface": "#3c2d25",
+            "tertiary": "#874e00",
+            "on-secondary-fixed": "#002204",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-fixed": "#2d1600",
+            "on-secondary-fixed-variant": "#005312",
+            "surface": "#fff8f5",
+            "outline": "#8d7168",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "primary": "#a73400",
+            "surface-tint": "#ab3600",
+            "secondary-fixed": "#a3f69c",
+            "secondary-fixed-dim": "#88d982",
+            "primary-fixed-dim": "#ffb59c",
+            "on-error-container": "#93000a",
+            "outline-variant": "#e1bfb5",
+            "tertiary-fixed-dim": "#ffb870",
+            "on-surface": "#261911"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-sm": "0.75rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .tibeb-stripe {
+      background: repeating-linear-gradient(
+        90deg,
+        #cb4914 0px,
+        #cb4914 8px,
+        #aa6400 8px,
+        #aa6400 16px,
+        #261911 16px,
+        #261911 24px,
+        #fff8f5 24px,
+        #fff8f5 28px
+      );
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-44 selection:bg-primary-fixed selection:text-on-primary-fixed antialiased font-body-md text-body-md">
+<!-- Focus Task Linear Header (Suppresses Global Shell per Destination Rule for sub-page checkout flow) -->
+<header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-sm">
+<div class="h-1 w-full tibeb-stripe"></div>
+<div class="flex items-center justify-between px-gutter py-space-sm max-w-lg mx-auto">
+<button aria-label="Go Back" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform text-on-surface" onclick="history.back()">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="flex-1 text-center px-space-xs"><div class="flex items-center justify-center gap-space-xs"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSpHX6Nx9Wp13yJ4MpVUunl1bGrK7ASiJ8nxH2XHMxUwl3-vVKVSUAdTrEfUJEQSnMHWNbJPyXDqqW82-0XqQ4BSFA3wzejuLVePElIzUoW7eHZnp1EkbTWgPhW0wHIz_wE_89FrMT26d-pYvuD4mlhZt8wyXfAw0zcjK-FhxdnauAqmnNisEX1IFc0e-HMwitoobSFuqXIv4ivCoDiqxG1D6Trg7rD0yrfZFaVO33EKSq87yBalrf0sur2zhcZ_Sb3QU" alt="ስንቅ Senik" class="h-8 object-contain rounded"><h1 class="font-headline-md text-headline-md text-on-surface truncate">የእርስዎ ቅርጫት / Checkout</h1></div><p class="font-label-sm text-label-sm text-primary flex items-center justify-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span>Koye Feche Site 2 Hub • Fast Prep</p></div>
+<button aria-label="Help &amp; Info" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<main class="max-w-lg mx-auto px-gutter pt-space-md space-y-space-md">
+<!-- Delivery Guarantee Pill -->
+<div class="bg-surface-container-low border border-outline-variant/60 rounded-xl p-space-sm flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">30 ደቂቃ ዋስትና በስንቅ</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">30-min Senik freshness guarantee</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary text-on-secondary px-space-sm py-0.5 rounded-full">
+        LIVE
+      </span>
+</div>
+<!-- Delivery Address Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="flex items-start justify-between pb-space-xs border-b border-outline-variant/40">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-title-md text-title-md text-on-surface">መዳረሻ / Delivery Address</span>
+</div>
+<button class="font-label-md text-label-md text-primary flex items-center gap-0.5 hover:underline active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+          ቀይር / Edit
+        </button>
+</div>
+<div class="mt-space-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<p class="font-title-md text-title-md text-on-surface">ዳዊት ተፈራ (Dawit Tefera)</p>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant">Primary Residence</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-start gap-1">
+<span class="material-symbols-outlined text-base mt-0.5 shrink-0" data-icon="apartment">apartment</span>
+<span class="">ኮዬ ፈጬ ሳይት 2፣ ሕንፃ 42፣ 3ኛ ፎቅ (Koye Feche Site 2, Building 42, Floor 3, Apt 304)</span>
+</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 font-semibold text-secondary">
+<span class="material-symbols-outlined text-base" data-icon="call">call</span>
+          +251 91 234 5678
+        </p>
+<!-- Dropoff instruction note -->
+<div class="mt-space-sm bg-surface-container p-space-sm rounded-lg flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-tertiary shrink-0" data-icon="door_front">door_front</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<span class="font-bold text-tertiary">Dropoff note:</span> Gate code 4821, call upon arrival at the compound gate.
+          </p>
+</div>
+</div>
+</section>
+<!-- Itemized Order Summary -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
+          የትዕዛዝ ዝርዝር / Order Items
+        </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 Items</span>
+</div>
+<div class="divide-y divide-outline-variant/50">
+<!-- Item 1 -->
+<article class="py-space-sm flex items-start gap-space-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container shrink-0 border border-outline-variant/60">
+<img class="w-full h-full object-cover" data-alt="Traditional Ethiopian Shekla Tibs sizzling in a warm clay pot with fresh green rosemary springs, red berbere spiced meat cubes, and rolled soft injera beside warm amber candlelight reflecting authentic Addis hospitality style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ77mNe-MXesrEHy6DMjZR3moZockFlNhYa1I_F2BBtm6gi7NxcFBDIsYZ1UyxWd9mUDiSbg3fgxkIlEkvSuEXJns4OFJX0F4kzZXH-LVWtU9iBri4TWwack-30Bx5vGgwPbeFo3Q2XYw-nHsAxf8jRPV1ZH24ViIGzs6-j63c-eKCoilreEyq1fh4iug8GuQIX0B675Ym34ctktNZgmYFdKeZ1-dbllMVqAfnLpwmqBK_-KqF7XXoOA">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-title-md text-title-md text-on-surface truncate">ልዩ የሸክላ ጥብስ</h3>
+<span class="font-title-md text-title-md text-primary font-bold ml-2">450 ETB</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Special Shekla Tibs (1x)</p>
+<div class="mt-1 flex flex-wrap gap-1">
+<span class="font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">
+                + Extra Awaze (+15 ETB)
+              </span>
+<span class="font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">
+                + 1 Extra Injera (+15 ETB)
+              </span>
+</div>
+</div>
+</article>
+<!-- Item 2 -->
+<article class="py-space-sm flex items-start gap-space-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container shrink-0 border border-outline-variant/60">
+<img class="w-full h-full object-cover" data-alt="Vibrant layered Ethiopian Spris juice in a tall glass showing alternating bands of thick green avocado purée and golden yellow mango smoothie with a fresh lime slice on the rim in natural morning Addis sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-00QmAGRnigQb0-Te4_qVDO_rpEKZ6lddKxiecjtjC_4355VdOFA0rP5guHtyrXCdQE5t8m4A-vpMpDXFiQnt1vmjg9X9pcOdCBtemt2uAE-brAZlAdTLr9bIlQXyyMbhpzvQ113Ku00n4owl5itlEu9S7zDwfK4dFGy7X9L9vqtsIN5z88zh1fjDdyo7X_0eWiwXzgGD8gIZ1ZNYkJlnd5vbOLEnyc-IO2Ebf5HIdE-Q90VHOCuilg">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-title-md text-title-md text-on-surface truncate">የቀዘቀዘ ስፕሪስ</h3>
+<span class="font-title-md text-title-md text-primary font-bold ml-2">85 ETB</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cold Avocado &amp; Mango Spris (1x)</p>
+<p class="font-label-sm text-label-sm text-secondary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-xs" data-icon="eco">eco</span>
+              100% Fresh Local Fruits
+            </p>
+</div>
+</article>
+</div>
+<!-- Add more items CTA link -->
+<div class="mt-space-sm pt-space-xs border-t border-outline-variant/40 flex justify-center">
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-1 hover:underline active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-base" data-icon="add_circle">add_circle</span>
+          ተጨማሪ ምግብ ጨምር / Add More Food
+        </button>
+</div>
+</section>
+<!-- Payment Method Selector -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+          የመክፈያ ዘዴ / Payment Method
+        </h2>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs" data-icon="lock">lock</span> Secure
+        </span>
+</div>
+<fieldset class="space-y-space-sm" id="payment-options">
+<legend class="sr-only">Choose Payment Method</legend>
+<!-- Option 1: Telebirr (Default Selected) -->
+<label class="cursor-pointer border-2 border-primary bg-primary-fixed/30 rounded-xl p-space-sm flex items-center justify-between transition-all duration-150">
+<div class="flex items-center gap-space-md">
+<input checked="" class="w-5 h-5 text-primary border-outline focus:ring-primary" name="payment_method" type="radio" value="telebirr">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface">ቴሌብር (Telebirr)</span>
+<span class="font-label-sm text-label-sm bg-primary text-on-primary px-1.5 py-0.5 rounded font-bold">
+                  ፈጣን ክፍያ / Instant
+                </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">የቴሌብር ቁጥርዎን በመጠቀም ቀጥታ ይክፈሉ</p>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center border border-outline-variant shadow-xs">
+<span class="material-symbols-outlined text-primary" data-icon="phone_android">phone_android</span>
+</div>
+</label>
+<!-- Option 2: Chapa -->
+<label class="cursor-pointer border border-outline-variant hover:border-primary/60 bg-surface rounded-xl p-space-sm flex items-center justify-between transition-all duration-150">
+<div class="flex items-center gap-space-md">
+<input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="payment_method" type="radio" value="chapa">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface">ቻፓ (Chapa)</span>
+<span class="font-label-sm text-label-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">Cards &amp; Wallets</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">CBE, Awash, Dashen, Visa &amp; Mastercard</p>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center border border-outline-variant shadow-xs">
+<span class="material-symbols-outlined text-tertiary" data-icon="credit_card">credit_card</span>
+</div>
+</label>
+<!-- Option 3: Cash on Delivery -->
+<label class="cursor-pointer border border-outline-variant hover:border-primary/60 bg-surface rounded-xl p-space-sm flex items-center justify-between transition-all duration-150">
+<div class="flex items-center gap-space-md">
+<input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="payment_method" type="radio" value="cash">
+<div>
+<span class="font-title-md text-title-md text-on-surface">በጥሬ ገንዘብ (Cash on Delivery)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pay the rider upon arrival at your gate</p>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center border border-outline-variant shadow-xs">
+<span class="material-symbols-outlined text-secondary" data-icon="local_atm">local_atm</span>
+</div>
+</label>
+</fieldset>
+</section>
+<!-- Cost Breakdown Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md shadow-sm space-y-space-xs">
+<h2 class="font-title-md text-title-md text-on-surface mb-space-xs border-b border-outline-variant/40 pb-space-xs flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary" data-icon="receipt">receipt</span>
+        የክፍያ ዝርዝር / Bill Summary
+      </h2>
+<div class="flex justify-between items-center text-on-surface-variant font-body-md text-body-md">
+<span class="">ንዑስ ድምር (Items Subtotal)</span>
+<span class="font-semibold text-on-surface">535 ETB</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-body-md text-body-md">
+<span class="flex items-center gap-1">
+          የትራንስፖርት ክፍያ (Delivery Fee)
+          <span class="text-xs text-secondary font-semibold bg-secondary-container/30 px-1 rounded">ባጃጅ</span>
+</span>
+<span class="font-semibold text-on-surface">45 ETB</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-body-md text-body-md">
+<span class="">የአገልግሎት ክፍያ (Service Fee)</span>
+<span class="font-semibold text-on-surface">15 ETB</span>
+</div>
+<div class="pt-space-xs border-t border-outline-variant flex justify-between items-baseline mt-space-sm">
+<div>
+<p class="font-title-lg text-title-lg text-on-surface font-bold">ጠቅላላ ድምር (Grand Total)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">All taxes &amp; community charges included</p>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-primary font-extrabold tracking-tight">595 ETB</span>
+</div>
+</div>
+</section>
+<!-- Senik Community Note -->
+<div class="p-space-sm rounded-lg bg-surface-container-high/40 text-center font-body-sm text-body-sm text-on-surface-variant">
+      ስንቅ (Senik): Urban Ethiopian culinary speed meets localized neighborhood routing.
+    </div>
+</main>
+<!-- Fixed Sticky Bottom Action Container -->
+<aside class="fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-lg border-t border-outline-variant/60 shadow-[0_-8px_24px_rgba(45,31,23,0.08)]">
+<div class="max-w-lg mx-auto p-gutter space-y-space-xs">
+<div class="flex items-center justify-between text-xs px-1">
+<span class="text-on-surface-variant font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="electric_moped">electric_moped</span>
+          Est. Arrival: 18–25 min
+        </span>
+<span class="text-primary font-bold">Koye Feche Dispatch Active</span>
+</div>
+<button class="w-full min-h-[52px] bg-primary text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-space-sm shadow-md hover:bg-primary-container active:scale-[0.98] transition-all duration-150" id="place-order-btn">
+<span class="material-symbols-outlined" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="">ትዕዛዝ አረጋግጥ / Place Order • 595 ETB</span>
+</button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant">
+        By placing order you agree to Senik Local Delivery Terms &amp; Fair Tip Policy.
+      </p>
+</div>
+</aside>
+<script>
+    // Radio selection micro-interactions
+    const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
+    paymentRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('#payment-options label').forEach(label => {
+          label.classList.remove('border-primary', 'bg-primary-fixed/30', 'border-2');
+          label.classList.add('border-outline-variant', 'bg-surface', 'border');
+        });
+        const parentLabel = radio.closest('label');
+        if (parentLabel) {
+          parentLabel.classList.remove('border-outline-variant', 'bg-surface', 'border');
+          parentLabel.classList.add('border-primary', 'bg-primary-fixed/30', 'border-2');
+        }
+      });
+    });
+
+    // Button click tactile feedback
+    const placeOrderBtn = document.getElementById('place-order-btn');
+    placeOrderBtn.addEventListener('click', function() {
+      const originalContent = this.innerHTML;
+      this.innerHTML = `<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> <span>እየተዘጋጀ ነው / Processing...</span>`;
+      this.classList.add('opacity-90');
+      setTimeout(() => {
+        this.innerHTML = `<span class="material-symbols-outlined" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span> <span>ትዕዛዝ ተቀባይነት አግኝቷል! / Confirmed</span>`;
+        this.classList.remove('bg-primary');
+        this.classList.add('bg-secondary');
+      }, 1200);
+    });
+  </script>
+
+
+</body></html>
