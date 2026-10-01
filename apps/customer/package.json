@@ -1,0 +1,53 @@
+{
+  "name": "@senik/customer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "security": "gitleaks detect --source . --no-banner && pnpm audit --audit-level=high",
+    "cap:init": "cap init Senik com.senik.customer --web-dir dist",
+    "cap:sync": "cap sync",
+    "cap:open": "cap open android",
+    "android:build": "pnpm build && cap sync android && cd android && ./gradlew assembleDebug",
+    "android:release": "pnpm build && cap sync android && cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/geolocation": "^8.0.0",
+    "@capacitor/preferences": "^8.0.0",
+    "@capacitor/push-notifications": "^8.0.0",
+    "@senik/api": "workspace:*",
+    "@senik/i18n": "workspace:*",
+    "@senik/ui": "workspace:*",
+    "@senik/utils": "workspace:*",
+    "@tanstack/react-query": "^5.28.0",
+    "lucide-react": "^0.372.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "@rollup/plugin-alias": "^6.0.0",
+    "@senik/config": "workspace:*",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.8",
+    "vitest": "^1.5.3"
+  }
+}

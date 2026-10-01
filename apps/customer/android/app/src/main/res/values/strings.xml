@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Senik</string>
+    <string name="title_activity_main">Senik</string>
+    <string name="package_name">com.senik.customer</string>
+    <string name="custom_url_scheme">com.senik.customer</string>
+</resources>

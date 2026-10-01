@@ -1,0 +1,20 @@
+{
+  "name": "@senik/types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "gen": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > src/database.ts",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@senik/config": "workspace:*",
+    "supabase": "^1.158.0",
+    "typescript": "^5.4.5"
+  }
+}

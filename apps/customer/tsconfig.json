@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@senik/api": ["../../packages/api/dist"],
+      "@senik/api/*": ["../../packages/api/dist/*"],
+      "@senik/ui": ["../../packages/ui/src"],
+      "@senik/ui/*": ["../../packages/ui/src/*"],
+      "@senik/i18n": ["../../packages/i18n/dist"],
+      "@senik/i18n/*": ["../../packages/i18n/dist/*"],
+      "@senik/utils": ["../../packages/utils/dist"],
+      "@senik/utils/*": ["../../packages/utils/dist/*"],
+      "@senik/types": ["../../packages/types/dist"],
+      "@senik/types/*": ["../../packages/types/dist/*"],
+      "@senik/config": ["../../packages/config"]
+    }
+  },
+  "include": ["src/**/*", "vite.config.ts", "capacitor.config.ts"],
+  "exclude": ["node_modules", "dist", "android"]
+}

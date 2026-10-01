@@ -1,0 +1,45 @@
+{
+  "name": "@senik/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./client": "./dist/client.js",
+    "./auth": "./dist/auth.js",
+    "./businesses": "./dist/businesses.js",
+    "./products": "./dist/products.js",
+    "./orders": "./dist/orders.js",
+    "./payments": "./dist/payments.js",
+    "./tracking": "./dist/tracking.js",
+    "./chat": "./dist/chat.js",
+    "./zones": "./dist/zones.js",
+    "./promos": "./dist/promos.js",
+    "./profiles": "./dist/profiles.js",
+    "./addresses": "./dist/addresses.js"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "eslint src --max-warnings 20",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0",
+    "@tanstack/react-query": "^5.28.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0"
+  },
+  "devDependencies": {
+    "@senik/config": "workspace:*",
+    "@senik/types": "workspace:*",
+    "@types/react": "^18.3.1",
+    "typescript": "^5.4.5",
+    "vitest": "^1.5.3"
+  }
+}

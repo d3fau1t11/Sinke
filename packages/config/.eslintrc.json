@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["./eslint/base.js", "./eslint/node.js"],
+  "ignorePatterns": ["node_modules", "dist", "build", ".turbo", "coverage"]
+}

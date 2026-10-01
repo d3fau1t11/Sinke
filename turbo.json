@@ -1,0 +1,43 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**", ".next/**", "android/app/build/outputs/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
+    "security": {
+      "outputs": [],
+      "dependsOn": ["build"]
+    },
+    "verify": {
+      "dependsOn": ["lint", "typecheck", "test", "build", "security"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    },
+    "gen:types": {
+      "cache": false
+    }
+  },
+  "globalEnv": ["NODE_ENV", "SUPABASE_URL", "SUPABASE_ANON_KEY"]
+}

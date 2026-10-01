@@ -1,0 +1,340 @@
+stages:
+  - install
+  - lint
+  - typecheck
+  - test
+  - build
+  - security
+  - android
+  - supabase
+
+variables:
+  PNPM_HOME: "$CI_PROJECT_DIR/.pnpm-store"
+  SUPABASE_DB_URL: $STAGING_SUPABASE_URL
+  SUPABASE_DB_PASSWORD: $STAGING_SUPABASE_PASSWORD
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .pnpm-store
+    - node_modules
+    - apps/*/node_modules
+    - packages/*/node_modules
+
+# ─── Install ───────────────────────────────────────────────────────────────
+
+install:
+  stage: install
+  image: node:20-alpine
+  script:
+    - corepack enable
+    - corepack prepare pnpm@9.1.4 --activate
+    - pnpm install --frozen-lockfile
+  artifacts:
+    paths:
+      - node_modules
+      - apps/*/node_modules
+      - packages/*/node_modules
+    expire_in: 1 hour
+
+# ─── Lint ──────────────────────────────────────────────────────────────────
+
+lint:
+  stage: lint
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ─── Typecheck ─────────────────────────────────────────────────────────────
+
+typecheck:
+  stage: typecheck
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm typecheck
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ─── Test ──────────────────────────────────────────────────────────────────
+
+test:
+  stage: test
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ─── Build ─────────────────────────────────────────────────────────────────
+
+build:customer:
+  stage: build
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm --filter @senik/customer build
+  artifacts:
+    paths:
+      - apps/customer/dist
+    expire_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+build:merchant:
+  stage: build
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm --filter @senik/merchant build
+  artifacts:
+    paths:
+      - apps/merchant/dist
+    expire_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+build:rider:
+  stage: build
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm --filter @senik/rider build
+  artifacts:
+    paths:
+      - apps/rider/dist
+    expire_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+build:admin:
+  stage: build
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm --filter @senik/admin build
+  artifacts:
+    paths:
+      - apps/admin/dist
+    expire_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ─── Security ──────────────────────────────────────────────────────────────
+
+security:gitleaks:
+  stage: security
+  image: zricethezav/gitleaks:latest
+  needs: []
+  script:
+    - gitleaks detect --source . --no-banner --redact
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+security:audit:
+  stage: security
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm audit --audit-level=high
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+security:sast:
+  stage: security
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - npx --yes eslint . --ext .ts,.tsx --format json --output-file eslint-security.json || true
+    - npx --yes eslint . --ext .ts,.tsx --format json | npx --yes eslint-sarif > eslint-sarif.sarif || true
+  artifacts:
+    reports:
+      sast: eslint-sarif.sarif
+    paths:
+      - eslint-security.json
+      - eslint-sarif.sarif
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+security:secret-detection:
+  stage: security
+  image: node:20-alpine
+  needs: []
+  script:
+    - echo "GitLab Secret Detection template"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+security:dependency-scanning:
+  stage: security
+  image: node:20-alpine
+  needs: [install]
+  script:
+    - corepack enable
+    - pnpm audit --json > dependency-audit.json || true
+  artifacts:
+    reports:
+      dependency_scanning: dependency-audit.json
+    paths:
+      - dependency-audit.json
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+security:dist-check:
+  stage: security
+  image: node:20-alpine
+  needs: [build:customer, build:merchant, build:rider, build:admin]
+  script:
+    - echo "Checking for secrets in dist/..."
+    - |
+      if grep -r "SUPABASE_SERVICE_ROLE_KEY\|service_role\|eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" apps/*/dist/ 2>/dev/null; then
+        echo "ERROR: Potential secret found in dist/"
+        exit 1
+      fi
+    - echo "No secrets found in dist/"
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ─── Android ───────────────────────────────────────────────────────────────
+
+android:customer:
+  stage: android
+  image: node:20-alpine
+  needs: [build:customer]
+  variables:
+    CAPACITOR_APP_ID: com.senik.customer
+    CAPACITOR_APP_NAME: Senik
+  script:
+    - corepack enable
+    - pnpm --filter @senik/customer exec cap sync android
+    - cd apps/customer/android
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - apps/customer/android/app/build/outputs/apk/debug/*.apk
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
+
+android:merchant:
+  stage: android
+  image: node:20-alpine
+  needs: [build:merchant]
+  variables:
+    CAPACITOR_APP_ID: com.senik.merchant
+    CAPACITOR_APP_NAME: Senik Merchant
+  script:
+    - corepack enable
+    - pnpm --filter @senik/merchant exec cap sync android
+    - cd apps/merchant/android
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - apps/merchant/android/app/build/outputs/apk/debug/*.apk
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
+
+android:rider:
+  stage: android
+  image: node:20-alpine
+  needs: [build:rider]
+  variables:
+    CAPACITOR_APP_ID: com.senik.rider
+    CAPACITOR_APP_NAME: Senik Rider
+  script:
+    - corepack enable
+    - pnpm --filter @senik/rider exec cap sync android
+    - cd apps/rider/android
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - apps/rider/android/app/build/outputs/apk/debug/*.apk
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
+
+# ─── Supabase ──────────────────────────────────────────────────────────────
+
+supabase:migration-check:
+  stage: supabase
+  image: node:20-alpine
+  needs: []
+  services:
+    - name: supabase/postgres:latest
+      alias: postgres
+  variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: $STAGING_SUPABASE_PASSWORD
+  script:
+    - corepack enable
+    - pnpm add -g supabase
+    - supabase db lint
+    - supabase db push --dry-run
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+supabase:policy-tests:
+  stage: supabase
+  image: node:20-alpine
+  needs: []
+  services:
+    - name: supabase/postgres:latest
+      alias: postgres
+  variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: $STAGING_SUPABASE_PASSWORD
+  script:
+    - corepack enable
+    - pnpm add -g supabase
+    - supabase db test
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
