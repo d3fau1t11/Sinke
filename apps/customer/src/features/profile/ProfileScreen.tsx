@@ -4,10 +4,10 @@ import { useApp } from '@senik/i18n';
 import { Button, Card, Input, Textarea, EmptyState, Skeleton } from '@senik/ui';
 import { useAuthStore } from '../auth/store/authStore';
 import { useLanguageStore } from '../language/store/languageStore';
-import { useZoneStore } from '../zone/store/zoneStore';
 import { useCartStore } from '../cart/store/cartStore';
 import { addressesApi } from '@senik/api/addresses';
 import { zonesApi } from '@senik/api/zones';
+import type { Address, ZoneListItem } from '@senik/types';
 
 export function ProfileScreen() {
   const { t, isAm } = useApp();
@@ -16,12 +16,11 @@ export function ProfileScreen() {
   const { language, toggleLanguage } = useLanguageStore();
   const { clearCart } = useCartStore();
 
-  type Addr = Record<string, unknown> & { id: string; label: string; full_address: string; landmark?: string; is_default?: boolean };
-  const [addresses, setAddresses] = useState<Addr[]>([]);
-  const [_zones, setZones] = useState<Array<Record<string, unknown>>>([]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [, setZones] = useState<ZoneListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const [editingAddress, setEditingAddress] = useState<Addr | null>(null);
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [addressForm, setAddressForm] = useState({
     label: 'home',
     full_address: '',
@@ -35,8 +34,8 @@ export function ProfileScreen() {
         addressesApi.getMyAddresses(),
         zonesApi.getZones(),
       ]);
-      setAddresses(addrData as unknown as Addr[]);
-      setZones(zonesData as unknown as Array<Record<string, unknown>>);
+      setAddresses(addrData);
+      setZones(zonesData);
     } catch (_err) {
       console.error('Failed to load profile data');
     } finally {
@@ -261,8 +260,21 @@ export function ProfileScreen() {
       </div>
 
       {showAddressModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-end" onClick={() => setShowAddressModal(false)}>
-          <div className="w-full bg-white rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/50"
+            role="button"
+            tabIndex={-1}
+            aria-label={isAm ? 'የአድራሻ ቅጽ ዝጋ' : 'Close address form'}
+            onClick={() => setShowAddressModal(false)}
+            onKeyDown={(e) => { if (e.key === 'Escape') setShowAddressModal(false); }}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 z-50 w-full bg-white rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label={editingAddress ? (isAm ? 'አድራሻ አርትእ' : 'Edit Address') : (isAm ? 'አድራሻ አስገባ' : 'Add Address')}
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display font-bold text-lg text-on-surface">
                 {editingAddress ? (isAm ? 'አድራሻ አርትእ' : 'Edit Address') : (isAm ? 'አድራሻ አስገባ' : 'Add Address')}
@@ -301,7 +313,7 @@ export function ProfileScreen() {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

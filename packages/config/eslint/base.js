@@ -50,7 +50,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-floating-promises': 'warn',
     '@typescript-eslint/no-misused-promises': 'warn',
-    'import/no-deep-imports': ['error', { patterns: ['@senik/*/src/**'] }],
+    'no-restricted-imports': ['error', { patterns: ['@senik/*/src/**'] }],
     'import/no-cycle': 'error',
     'import/no-unresolved': 'error',
     'jsx-a11y/anchor-is-valid': 'off'
@@ -63,6 +63,21 @@ module.exports = {
     {
       files: ['**/*.d.ts'],
       rules: { 'max-lines': 'off' }
+    },
+    {
+      // Plain CommonJS/JS files carry no type information, so the type-aware rules
+      // cannot be satisfied. The config package's own .js test files are linted for
+      // style and import hygiene, not for types.
+      files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+      rules: {
+        '@typescript-eslint/no-require-imports': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off'
+      }
     }
   ],
   ignorePatterns: ['node_modules/', 'dist/', 'build/', '*.config.*', 'coverage/', '.turbo/']

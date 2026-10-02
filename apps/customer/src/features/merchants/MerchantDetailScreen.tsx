@@ -6,9 +6,7 @@ import { useCartStore } from '../cart/store/cartStore';
 import { useZoneStore } from '../zone/store/zoneStore';
 import { businessesApi } from '@senik/api/businesses';
 import { productsApi } from '@senik/api/products';
-
-type Biz = Record<string, unknown> & { id: string };
-type Prod = Record<string, unknown> & { id: string; category: string; name_am: string; name_en: string; price: number; image: string; is_fasting?: boolean; description_am?: string; description_en?: string };
+import type { Business, ProductWithOptions } from '@senik/types';
 
 export function MerchantDetailScreen() {
   const { t, isAm } = useApp();
@@ -17,8 +15,8 @@ export function MerchantDetailScreen() {
   const { selectedZoneId } = useZoneStore();
   const { addItem, items } = useCartStore();
 
-  const [business, setBusiness] = useState<Biz | null>(null);
-  const [products, setProducts] = useState<Prod[]>([]);
+  const [business, setBusiness] = useState<Business | null>(null);
+  const [products, setProducts] = useState<ProductWithOptions[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -30,8 +28,8 @@ export function MerchantDetailScreen() {
         businessesApi.getById(id!),
         productsApi.getByBusiness(id!),
       ]);
-      setBusiness(bizData as unknown as Biz);
-      setProducts(prodData as unknown as Prod[]);
+      setBusiness(bizData);
+      setProducts(prodData);
     } catch (_err) {
       setError(isAm ? 'ውጤት ማግኘት አልተሳካም' : 'Failed to load');
     } finally {
@@ -47,14 +45,16 @@ export function MerchantDetailScreen() {
 
   const categories = ['all', ...new Set(products.map((p) => p.category))];
 
-  const handleAddToCart = (product: Prod) => {
+  const handleAddToCart = (product: ProductWithOptions) => {
+    if (!business) return;
+
     if (!selectedZoneId) {
       navigate('/location');
       return;
     }
 
-    const bizProducts = items.filter((i) => i.businessId === business.id);
-    if (bizProducts.length > 0 && bizProducts[0].businessId !== business.id) {
+    const hasOtherBusiness = items.some((item) => item.businessId !== business.id);
+    if (hasOtherBusiness) {
       alert(isAm ? 'በአንድ ጊዜ ከአንድ ሱቅ መግዛት አይቻልም' : 'Cannot order from multiple businesses at once');
       return;
     }

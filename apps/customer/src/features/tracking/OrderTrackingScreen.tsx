@@ -4,6 +4,7 @@ import { useApp } from '@senik/i18n';
 import { Button, Card, Skeleton, EmptyState } from '@senik/ui';
 import { ordersApi } from '@senik/api/orders';
 import { supabase } from '@senik/api/client';
+import type { Order as OrderRow, OrderDetail } from '@senik/types';
 
 const statusSteps = [
   { id: 'placed', labelAm: 'ተሰርዟል', labelEn: 'Placed', icon: 'check_circle' },
@@ -15,13 +16,11 @@ const statusSteps = [
   { id: 'delivered', labelAm: 'ተላላፊ', labelEn: 'Delivered', icon: 'task_alt' },
 ];
 
-type OrderTrack = Record<string, unknown> & { id: string; status: string; rider?: Record<string, unknown> & { full_name: string; phone: string; vehicle_info?: string; avatar_url?: string; rating?: string }; delivery_address?: string; delivery_notes?: string };
-
 export function OrderTrackingScreen() {
   const { t, isAm } = useApp();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [order, setOrder] = useState<OrderTrack | null>(null);
+  const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -29,7 +28,7 @@ export function OrderTrackingScreen() {
     try {
       setLoading(true);
       const data = await ordersApi.getById(id!);
-      setOrder(data as unknown as OrderTrack);
+      setOrder(data);
     } catch (_err) {
       setError(isAm ? 'ትዕዛዝ ማግኘት አልተሳካም' : 'Failed to load order');
     } finally {
@@ -57,7 +56,10 @@ export function OrderTrackingScreen() {
           filter: `id=eq.${id}`,
         },
         (payload) => {
-          setOrder(payload.new);
+          // Realtime sends the bare `orders` row (no embedded joins), so merge it over the
+          // detail we already loaded rather than replacing it.
+          const updated = payload.new as OrderRow;
+          setOrder((prev) => (prev ? { ...prev, ...updated } : prev));
         }
       )
       .subscribe();
@@ -94,6 +96,7 @@ export function OrderTrackingScreen() {
     );
   }
 
+  const rider = order.rider;
   const currentStepIndex = statusSteps.findIndex((s) => s.id === order.status);
 
   return (
@@ -161,7 +164,7 @@ export function OrderTrackingScreen() {
           </div>
         </Card>
 
-        {order.rider && (
+        {rider && (
           <Card variant="outlined" padding="md">
             <h3 className="font-bold text-on-surface mb-3 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">person</span>
@@ -169,23 +172,27 @@ export function OrderTrackingScreen() {
             </h3>
             <div className="flex items-center gap-3">
               <img
-                src={order.rider.avatar_url || '/senik-logo.jpg'}
-                alt={order.rider.full_name}
+                src={rider.avatar_url || '/senik-logo.jpg'}
+                alt={rider.full_name}
                 className="w-14 h-14 rounded-full object-cover"
               />
               <div className="flex-1">
-                <h4 className="font-bold text-on-surface">{order.rider.full_name}</h4>
-                <p className="text-sm text-on-surface-variant">{order.rider.vehicle_info || ''}</p>
-                <div className="flex items-center gap-1 text-xs text-secondary mt-1">
-                  <span className="material-symbols-outlined text-[14px] fill-icon">star</span>
-                  <span>{order.rider.rating || '4.9'}</span>
-                </div>
+                <h4 className="font-bold text-on-surface">{rider.full_name}</h4>
+                {rider.vehicle_info && (
+                  <p className="text-sm text-on-surface-variant">{rider.vehicle_info}</p>
+                )}
+                {rider.rating && (
+                  <div className="flex items-center gap-1 text-xs text-secondary mt-1">
+                    <span className="material-symbols-outlined text-[14px] fill-icon">star</span>
+                    <span>{rider.rating}</span>
+                  </div>
+                )}
               </div>
               <div className="flex gap-2">
-                <Button variant="secondary" size="sm" onClick={() => window.open(`tel:${order.rider.phone}`)}>
+                <Button variant="secondary" size="sm" onClick={() => window.open(`tel:${rider.phone}`)}>
                   <span className="material-symbols-outlined">call</span>
                 </Button>
-                <Button variant="secondary" size="sm" onClick={() => window.open(`sms:${order.rider.phone}`)}>
+                <Button variant="secondary" size="sm" onClick={() => window.open(`sms:${rider.phone}`)}>
                   <span className="material-symbols-outlined">message</span>
                 </Button>
               </div>

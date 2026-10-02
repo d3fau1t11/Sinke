@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '@senik/i18n';
 import { useZoneStore } from '../zone/store/zoneStore';
-import { Button, Card, Input } from '@senik/ui';
+import { Card, Input } from '@senik/ui';
 import { zonesApi } from '@senik/api/zones';
+import type { ZoneListItem } from '@senik/types';
 
 export function LocationSelectScreen() {
   const { isAm } = useApp();
   const navigate = useNavigate();
   const { setZone } = useZoneStore();
-  type Zone = { id: string; nameAm: string; nameEn: string; subcityAm: string; subcityEn: string; deliveryFee: number; deliveryEta: string };
-  const [zones, setZones] = useState<Zone[]>([]);
+  const [zones, setZones] = useState<ZoneListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
@@ -18,7 +18,7 @@ export function LocationSelectScreen() {
   const loadZones = async () => {
     try {
       const data = await zonesApi.getZones();
-      setZones(data as unknown as Zone[]);
+      setZones(data);
     } catch (_err) {
       setError(isAm ? 'ሰፈሮችን ማግኘት አልተሳካም' : 'Failed to load areas');
     } finally {
@@ -32,12 +32,12 @@ export function LocationSelectScreen() {
   }, []);
 
   const filteredZones = zones.filter((zone) =>
-    (isAm ? zone.nameAm : zone.nameEn).toLowerCase().includes(search.toLowerCase()) ||
-    (isAm ? zone.subcityAm : zone.subcityEn).toLowerCase().includes(search.toLowerCase())
+    (isAm ? zone.name_am : zone.name_en).toLowerCase().includes(search.toLowerCase()) ||
+    (isAm ? zone.subcity_am : zone.subcity_en).toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSelect = (zone: typeof zones[0]) => {
-    setZone(zone.id, isAm ? zone.nameAm : zone.nameEn, isAm ? zone.nameAm : zone.nameEn, zone.deliveryFee);
+  const handleSelect = (zone: ZoneListItem) => {
+    setZone(zone.id, zone.name_en, zone.name_am, zone.delivery_fee);
     navigate('/app/home', { replace: true });
   };
 
@@ -99,14 +99,14 @@ export function LocationSelectScreen() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-bold text-on-surface">
-                      {isAm ? zone.nameAm : zone.nameEn}
+                      {isAm ? zone.name_am : zone.name_en}
                     </h3>
                     <p className="text-sm text-on-surface-variant mt-1">
-                      {isAm ? zone.subcityAm : zone.subcityEn}
+                      {isAm ? zone.subcity_am : zone.subcity_en}
                     </p>
                     <p className="text-xs text-primary mt-1 font-medium flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px]">local_shipping</span>
-                      {zone.deliveryFee} ETB • {zone.deliveryEta}
+                      {zone.delivery_fee} ETB • {zone.delivery_eta}
                     </p>
                   </div>
                   <span className="material-symbols-outlined text-primary">chevron_right</span>

@@ -16,6 +16,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
+  "dependencies": {
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.3.0"
+  },
   "devDependencies": {
     "@senik/config": "workspace:*",
     "typescript": "^5.4.5",

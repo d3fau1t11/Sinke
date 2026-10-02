@@ -1,7 +1,12 @@
-import { supabase } from './client';
+import { supabase, asRows, asRow } from './client';
+import type {
+  ProductListItem,
+  ProductSearchResult,
+  ProductWithOptions,
+} from '@senik/types';
 
 export const productsApi = {
-  async getPopular() {
+  async getPopular(): Promise<ProductListItem[]> {
     const { data, error } = await supabase
       .from('products')
       .select('id, business_id, name_am, name_en, price, image, is_fasting, is_available, popular')
@@ -11,10 +16,10 @@ export const productsApi = {
       .limit(20);
 
     if (error) throw error;
-    return data || [];
+    return asRows<ProductListItem>(data);
   },
 
-  async getByBusiness(businessId: string) {
+  async getByBusiness(businessId: string): Promise<ProductWithOptions[]> {
     const { data, error } = await supabase
       .from('products')
       .select('id, business_id, name_am, name_en, description_am, description_en, price, image, category, is_fasting, is_available, popular, product_options(*)')
@@ -24,10 +29,10 @@ export const productsApi = {
       .order('name_en');
 
     if (error) throw error;
-    return data || [];
+    return asRows<ProductWithOptions>(data);
   },
 
-  async getById(id: string) {
+  async getById(id: string): Promise<ProductWithOptions | null> {
     const { data, error } = await supabase
       .from('products')
       .select('*, product_options(*)')
@@ -35,10 +40,10 @@ export const productsApi = {
       .single();
 
     if (error) throw error;
-    return data;
+    return asRow<ProductWithOptions>(data);
   },
 
-  async search(query: string) {
+  async search(query: string): Promise<ProductSearchResult[]> {
     const { data, error } = await supabase
       .from('products')
       .select('id, business_id, name_am, name_en, description_am, description_en, price, image, category, is_fasting, is_available, popular')
@@ -49,6 +54,6 @@ export const productsApi = {
       .limit(20);
 
     if (error) throw error;
-    return data || [];
+    return asRows<ProductSearchResult>(data);
   },
 };

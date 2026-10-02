@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '@senik/i18n';
 import { Button, Card, Skeleton, EmptyState, useSegmentedControl } from '@senik/ui';
 import { ordersApi } from '@senik/api/orders';
+import type { OrderSummary } from '@senik/types';
 
 const tabs = [
   { id: 'active', labelAm: 'ወቅታዊ', labelEn: 'Active' },
@@ -13,8 +14,7 @@ export function OrdersScreen() {
   const { t, isAm } = useApp();
   const navigate = useNavigate();
   const { selectedValue: activeTab, setSelectedValue } = useSegmentedControl('active');
-  type OrderRow = Record<string, unknown> & { id: string; status: string; business?: Record<string, string>; order_items?: Array<{ product?: Record<string, string> }>; order_number?: string; total?: number };
-  const [orders, setOrders] = useState<OrderRow[]>([]);
+  const [orders, setOrders] = useState<OrderSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -22,7 +22,7 @@ export function OrdersScreen() {
     try {
       setLoading(true);
       const data = await ordersApi.getMyOrders();
-      setOrders(data as unknown as OrderRow[]);
+      setOrders(data);
     } catch (_err) {
       setError(isAm ? 'ትዕዛዞችን ማግኘት አልተሳካም' : 'Failed to load orders');
     } finally {
@@ -120,7 +120,7 @@ export function OrdersScreen() {
                       </span>
                     </div>
                     <p className="text-sm text-on-surface-variant truncate mt-1">
-                      {order.order_items?.map((item) => item.product?.['name_en'] || item.product?.['name_am']).join(', ') || ''}
+                      {order.order_items?.map((item) => item.product?.name_en || item.product?.name_am).join(', ') || ''}
                     </p>
                     <div className="flex items-center gap-3 mt-2 text-xs text-on-surface-variant">
                       <span className="flex items-center gap-1">

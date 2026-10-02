@@ -1,5 +1,8 @@
 {
   "root": true,
   "extends": ["./eslint/base.js", "./eslint/node.js"],
+  "parserOptions": {
+    "project": ["../tsconfig.json"]
+  },
   "ignorePatterns": ["node_modules", "dist", "build", ".turbo", "coverage"]
 }

@@ -11,7 +11,7 @@ describe('eslint base config', () => {
   });
 
   it('has complexity rule set to 10', () => {
-    expect(base.rules['complexity']).toEqual(['error', 10]);
+    expect(base.rules.complexity).toEqual(['error', 10]);
   });
 
   it('has security plugin enabled', () => {

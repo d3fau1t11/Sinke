@@ -4,6 +4,7 @@ import { useApp } from '@senik/i18n';
 import { Button, Card, Input, Textarea, EmptyState } from '@senik/ui';
 import { useCartStore } from '../cart/store/cartStore';
 import { useAuthStore } from '../auth/store/authStore';
+import { useZoneStore } from '../zone/store/zoneStore';
 import { formatETB } from '@senik/utils';
 import { ordersApi } from '@senik/api/orders';
 

@@ -1,4 +1,5 @@
-import { supabase } from './client';
+import { supabase, asRows, asRow } from './client';
+import type { OrderDetail, OrderSummary } from '@senik/types';
 
 export const ordersApi = {
   async create(input: {
@@ -28,7 +29,7 @@ export const ordersApi = {
     return data;
   },
 
-  async getMyOrders() {
+  async getMyOrders(): Promise<OrderSummary[]> {
     const { data, error } = await supabase
       .from('orders')
       .select(`
@@ -42,10 +43,13 @@ export const ordersApi = {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data || [];
+    return asRows<OrderSummary>(data);
   },
 
-  async getById(id: string) {
+  async getById(id: string): Promise<OrderDetail | null> {
+    // `profiles` has no `rating`/`vehicle_info` (those live on `riders`) and `businesses` has no
+    // `phone` — selecting them made this query fail at runtime. Vehicle/rating display is
+    // therefore unavailable until a `riders` embed is added; see RiderSummary in @senik/types.
     const { data, error } = await supabase
       .from('orders')
       .select(`
@@ -54,13 +58,13 @@ export const ordersApi = {
           *,
           product:products(id, name_am, name_en, price, image)
         ),
-        business:businesses(id, name_am, name_en, avatar_image, phone),
-        rider:profiles!orders_rider_id_fkey(id, full_name, phone, avatar_url, rating, vehicle_info)
+        business:businesses(id, name_am, name_en, avatar_image),
+        rider:profiles!orders_rider_id_fkey(id, full_name, phone, avatar_url)
       `)
       .eq('id', id)
       .single();
 
     if (error) throw error;
-    return data;
+    return asRow<OrderDetail>(data);
   },
 };

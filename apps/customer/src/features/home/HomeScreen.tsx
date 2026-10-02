@@ -5,16 +5,17 @@ import { useZoneStore } from '../zone/store/zoneStore';
 import { Button, Card, Skeleton, EmptyState } from '@senik/ui';
 import { businessesApi } from '@senik/api/businesses';
 import { productsApi } from '@senik/api/products';
+import type { BusinessListItem, ProductListItem } from '@senik/types';
 
 export function HomeScreen() {
   const { t, isAm } = useApp();
   const navigate = useNavigate();
   const { selectedZoneId, selectedZoneName, selectedZoneNameAm } = useZoneStore();
 
-  const [businesses, setBusinesses] = useState<Array<Record<string, unknown>>>([]);
-  const [popularProducts, setPopularProducts] = useState<Array<Record<string, unknown>>>([]);
+  const [businesses, setBusinesses] = useState<BusinessListItem[]>([]);
+  const [popularProducts, setPopularProducts] = useState<ProductListItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [_error, setError] = useState('');
+  const [, setError] = useState('');
 
   const loadData = async () => {
     if (!selectedZoneId) return;
@@ -25,8 +26,8 @@ export function HomeScreen() {
         businessesApi.getByZone(selectedZoneId),
         productsApi.getPopular(),
       ]);
-      setBusinesses(bizData as unknown as Array<Record<string, unknown>>);
-      setPopularProducts(prodData as unknown as Array<Record<string, unknown>>);
+      setBusinesses(bizData);
+      setPopularProducts(prodData);
     } catch (_err) {
       setError(isAm ? 'ውጤት ማግኘት አልተሳካም' : 'Failed to load data');
     } finally {

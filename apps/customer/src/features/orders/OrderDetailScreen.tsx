@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useApp } from '@senik/i18n';
 import { Button, Card, Skeleton, EmptyState } from '@senik/ui';
 import { ordersApi } from '@senik/api/orders';
+import type { OrderDetail } from '@senik/types';
 
 export function OrderDetailScreen() {
   const { t, isAm } = useApp();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  type OrderDetail = Record<string, unknown> & { id: string; status: string; business?: Record<string, string>; order_items?: Array<Record<string, unknown> & { id: string; quantity: number; price: number; product?: Record<string, string> }>; total?: number; subtotal?: number; delivery_fee?: number; service_fee?: number; discount?: number; delivery_address?: string; delivery_notes?: string; created_at?: string };
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -17,7 +17,7 @@ export function OrderDetailScreen() {
     try {
       setLoading(true);
       const data = await ordersApi.getById(id!);
-      setOrder(data as unknown as OrderDetail);
+      setOrder(data);
     } catch (_err) {
       setError(isAm ? 'ትዕዛዝ ማግኘት አልተሳካም' : 'Failed to load order');
     } finally {
@@ -65,7 +65,7 @@ export function OrderDetailScreen() {
     { id: 'ready', labelAm: 'ዝግጁ ነው', labelEn: 'Ready' },
     { id: 'picked_up', labelAm: 'ተሰብሯል', labelEn: 'Picked Up' },
     { id: 'on_way', labelAm: 'በመንገድ', labelEn: 'On the Way' },
-    { id: 'delivered', labelAm: 'ተላላፊ', en: 'Delivered' },
+    { id: 'delivered', labelAm: 'ተላላፊ', labelEn: 'Delivered' },
   ];
 
   const currentStepIndex = statusSteps.findIndex((s) => s.id === order.status);
@@ -98,7 +98,7 @@ export function OrderDetailScreen() {
                 {isAm ? order.business?.name_am : order.business?.name_en}
               </h3>
               <p className="text-sm text-on-surface-variant truncate">
-                {order.order_items?.map((item) => (item.product as Record<string, string>)?.['name_en'] || (item.product as Record<string, string>)?.['name_am']).join(', ') || ''}
+                {order.order_items?.map((item) => item.product?.name_en || item.product?.name_am).join(', ') || ''}
               </p>
             </div>
             <span className="text-primary font-bold">{String(order.total)} ETB</span>
@@ -153,13 +153,13 @@ export function OrderDetailScreen() {
               <div key={String(item.id)} className="flex items-center justify-between py-2 border-b border-outline-variant last:border-0">
                 <div className="flex items-center gap-3">
                   <img
-                    src={(item.product as Record<string, string>)?.['image'] || '/senik-logo.jpg'}
-                    alt={isAm ? (item.product as Record<string, string>)?.['name_am'] : (item.product as Record<string, string>)?.['name_en']}
+                    src={item.product?.image || '/senik-logo.jpg'}
+                    alt={isAm ? item.product?.name_am : item.product?.name_en}
                     className="w-12 h-12 rounded-xl object-cover"
                   />
                   <div>
                     <p className="font-medium text-on-surface truncate max-w-[180px]">
-                      {isAm ? (item.product as Record<string, string>)?.['name_am'] : (item.product as Record<string, string>)?.['name_en']}
+                      {isAm ? item.product?.name_am : item.product?.name_en}
                     </p>
                     <p className="text-sm text-on-surface-variant">
                       x{String(item.quantity)} • {String(item.price)} ETB

@@ -93,8 +93,21 @@ export function MainLayout() {
       </nav>
 
       {showZonePicker && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-end" onClick={() => setShowZonePicker(false)}>
-          <div className="w-full bg-white rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/50"
+            role="button"
+            tabIndex={-1}
+            aria-label={isAm ? 'የሰፈር መምረጫ ዝጋ' : 'Close area picker'}
+            onClick={() => setShowZonePicker(false)}
+            onKeyDown={(e) => { if (e.key === 'Escape') setShowZonePicker(false); }}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 z-50 w-full bg-white rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label={isAm ? 'ሰፈር ይምረጡ' : 'Select Area'}
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display font-bold text-lg text-on-surface">
                 {isAm ? 'ሰፈር ይምረጡ' : 'Select Area'}
@@ -107,7 +120,7 @@ export function MainLayout() {
               {isAm ? 'የሚያገለግሉትን ሰፈር ይምረጡ' : 'Choose your delivery area'}
             </p>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

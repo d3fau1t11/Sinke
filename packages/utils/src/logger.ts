@@ -8,12 +8,14 @@ interface LogEntry {
 }
 
 // Vite sets import.meta.env.DEV at build time; declare for TS
-interface ImportMetaEnv {
-  readonly DEV: boolean;
-}
+declare global {
+  interface ImportMetaEnv {
+    readonly DEV: boolean;
+  }
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
 }
 
 const isDev = (() => {

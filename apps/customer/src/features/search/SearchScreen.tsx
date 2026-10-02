@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '@senik/i18n';
 import { Button, Card, Input, Skeleton, EmptyState, useSegmentedControl } from '@senik/ui';
 import { productsApi } from '@senik/api/products';
 import { businessesApi } from '@senik/api/businesses';
+import type { SearchResult } from '@senik/types';
 
 export function SearchScreen() {
   const { t, isAm } = useApp();
   const navigate = useNavigate();
   const { selectedValue: activeTab, setSelectedValue } = useSegmentedControl('all');
   const [query, setQuery] = useState('');
-  type SearchResult = Record<string, unknown> & { id: string; type: 'product' | 'merchant'; business_id?: string; name_am?: string; name_en?: string; image?: string; price?: number; avatar_image?: string; description_am?: string; description_en?: string; delivery_eta?: string; delivery_fee?: number };
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -34,9 +34,9 @@ export function SearchScreen() {
         businessesApi.search(searchQuery),
       ]);
 
-      const combined = [
-        ...products.map((p: Record<string, unknown>) => ({ ...p, type: 'product' as const })),
-        ...merchants.map((m: Record<string, unknown>) => ({ ...m, type: 'merchant' as const })),
+      const combined: SearchResult[] = [
+        ...products.map((p): SearchResult => ({ ...p, type: 'product' })),
+        ...merchants.map((m): SearchResult => ({ ...m, type: 'merchant' })),
       ];
 
       setResults(combined);

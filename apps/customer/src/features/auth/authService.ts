@@ -70,6 +70,7 @@ export async function getSession() {
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
   try {
     const { data, error } = await (supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .from('profiles') as any)
       .select('*')
       .eq('id', userId)
