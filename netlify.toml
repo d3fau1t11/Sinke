@@ -1,7 +1,7 @@
 # Netlify configuration for Senik Customer App (monorepo)
 [build]
   base = "."
-  command = "pnpm install --frozen-lockfile && pnpm --filter @senik/ui build && pnpm --filter @senik/api build && pnpm --filter @senik/types build && pnpm --filter @senik/i18n build && pnpm --filter @senik/utils build && pnpm --filter @senik/customer build"
+  command = "pnpm install --frozen-lockfile && pnpm --filter @senik/types build && pnpm --filter @senik/ui build && pnpm --filter @senik/api build && pnpm --filter @senik/i18n build && pnpm --filter @senik/utils build && pnpm --filter @senik/customer build"
   publish = "apps/customer/dist"
 
 [build.environment]
