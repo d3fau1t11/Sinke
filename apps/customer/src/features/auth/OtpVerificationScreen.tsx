@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useApp } from '@senik/i18n';
-import { Button } from '@senik/ui';
-import { useAuthStore } from './store/authStore';
-import { verifyOtp, resendOtp } from './authService';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useApp } from "@senik/i18n";
+import { Button } from "@senik/ui";
+import { supabase } from "@senik/api";
+import { useAuthStore } from "./store/authStore";
+import { verifyOtp, resendOtp } from "./authService";
+
+const isDevMode = import.meta.env.VITE_APP_ENV !== "production";
 
 export function OtpVerificationScreen() {
   const { isAm } = useApp();
@@ -11,10 +14,10 @@ export function OtpVerificationScreen() {
   const location = useLocation();
   const { setSession, setUser } = useAuthStore();
 
-  const phone = (location.state as { phone?: string })?.phone || '';
+  const phone = (location.state as { phone?: string })?.phone || "";
 
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [error, setError] = useState('');
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [cooldown, setCooldown] = useState(60);
@@ -37,10 +40,10 @@ export function OtpVerificationScreen() {
   }, [cooldown]);
 
   const handleVerify = async () => {
-    const code = otp.join('');
+    const code = otp.join("");
     if (code.length !== 6) return;
 
-    setError('');
+    setError("");
     setLoading(true);
 
     const result = await verifyOtp(phone, code);
@@ -48,12 +51,18 @@ export function OtpVerificationScreen() {
     setLoading(false);
 
     if (result.success && result.user) {
-      setSession({ access_token: '', expires_at: Date.now() + 3600000 });
+      // Grab the live session token (works for both OTP and anonymous sign-in)
+      const { data: sessionData } = await supabase.auth.getSession();
+      const sessionToken = sessionData.session?.access_token ?? "";
+      const expiresAt = sessionData.session?.expires_at
+        ? sessionData.session.expires_at * 1000
+        : Date.now() + 3600000;
+      setSession({ access_token: sessionToken, expires_at: expiresAt });
       setUser(result.user);
-      navigate('/onboarding', { replace: true });
+      navigate("/onboarding", { replace: true });
     } else {
-      setError(result.error || (isAm ? 'የተሳሳተ ኮድ' : 'Invalid code'));
-      setOtp(['', '', '', '', '', '']);
+      setError(result.error || (isAm ? "የተሳሳተ ኮድ" : "Invalid code"));
+      setOtp(["", "", "", "", "", ""]);
     }
   };
 
@@ -61,7 +70,7 @@ export function OtpVerificationScreen() {
     if (!canResend) return;
 
     setResendLoading(true);
-    setError('');
+    setError("");
 
     const result = await resendOtp(phone);
 
@@ -71,7 +80,7 @@ export function OtpVerificationScreen() {
       setCooldown(60);
       setCanResend(false);
     } else {
-      setError(result.error || (isAm ? 'ስህተት ተከስቷል' : 'Failed to resend'));
+      setError(result.error || (isAm ? "ስህተት ተከስቷል" : "Failed to resend"));
     }
   };
 
@@ -92,7 +101,7 @@ export function OtpVerificationScreen() {
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
       prevInput?.focus();
     }
@@ -103,16 +112,25 @@ export function OtpVerificationScreen() {
       <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-level-2">
         <div className="text-center mb-8">
           <h1 className="font-display font-bold text-3xl text-on-surface">
-            {isAm ? 'የአንድ ጊዜ የሚሰራ ኮድ' : 'Enter Verification Code'}
+            {isAm ? "የአንድ ጊዜ የሚሰራ ኮድ" : "Enter Verification Code"}
           </h1>
           <p className="mt-2 text-on-surface-variant">
             {isAm
               ? `ወደ ${phone} የተላከ ኮድን ያስገቡ`
               : `Enter the code sent to ${phone}`}
           </p>
+          {isDevMode && (
+            <p className="mt-2 text-xs bg-amber-100 text-amber-800 rounded-lg px-3 py-1 inline-block">
+              🛠 Dev mode — use code <strong>123456</strong>
+            </p>
+          )}
         </div>
 
-        <div className="flex justify-center gap-2 mb-6" role="group" aria-label="OTP inputs">
+        <div
+          className="flex justify-center gap-2 mb-6"
+          role="group"
+          aria-label="OTP inputs"
+        >
           {otp.map((value, index) => (
             <input
               key={index}
@@ -146,7 +164,7 @@ export function OtpVerificationScreen() {
             onClick={handleVerify}
             disabled={otp.some((v) => !v) || loading}
           >
-            {isAm ? 'አረጋግጥ' : 'Verify'}
+            {isAm ? "አረጋግጥ" : "Verify"}
           </Button>
 
           <Button
@@ -160,18 +178,16 @@ export function OtpVerificationScreen() {
           >
             {canResend
               ? isAm
-                ? 'እንደገና ላክ'
-                : 'Resend Code'
+                ? "እንደገና ላክ"
+                : "Resend Code"
               : isAm
-              ? `እንደገና ላክ (${cooldown}s)`
-              : `Resend (${cooldown}s)`}
+                ? `እንደገና ላክ (${cooldown}s)`
+                : `Resend (${cooldown}s)`}
           </Button>
         </div>
 
         <p className="mt-6 text-center text-sm text-on-surface-variant">
-          {isAm
-            ? 'ኮድን አልተቀበልም?'
-            : "Didn't receive the code?"}
+          {isAm ? "ኮድን አልተቀበልም?" : "Didn't receive the code?"}
         </p>
       </div>
     </div>
