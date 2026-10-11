@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@senik/ui";
+import { Button, SenikLogo } from "@senik/ui";
 import { useAdminAuthStore } from "./store/adminAuthStore";
 
 export function AdminLoginScreen() {
@@ -31,10 +31,8 @@ export function AdminLoginScreen() {
       {/* Decorative panels */}
       <div className="hidden lg:flex w-[45%] bg-gradient-to-br from-indigo-900 via-violet-900 to-slate-900 flex-col justify-between p-12 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-indigo-600/20 via-transparent to-transparent" />
-        <div className="relative z-10">
-          <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-2xl font-black text-white mb-3">
-            ስ
-          </div>
+        <div className="relative z-10 flex items-center gap-3">
+          <SenikLogo size="lg" />
           <span className="text-white font-bold text-lg">
             Senik Admin Console
           </span>
@@ -75,8 +73,8 @@ export function AdminLoginScreen() {
       <div className="flex-1 flex flex-col justify-center items-center px-6 py-12">
         <div className="w-full max-w-sm space-y-8">
           <div className="text-center">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mx-auto mb-4 text-2xl font-black shadow-xl shadow-indigo-500/30 lg:hidden">
-              ስ
+            <div className="flex justify-center mb-4 lg:hidden">
+              <SenikLogo size="lg" />
             </div>
             <h1 className="text-2xl font-black text-white">Admin Sign In</h1>
             <p className="text-sm text-slate-400 mt-1">

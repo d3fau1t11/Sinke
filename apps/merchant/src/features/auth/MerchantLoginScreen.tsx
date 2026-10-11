@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { businessesApi } from "@senik/api";
-import { Card, Button, Input } from "@senik/ui";
+import { Card, Button, Input, SenikLogo } from "@senik/ui";
 import type { Business } from "@senik/types";
 import { useMerchantAuthStore } from "./store/merchantAuthStore";
 
@@ -48,8 +48,8 @@ export function MerchantLoginScreen() {
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center px-4 py-8 max-w-md mx-auto">
       <div className="text-center mb-6">
-        <div className="w-16 h-16 rounded-2xl bg-primary text-white flex items-center justify-center mx-auto mb-3 text-2xl font-bold shadow-lg">
-          ስንቅ
+        <div className="flex justify-center mb-3">
+          <SenikLogo size="lg" />
         </div>
         <h1 className="text-2xl font-bold text-on-surface">
           Senik Merchant Portal

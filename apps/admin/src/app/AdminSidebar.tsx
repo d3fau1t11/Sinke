@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAdminAuthStore } from "../features/auth/store/adminAuthStore";
+import { SenikLogo } from "@senik/ui";
 
 interface NavItem {
   to: string;
@@ -12,6 +13,11 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { to: "/overview", label: "Overview", icon: "dashboard" },
   { to: "/orders", label: "Live Orders", icon: "receipt_long" },
+  {
+    to: "/transactions",
+    label: "Transactions",
+    icon: "account_balance_wallet",
+  },
   { to: "/users", label: "Users", icon: "group" },
   { to: "/merchants", label: "Merchants", icon: "storefront" },
   { to: "/zones", label: "Delivery Zones", icon: "map" },
@@ -26,9 +32,7 @@ export function AdminSidebar() {
       <div>
         <div className="px-5 py-5 border-b border-slate-800/60">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center font-black text-lg shadow-lg shadow-indigo-500/20">
-              ስ
-            </div>
+            <SenikLogo size="md" />
             <div>
               <span className="font-bold text-sm text-white block leading-tight">
                 Senik Admin

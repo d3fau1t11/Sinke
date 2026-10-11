@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Card } from "@senik/ui";
+import { Button, Input, Card, SenikLogo } from "@senik/ui";
 import { useRiderAuthStore } from "./store/riderAuthStore";
 
 const DEMO_RIDERS = [
@@ -40,8 +40,11 @@ export function RiderLoginScreen() {
       <div className="flex-1 flex flex-col justify-center px-5 py-10 max-w-md mx-auto w-full relative z-10">
         {/* Hero */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center mx-auto mb-5 shadow-2xl shadow-green-500/30 text-4xl">
-            🚴
+          <div className="relative inline-flex mx-auto mb-4">
+            <SenikLogo size="xl" />
+            <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-green-600 text-white flex items-center justify-center text-sm shadow-md border-2 border-white">
+              🚴
+            </span>
           </div>
           <h1 className="text-3xl font-black text-on-surface tracking-tight">
             Senik Rider

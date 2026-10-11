@@ -7,6 +7,7 @@ import { AdminOrdersScreen } from "./features/orders/AdminOrdersScreen";
 import { AdminMerchantsScreen } from "./features/merchants/AdminMerchantsScreen";
 import { AdminZonesScreen } from "./features/zones/AdminZonesScreen";
 import { AdminUsersScreen } from "./features/users/AdminUsersScreen";
+import { AdminTransactionsScreen } from "./features/transactions/AdminTransactionsScreen";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route element={<AdminLayout />}>
         <Route path="/overview" element={<AdminOverviewScreen />} />
         <Route path="/orders" element={<AdminOrdersScreen />} />
+        <Route path="/transactions" element={<AdminTransactionsScreen />} />
         <Route path="/users" element={<AdminUsersScreen />} />
         <Route path="/merchants" element={<AdminMerchantsScreen />} />
         <Route path="/zones" element={<AdminZonesScreen />} />

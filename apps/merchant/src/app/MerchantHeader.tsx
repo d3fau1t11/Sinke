@@ -1,5 +1,6 @@
 import React from "react";
 import { businessesApi } from "@senik/api";
+import { SenikLogo } from "@senik/ui";
 import { useMerchantAuthStore } from "../features/auth/store/merchantAuthStore";
 
 export function MerchantHeader() {
@@ -21,9 +22,7 @@ export function MerchantHeader() {
     <header className="bg-surface border-b border-outline/10 sticky top-0 z-20 px-4 py-3 shadow-sm">
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-bold text-lg">
-            ስ
-          </div>
+          <SenikLogo size="md" />
           <div>
             <h1 className="font-bold text-base text-on-surface leading-tight">
               {businessName || "Merchant"}

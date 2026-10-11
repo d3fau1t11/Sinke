@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useRiderAuthStore } from "../features/auth/store/riderAuthStore";
 import { useRiderWalletStore } from "../features/earnings/store/riderWalletStore";
 import { formatETB } from "@senik/utils";
+import { SenikLogo } from "@senik/ui";
 
 export function RiderHeader() {
   const { riderName, isOnline, setIsOnline, setCoords, logout } =
@@ -28,8 +29,9 @@ export function RiderHeader() {
     <header className="bg-surface border-b border-outline/10 sticky top-0 z-20 shadow-sm">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-green-700 text-white flex items-center justify-center text-xl shadow-lg shadow-green-500/30">
-            🚴
+          <div className="relative">
+            <SenikLogo size="md" />
+            <span className="absolute -bottom-1 -right-1 text-xs">🚴</span>
           </div>
           <div>
             <h1 className="font-bold text-base text-on-surface leading-tight">
