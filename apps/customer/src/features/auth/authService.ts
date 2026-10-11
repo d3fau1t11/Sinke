@@ -76,15 +76,27 @@ export async function verifyOtp(
 
       const uid = anonData.user.id;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any).from("profiles").upsert({
-        id: uid,
-        phone,
-        full_name: "Guest",
-        role: "customer",
-      });
+      const { data: existingProfile } = await (supabase as any)
+        .from("profiles")
+        .select("*")
+        .eq("phone", phone)
+        .maybeSingle();
+
+      let user: UserProfile | null = null;
+      if (existingProfile) {
+        user = existingProfile as UserProfile;
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any).from("profiles").upsert({
+          id: uid,
+          phone,
+          full_name: "Guest",
+          role: "customer",
+        });
+        user = await getUserProfile(uid);
+      }
 
       sessionStorage.removeItem("senik_dev_phone");
-      const user = await getUserProfile(uid);
       return { success: true, user };
     }
 
