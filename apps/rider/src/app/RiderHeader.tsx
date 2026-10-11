@@ -26,52 +26,54 @@ export function RiderHeader() {
   }, [isOnline, setCoords]);
 
   return (
-    <header className="bg-surface border-b border-outline/10 sticky top-0 z-20 shadow-sm">
-      <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <SenikLogo size="md" />
-            <span className="absolute -bottom-1 -right-1 text-xs">🚴</span>
-          </div>
-          <div>
-            <h1 className="font-bold text-base text-on-surface leading-tight">
+    <header className="bg-surface sticky top-0 z-20 border-b border-outline-variant">
+      <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 min-w-0">
+          <SenikLogo size="md" />
+          <div className="min-w-0">
+            <h1 className="font-display font-bold text-title-sm text-on-surface leading-tight truncate">
               {riderName || "Rider"}
             </h1>
             <button
               type="button"
               onClick={() => setIsOnline(!isOnline)}
-              className={`inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-0.5 rounded-full mt-0.5 transition-all ${
+              aria-pressed={isOnline}
+              className={`inline-flex items-center gap-1.5 text-micro font-bold uppercase tracking-[0.05em] px-2.5 py-1 rounded-full mt-1 transition-colors ${
                 isOnline
-                  ? "bg-green-100 text-green-700 hover:bg-green-200"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-secondary/10 text-secondary hover:bg-secondary/15"
+                  : "bg-surface-container-highest text-on-surface-variant hover:bg-surface-container-high"
               }`}
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}
+                className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-secondary animate-pulse" : "bg-outline"}`}
               />
-              {isOnline ? "ONLINE" : "OFFLINE"}
+              {isOnline ? "Online" : "Offline"}
             </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 shrink-0">
           <div className="text-right">
-            <p className="text-[10px] font-semibold text-on-surface-variant">
+            <p className="text-micro font-bold uppercase tracking-[0.05em] text-on-surface-variant">
               Balance
             </p>
-            <p className="font-mono font-bold text-sm text-green-600">
+            {/* Money is always green */}
+            <p className="font-mono font-bold text-body-sm text-secondary tabular-nums">
               {formatETB(balance)}
             </p>
           </div>
           <button
             type="button"
             onClick={logout}
-            className="text-[11px] text-on-surface-variant hover:text-error transition-colors ml-2 px-2 py-1 rounded-lg hover:bg-error/10"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors"
+            aria-label="Log out"
           >
-            Logout
+            <span className="material-symbols-outlined text-[19px]">logout</span>
           </button>
         </div>
       </div>
+      {/* Tibeb accent strip */}
+      <div className="h-0.5 tibeb-accent-strip" aria-hidden="true" />
     </header>
   );
 }

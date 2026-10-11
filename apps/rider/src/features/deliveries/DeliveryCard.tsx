@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@senik/ui";
+import { Button, StatusBadge } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import type { OrderSummary } from "@senik/types";
 
@@ -17,20 +17,20 @@ export function DeliveryCard({
   const isAccepting = acceptingId === order.id;
 
   return (
-    <div className="relative overflow-hidden bg-surface border border-outline/15 rounded-2xl shadow-sm hover:shadow-md hover:border-green-500/30 transition-all">
-      {/* Delivery fee badge */}
-      <div className="absolute top-3 right-3 bg-green-600 text-white text-xs font-black px-2.5 py-1 rounded-full shadow">
+    <div className="relative overflow-hidden bg-surface-container-lowest rounded-2xl shadow-level-1 hover:shadow-level-2 transition-all">
+      {/* Delivery fee badge — money is always green */}
+      <div className="absolute top-3 right-3 bg-secondary text-white text-label-sm font-black px-2.5 py-1 rounded-full shadow-level-1 tabular-nums">
         +{formatETB(order.delivery_fee)}
       </div>
 
       <div className="p-4 space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="font-mono font-bold text-sm text-on-surface">
+        <div className="flex items-center gap-2 pr-20">
+          <span className="font-mono font-bold text-body-sm text-on-surface">
             #{order.order_number}
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+          <StatusBadge tone="progress" dot>
             Ready for Pickup
-          </span>
+          </StatusBadge>
         </div>
 
         <div className="space-y-2">
@@ -42,54 +42,55 @@ export function DeliveryCard({
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wide">
+              <p className="text-micro font-bold text-on-surface-variant uppercase tracking-wide">
                 Pickup
               </p>
-              <p className="font-bold text-sm text-on-surface truncate">
+              <p className="font-bold text-body-sm text-on-surface truncate">
                 {order.business?.name_en ?? "Merchant"}
               </p>
             </div>
           </div>
 
-          {/* Drop arrow */}
-          <div className="ml-3.5 w-px h-4 bg-outline/20" />
+          {/* Route connector */}
+          <div className="ml-3.5 w-px h-4 bg-outline-variant" />
 
           {/* Dropoff */}
           <div className="flex items-start gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <span className="material-symbols-outlined text-orange-500 text-[15px]">
+            <div className="w-7 h-7 rounded-full bg-tertiary-fixed/50 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span className="material-symbols-outlined text-tertiary text-[15px]">
                 home_pin
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wide">
+              <p className="text-micro font-bold text-on-surface-variant uppercase tracking-wide">
                 Deliver to
               </p>
-              <p className="font-bold text-sm text-on-surface truncate">
+              <p className="font-bold text-body-sm text-on-surface truncate">
                 {order.delivery_address}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-outline/10 flex items-center justify-between">
-          <span className="text-xs text-on-surface-variant">
+        <div className="pt-2.5 border-t border-outline-variant/60 flex items-center justify-between gap-3">
+          <span className="text-label-sm text-on-surface-variant">
             Payment:{" "}
             <span className="font-bold text-on-surface capitalize">
               {order.payment_method}
             </span>{" "}
-            <span className="text-on-surface-variant">
-              ({formatETB(order.total)})
-            </span>
+            <span className="tabular-nums">({formatETB(order.total)})</span>
           </span>
           <Button
-            size="sm"
+            size="md"
             variant="primary"
-            className="bg-green-600 hover:bg-green-700 shadow-md shadow-green-500/20"
+            className="shrink-0"
             disabled={isAccepting}
             onClick={() => onAccept(order.id)}
           >
-            {isAccepting ? "Accepting..." : "✓ Accept Job"}
+            <span className="material-symbols-outlined text-[17px]">
+              check
+            </span>
+            {isAccepting ? "Accepting..." : "Accept Job"}
           </Button>
         </div>
       </div>

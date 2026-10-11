@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ordersApi } from "@senik/api";
 import type { OrderSummary } from "@senik/types";
+import { Skeleton, EmptyState } from "@senik/ui";
 import { useRiderAuthStore } from "../auth/store/riderAuthStore";
 import { DeliveryCard } from "./DeliveryCard";
 
@@ -45,57 +46,66 @@ export function AvailableDeliveriesScreen() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl font-bold text-on-surface">Available Jobs</h2>
-          <p className="text-xs text-on-surface-variant">
+          <h2 className="font-display font-bold text-title-lg text-on-surface">
+            Available Jobs
+          </h2>
+          <p className="text-body-sm text-on-surface-variant">
             Orders ready for pickup near you
           </p>
         </div>
         <button
           type="button"
           onClick={() => void loadDeliveries()}
-          className="flex items-center gap-1 text-xs text-green-600 font-bold hover:underline"
+          className="w-10 h-10 rounded-full bg-surface-container-lowest shadow-level-1 flex items-center justify-center text-primary active:scale-95 transition-all shrink-0"
+          aria-label="Refresh jobs"
         >
-          <span className="material-symbols-outlined text-[16px]">refresh</span>
-          Refresh
+          <span className="material-symbols-outlined text-[19px]">refresh</span>
         </button>
       </div>
 
       {!isOnline && (
-        <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs">
-          <span className="text-base">⚠️</span>
-          <p>
-            You are <strong>OFFLINE</strong>. Tap your status badge in the
+        <div className="flex items-start gap-2.5 p-3.5 bg-tertiary-fixed/40 rounded-2xl text-tertiary">
+          <span className="material-symbols-outlined text-[19px] shrink-0 mt-0.5">
+            wifi_off
+          </span>
+          <p className="text-body-sm leading-snug">
+            You are <strong>offline</strong>. Tap your status badge in the
             header to go online and accept jobs.
           </p>
         </div>
       )}
 
       {loading ? (
-        <div className="text-center py-16">
-          <div className="w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm font-medium text-on-surface-variant">
-            Scanning for nearby orders...
-          </p>
+        <div className="space-y-3">
+          {[0, 1].map((i) => (
+            <div
+              key={i}
+              className="bg-surface-container-lowest rounded-2xl shadow-level-1 p-4 space-y-3"
+            >
+              <div className="flex items-center justify-between">
+                <Skeleton variant="text" width="100px" />
+                <Skeleton variant="text" width="72px" height="24px" />
+              </div>
+              <Skeleton variant="text" lines={2} />
+            </div>
+          ))}
         </div>
       ) : deliveries.length === 0 ? (
-        <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10">
-          <span className="text-5xl block mb-3">🛺</span>
-          <p className="text-sm font-bold text-on-surface">
-            No orders ready for pickup
-          </p>
-          <p className="text-xs text-on-surface-variant mt-1 max-w-xs mx-auto">
-            When merchants mark orders ready, they'll appear here instantly.
-          </p>
-          <button
-            type="button"
-            onClick={() => void loadDeliveries()}
-            className="mt-4 text-xs text-green-600 font-bold underline"
-          >
-            Check again
-          </button>
-        </div>
+        <EmptyState
+          t={(k) => k}
+          isAm={false}
+          title="No orders ready for pickup"
+          message="When merchants mark orders ready, they'll appear here instantly."
+          actionLabel="Check again"
+          onAction={() => void loadDeliveries()}
+          icon={
+            <span className="material-symbols-outlined text-[40px]">
+              two_wheeler
+            </span>
+          }
+        />
       ) : (
         <div className="space-y-3">
           {deliveries.map((order) => (

@@ -1,24 +1,24 @@
 import React from "react";
-import { Outlet, NavLink, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { AppBottomNav } from "@senik/ui";
+import type { AppNavItem } from "@senik/ui";
 import { RiderHeader } from "./RiderHeader";
 import { useRiderAuthStore } from "../features/auth/store/riderAuthStore";
 
-interface NavItem {
-  to: string;
-  label: string;
-  icon: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { to: "/deliveries", icon: "two_wheeler", label: "Jobs" },
-  { to: "/active", icon: "navigation", label: "Active" },
-  { to: "/earnings", icon: "account_balance_wallet", label: "Earnings" },
+const NAV_ITEMS: AppNavItem[] = [
+  { id: "deliveries", label: "Jobs", icon: "two_wheeler" },
+  { id: "active", label: "Active", icon: "navigation" },
+  { id: "earnings", label: "Earnings", icon: "account_balance_wallet" },
 ];
 
 export function RiderLayout() {
   const { isAuthenticated } = useRiderAuthStore();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  const currentId = pathname.split("/")[1] || "deliveries";
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-20">
@@ -27,26 +27,11 @@ export function RiderLayout() {
         <Outlet />
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-outline/10 py-2 px-4 flex justify-around items-center z-30 shadow-lg">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 text-xs font-medium transition-all px-4 py-1 rounded-xl ${
-                isActive
-                  ? "text-green-600 bg-green-50"
-                  : "text-on-surface-variant hover:text-green-600"
-              }`
-            }
-          >
-            <span className="material-symbols-outlined text-[22px]">
-              {item.icon}
-            </span>
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
+      <AppBottomNav
+        items={NAV_ITEMS}
+        currentId={currentId}
+        onNavigate={(id) => navigate(`/${id}`)}
+      />
     </div>
   );
 }
