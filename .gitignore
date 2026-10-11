@@ -74,4 +74,7 @@ blob-report/
 playwright/.cache/
 
 # Scratch
-scratch/
+scratch/
+release-apks/
+senik-app-debug.apk
+
