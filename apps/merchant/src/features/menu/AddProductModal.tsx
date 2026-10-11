@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input } from "@senik/ui";
 import { productsApi } from "@senik/api";
+import { DishPhotoPicker } from "./DishPhotoPicker";
 
 interface AddProductModalProps {
   businessId: string;
@@ -9,24 +10,8 @@ interface AddProductModalProps {
   onSuccess: () => void;
 }
 
-const PRESET_IMAGES = [
-  {
-    label: "Tibs",
-    url: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600",
-  },
-  {
-    label: "Kitfo",
-    url: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600",
-  },
-  {
-    label: "Coffee",
-    url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600",
-  },
-  {
-    label: "Pastry",
-    url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600",
-  },
-];
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1544025162-d76694265947?w=600";
 
 export function AddProductModal({
   businessId,
@@ -38,7 +23,7 @@ export function AddProductModal({
   const [nameAm, setNameAm] = useState("");
   const [priceStr, setPriceStr] = useState("");
   const [category, setCategory] = useState("Food");
-  const [imageUrl, setImageUrl] = useState(PRESET_IMAGES[0]?.url || "");
+  const [imageUrl, setImageUrl] = useState(DEFAULT_IMAGE);
   const [isFasting, setIsFasting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,7 +33,6 @@ export function AddProductModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     const price = Number(priceStr);
     if (!nameEn.trim()) return setError("Please enter English name.");
     if (!nameAm.trim()) return setError("Please enter Amharic name.");
@@ -65,7 +49,7 @@ export function AddProductModal({
         description_am: nameAm.trim(),
         category,
         price,
-        image: imageUrl || PRESET_IMAGES[0]?.url,
+        image: imageUrl || DEFAULT_IMAGE,
         is_fasting: isFasting,
         is_available: true,
         popular: false,
@@ -142,30 +126,7 @@ export function AddProductModal({
             </select>
           </div>
 
-          <div>
-            <p className="block text-xs font-semibold text-on-surface-variant mb-1">
-              Photo Preset
-            </p>
-            <div className="grid grid-cols-4 gap-2">
-              {PRESET_IMAGES.map((img) => (
-                <button
-                  type="button"
-                  key={img.label}
-                  onClick={() => setImageUrl(img.url)}
-                  className={`p-1.5 rounded-xl border text-center transition-all ${imageUrl === img.url ? "border-primary bg-primary/10 font-bold" : "border-outline/20"}`}
-                >
-                  <img
-                    src={img.url}
-                    alt={img.label}
-                    className="w-full h-10 object-cover rounded-lg mb-1"
-                  />
-                  <span className="text-[10px] text-on-surface">
-                    {img.label}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
+          <DishPhotoPicker imageUrl={imageUrl} onChange={setImageUrl} />
 
           <label className="flex items-center gap-2 cursor-pointer pt-1">
             <input

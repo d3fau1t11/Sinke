@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import { productsApi } from "@senik/api";
 import type { ProductWithOptions } from "@senik/types";
+import { DishPhotoPicker } from "./DishPhotoPicker";
 
 interface EditPriceModalProps {
   product: ProductWithOptions | null;
@@ -18,12 +19,14 @@ export function EditPriceModal({
   onSuccess,
 }: EditPriceModalProps) {
   const [priceStr, setPriceStr] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (product) {
       setPriceStr(String(product.price));
+      setImageUrl(product.image || "");
       setError("");
     }
   }, [product]);
@@ -39,22 +42,20 @@ export function EditPriceModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     const newPrice = Number(priceStr);
-    if (!newPrice || newPrice <= 0) {
-      setError("Please enter a valid price in ETB.");
-      return;
-    }
+    if (!newPrice || newPrice <= 0)
+      return setError("Please enter a valid price in ETB.");
 
     setLoading(true);
     try {
-      await productsApi.update(product.id, { price: newPrice });
+      await productsApi.update(product.id, {
+        price: newPrice,
+        image: imageUrl || product.image,
+      });
       onSuccess();
       onClose();
     } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : "Failed to update item price.",
-      );
+      setError(err instanceof Error ? err.message : "Failed to update item.");
     } finally {
       setLoading(false);
     }
@@ -62,11 +63,11 @@ export function EditPriceModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface w-full max-w-sm rounded-2xl p-6 shadow-2xl border border-outline/10 space-y-4">
+      <div className="bg-surface w-full max-w-sm rounded-2xl p-6 shadow-2xl border border-outline/10 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center border-b border-outline/10 pb-3">
           <div>
             <h3 className="font-bold text-base text-on-surface">
-              Adjust Item Price
+              Edit Dish & Price
             </h3>
             <p className="text-xs text-on-surface-variant truncate max-w-[240px]">
               {product.name_en}
@@ -81,7 +82,7 @@ export function EditPriceModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div className="text-center py-2 bg-surface-container-low rounded-xl border border-outline/10">
             <p className="text-[11px] text-on-surface-variant uppercase font-semibold">
               Current Menu Price
@@ -114,6 +115,8 @@ export function EditPriceModal({
             </div>
           </div>
 
+          <DishPhotoPicker imageUrl={imageUrl} onChange={setImageUrl} />
+
           {error && <p className="text-xs text-error font-medium">{error}</p>}
 
           <div className="pt-2 flex gap-2">
@@ -121,7 +124,7 @@ export function EditPriceModal({
               Cancel
             </Button>
             <Button type="submit" variant="primary" fullWidth loading={loading}>
-              Save New Price
+              Save Changes
             </Button>
           </div>
         </form>
