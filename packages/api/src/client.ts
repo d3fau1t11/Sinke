@@ -1,13 +1,18 @@
-import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '@senik/types';
+import {
+  createClient as createSupabaseClient,
+  SupabaseClient,
+} from "@supabase/supabase-js";
+import type { Database } from "@senik/types";
 
 declare global {
+  interface ImportMetaEnv {
+    readonly VITE_SUPABASE_URL?: string;
+    readonly VITE_SUPABASE_ANON_KEY?: string;
+    readonly VITE_SUPABASE_SERVICE_ROLE_KEY?: string;
+    readonly DEV?: boolean;
+  }
   interface ImportMeta {
-    env: {
-      VITE_SUPABASE_URL: string;
-      VITE_SUPABASE_ANON_KEY: string;
-      VITE_SUPABASE_SERVICE_ROLE_KEY?: string;
-    };
+    readonly env: ImportMetaEnv;
   }
 }
 
@@ -18,16 +23,18 @@ export function createClient(): SupabaseClient<Database> {
   const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   if (!url || !anonKey) {
-    throw new Error('Missing Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+    throw new Error(
+      "Missing Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY",
+    );
   }
 
   return createSupabaseClient<Database>(url, anonKey, {
     auth: {
-      storageKey: 'senik-auth',
+      storageKey: "senik-auth",
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: true
-    }
+      detectSessionInUrl: true,
+    },
   });
 }
 

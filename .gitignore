@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 .pnpm-store/
 
@@ -72,3 +72,6 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+
+# Scratch
+scratch/

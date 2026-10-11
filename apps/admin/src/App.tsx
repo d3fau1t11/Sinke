@@ -1,13 +1,24 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AdminLayout } from "./app/AdminLayout";
+import { AdminLoginScreen } from "./features/auth/AdminLoginScreen";
+import { AdminOverviewScreen } from "./features/overview/AdminOverviewScreen";
+import { AdminOrdersScreen } from "./features/orders/AdminOrdersScreen";
+import { AdminMerchantsScreen } from "./features/merchants/AdminMerchantsScreen";
+import { AdminZonesScreen } from "./features/zones/AdminZonesScreen";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Routes>
-        <Route path="/" element={<div className="p-8"><h1 className="text-2xl font-bold">Senik Admin</h1><p>Coming soon...</p></div>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/login" element={<AdminLoginScreen />} />
+      <Route element={<AdminLayout />}>
+        <Route path="/overview" element={<AdminOverviewScreen />} />
+        <Route path="/orders" element={<AdminOrdersScreen />} />
+        <Route path="/merchants" element={<AdminMerchantsScreen />} />
+        <Route path="/zones" element={<AdminZonesScreen />} />
+      </Route>
+      <Route path="/" element={<Navigate to="/overview" replace />} />
+      <Route path="*" element={<Navigate to="/overview" replace />} />
+    </Routes>
   );
 }

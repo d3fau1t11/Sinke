@@ -5,7 +5,7 @@ export interface Coordinates {
 
 export function calculateDistance(
   point1: Coordinates,
-  point2: Coordinates
+  point2: Coordinates,
 ): number {
   const R = 6371;
   const dLat = toRad(point2.latitude - point1.latitude);
@@ -22,7 +22,7 @@ export function calculateDistance(
 
 export function calculateETA(
   distanceKm: number,
-  averageSpeedKmh: number = 25
+  averageSpeedKmh: number = 25,
 ): number {
   const timeHours = distanceKm / averageSpeedKmh;
   const timeMinutes = Math.ceil(timeHours * 60);
@@ -37,7 +37,10 @@ export function formatDistance(km: number, isAmharic: boolean = false): string {
   return isAmharic ? `${km.toFixed(1)} ኪ.ሜ` : `${km.toFixed(1)}km`;
 }
 
-export function formatDuration(minutes: number, isAmharic: boolean = false): string {
+export function formatDuration(
+  minutes: number,
+  isAmharic: boolean = false,
+): string {
   if (minutes < 60) {
     return isAmharic ? `${minutes} ደቂቃ` : `${minutes} min`;
   }
@@ -51,4 +54,38 @@ export function formatDuration(minutes: number, isAmharic: boolean = false): str
 
 function toRad(deg: number): number {
   return deg * (Math.PI / 180);
+}
+
+export const ZONE_CENTERS: Record<string, Coordinates> = {
+  "koye-feche": { latitude: 9.0522, longitude: 38.7468 },
+  tuludimtu: { latitude: 9.0456, longitude: 38.7523 },
+  "akaki-kality": { latitude: 9.0389, longitude: 38.7612 },
+};
+
+export function getNearestZoneId(
+  userCoords: Coordinates,
+  availableZones: Array<{ id: string; name_en: string }>,
+): string | null {
+  if (availableZones.length === 0) return null;
+  let nearestId = availableZones[0]?.id ?? null;
+  let minDistance = Infinity;
+
+  for (const zone of availableZones) {
+    const key = Object.keys(ZONE_CENTERS).find(
+      (k) =>
+        zone.name_en.toLowerCase().includes(k.replace("-", " ")) ||
+        zone.name_en.toLowerCase().includes(k.replace("-", "")) ||
+        k.includes(zone.name_en.toLowerCase().replace(/\s+/g, "-")),
+    );
+    const center =
+      key && ZONE_CENTERS[key]
+        ? ZONE_CENTERS[key]
+        : { latitude: 9.04, longitude: 38.75 };
+    const dist = calculateDistance(userCoords, center);
+    if (dist < minDistance) {
+      minDistance = dist;
+      nearestId = zone.id;
+    }
+  }
+  return nearestId;
 }

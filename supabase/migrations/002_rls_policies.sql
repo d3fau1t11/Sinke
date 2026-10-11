@@ -34,10 +34,21 @@ create policy "Users can delete own addresses" on addresses for delete using (au
 -- Zones policies (public read)
 create policy "Zones are viewable by everyone" on zones for select using (true);
 
+-- Helper security definer functions to avoid infinite recursion
+create or replace function public.is_business_staff(b_id uuid, u_id uuid)
+returns boolean language sql security definer set search_path = public stable as $$
+  select exists (select 1 from business_staff where business_id = b_id and user_id = u_id);
+$$;
+
+create or replace function public.is_business_owner(b_id uuid, u_id uuid)
+returns boolean language sql security definer set search_path = public stable as $$
+  select exists (select 1 from business_staff where business_id = b_id and user_id = u_id and role = 'owner');
+$$;
+
 -- Businesses policies (public read, merchant write)
 create policy "Businesses are viewable by everyone" on businesses for select using (true);
 create policy "Merchants can update own business" on businesses for update using (
-  exists (select 1 from business_staff where business_id = businesses.id and user_id = auth.uid())
+  public.is_business_staff(id, auth.uid())
 );
 
 -- Categories policies (public read)
@@ -46,31 +57,31 @@ create policy "Categories are viewable by everyone" on categories for select usi
 -- Business staff policies
 create policy "Staff can view own business staff" on business_staff for select using (user_id = auth.uid());
 create policy "Merchants can manage staff" on business_staff for all using (
-  exists (select 1 from business_staff bs where bs.business_id = business_staff.business_id and bs.user_id = auth.uid() and bs.role = 'owner')
+  public.is_business_owner(business_id, auth.uid())
 );
 
 -- Products policies (public read, merchant write)
 create policy "Products are viewable by everyone" on products for select using (true);
 create policy "Merchants can insert own products" on products for insert with check (
-  exists (select 1 from business_staff where business_id = products.business_id and user_id = auth.uid())
+  public.is_business_staff(business_id, auth.uid())
 );
 create policy "Merchants can update own products" on products for update using (
-  exists (select 1 from business_staff where business_id = products.business_id and user_id = auth.uid())
+  public.is_business_staff(business_id, auth.uid())
 );
 create policy "Merchants can delete own products" on products for delete using (
-  exists (select 1 from business_staff where business_id = products.business_id and user_id = auth.uid())
+  public.is_business_staff(business_id, auth.uid())
 );
 
 -- Product options policies (public read, merchant write)
 create policy "Product options are viewable by everyone" on product_options for select using (true);
 create policy "Merchants can manage own product options" on product_options for all using (
-  exists (select 1 from products p join business_staff bs on p.business_id = bs.business_id where p.id = product_options.product_id and bs.user_id = auth.uid())
+  exists (select 1 from products p where p.id = product_options.product_id and public.is_business_staff(p.business_id, auth.uid()))
 );
 
 -- Orders policies
 create policy "Users can view own orders" on orders for select using (auth.uid() = user_id);
 create policy "Merchants can view business orders" on orders for select using (
-  exists (select 1 from business_staff where business_id = orders.business_id and user_id = auth.uid())
+  public.is_business_staff(business_id, auth.uid())
 );
 create policy "Riders can view assigned orders" on orders for select using (auth.uid() = rider_id);
 create policy "Users can insert own orders" on orders for insert with check (auth.uid() = user_id);
@@ -80,7 +91,7 @@ create policy "Users can view own order items" on order_items for select using (
   exists (select 1 from orders where orders.id = order_items.order_id and orders.user_id = auth.uid())
 );
 create policy "Merchants can view business order items" on order_items for select using (
-  exists (select 1 from orders o join business_staff bs on o.business_id = bs.business_id where o.id = order_items.order_id and bs.user_id = auth.uid())
+  exists (select 1 from orders o where o.id = order_items.order_id and public.is_business_staff(o.business_id, auth.uid()))
 );
 
 -- Order status history policies
@@ -105,7 +116,7 @@ create policy "Users can view own payments" on payments for select using (
   exists (select 1 from orders where orders.id = payments.order_id and orders.user_id = auth.uid())
 );
 create policy "Merchants can view business payments" on payments for select using (
-  exists (select 1 from orders o join business_staff bs on o.business_id = bs.business_id where o.id = payments.order_id and bs.user_id = auth.uid())
+  exists (select 1 from orders o where o.id = payments.order_id and public.is_business_staff(o.business_id, auth.uid()))
 );
 
 -- Messages policies

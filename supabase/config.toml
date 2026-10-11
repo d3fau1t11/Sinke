@@ -55,9 +55,6 @@ test_otp = "123456"
 [auth.external.apple]
 enabled = false
 
-[functions]
-verify_jwt = true
-
 [functions.create-order]
 verify_jwt = true
 
