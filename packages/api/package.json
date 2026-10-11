@@ -19,7 +19,8 @@
     "./zones": "./dist/zones.js",
     "./promos": "./dist/promos.js",
     "./profiles": "./dist/profiles.js",
-    "./addresses": "./dist/addresses.js"
+    "./addresses": "./dist/addresses.js",
+    "./transactions": "./dist/transactions.js"
   },
   "scripts": {
     "dev": "tsc --watch",
