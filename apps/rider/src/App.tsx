@@ -4,7 +4,7 @@ import { RiderLayout } from "./app/RiderLayout";
 import { RiderLoginScreen } from "./features/auth/RiderLoginScreen";
 import { AvailableDeliveriesScreen } from "./features/deliveries/AvailableDeliveriesScreen";
 import { ActiveDeliveryScreen } from "./features/deliveries/ActiveDeliveryScreen";
-import { DeliveryHistoryScreen } from "./features/history/DeliveryHistoryScreen";
+import { RiderEarningsScreen } from "./features/earnings/RiderEarningsScreen";
 
 export default function App() {
   return (
@@ -13,7 +13,7 @@ export default function App() {
       <Route element={<RiderLayout />}>
         <Route path="/deliveries" element={<AvailableDeliveriesScreen />} />
         <Route path="/active" element={<ActiveDeliveryScreen />} />
-        <Route path="/history" element={<DeliveryHistoryScreen />} />
+        <Route path="/earnings" element={<RiderEarningsScreen />} />
       </Route>
       <Route path="/" element={<Navigate to="/deliveries" replace />} />
       <Route path="*" element={<Navigate to="/deliveries" replace />} />

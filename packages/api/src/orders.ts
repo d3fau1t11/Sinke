@@ -230,7 +230,7 @@ export const ordersApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase as any)
       .from("orders")
-      .update({ rider_id: riderId, status: "picked_up" })
+      .update({ rider_id: riderId, status: "accepted" })
       .eq("id", orderId);
 
     if (error) throw error;

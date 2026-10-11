@@ -27,6 +27,7 @@ export function AvailableDeliveriesScreen() {
     void loadDeliveries();
     const interval = setInterval(loadDeliveries, 8000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAccept = async (orderId: string) => {
@@ -46,47 +47,54 @@ export function AvailableDeliveriesScreen() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-on-surface">
-            Available Deliveries
-          </h2>
+          <h2 className="text-xl font-bold text-on-surface">Available Jobs</h2>
           <p className="text-xs text-on-surface-variant">
-            Nearby orders waiting for dispatch
+            Orders ready for pickup near you
           </p>
         </div>
         <button
           type="button"
           onClick={() => void loadDeliveries()}
-          className="text-xs text-secondary font-semibold hover:underline"
+          className="flex items-center gap-1 text-xs text-green-600 font-bold hover:underline"
         >
+          <span className="material-symbols-outlined text-[16px]">refresh</span>
           Refresh
         </button>
       </div>
 
       {!isOnline && (
-        <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs">
-          ⚠️ You are currently <strong>OFFLINE</strong>. Turn on your status in
-          the header to accept deliveries.
+        <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs">
+          <span className="text-base">⚠️</span>
+          <p>
+            You are <strong>OFFLINE</strong>. Tap your status badge in the
+            header to go online and accept jobs.
+          </p>
         </div>
       )}
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-          <p className="text-xs text-on-surface-variant">
-            Finding available orders...
+        <div className="text-center py-16">
+          <div className="w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm font-medium text-on-surface-variant">
+            Scanning for nearby orders...
           </p>
         </div>
       ) : deliveries.length === 0 ? (
         <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10">
-          <span className="material-symbols-outlined text-4xl text-on-surface-variant mb-2 block">
-            moped
-          </span>
-          <p className="text-sm font-semibold text-on-surface">
+          <span className="text-5xl block mb-3">🛺</span>
+          <p className="text-sm font-bold text-on-surface">
             No orders ready for pickup
           </p>
-          <p className="text-xs text-on-surface-variant mt-1">
-            As soon as merchants prepare orders, they will show up here.
+          <p className="text-xs text-on-surface-variant mt-1 max-w-xs mx-auto">
+            When merchants mark orders ready, they'll appear here instantly.
           </p>
+          <button
+            type="button"
+            onClick={() => void loadDeliveries()}
+            className="mt-4 text-xs text-green-600 font-bold underline"
+          >
+            Check again
+          </button>
         </div>
       ) : (
         <div className="space-y-3">
