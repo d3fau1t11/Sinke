@@ -8,3 +8,7 @@ export { ErrorState } from "./ErrorState";
 export { EmptyState } from "./EmptyState";
 export { useSegmentedControl } from "./useSegmentedControl";
 export { SenikLogo } from "./SenikLogo";
+export { StatusBadge } from "./StatusBadge";
+export type { StatusTone } from "./StatusBadge";
+export { AppBottomNav } from "./AppBottomNav";
+export type { AppNavItem } from "./AppBottomNav";

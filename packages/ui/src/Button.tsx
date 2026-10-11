@@ -29,11 +29,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       'inline-flex items-center justify-center font-bold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
 
     const variantStyles = {
-      primary: 'bg-primary text-on-primary hover:bg-primary-container focus-visible:ring-primary',
-      secondary: 'bg-surface-container-highest text-on-surface border border-outline-variant hover:bg-surface-container-high focus-visible:ring-outline',
-      tertiary: 'bg-tertiary-container text-on-tertiary-container hover:bg-tertiary-fixed-dim focus-visible:ring-tertiary',
+      primary:
+        'bg-primary text-on-primary hover:bg-on-primary-fixed-variant shadow-[0_12px_28px_-14px_rgba(167,52,0,0.55)] focus-visible:ring-primary',
+      secondary:
+        'bg-surface-container-low text-primary hover:bg-surface-container focus-visible:ring-primary',
+      tertiary:
+        'bg-tertiary-container text-on-tertiary-container hover:bg-tertiary-fixed-dim focus-visible:ring-tertiary',
       ghost: 'text-primary hover:bg-primary-fixed focus-visible:ring-primary',
-      danger: 'bg-error text-on-error hover:bg-error-container focus-visible:ring-error'
+      danger: 'bg-error text-on-error hover:bg-[#8f1414] focus-visible:ring-error'
     };
 
     const sizeStyles = {

@@ -56,13 +56,28 @@ module.exports = {
         error: '#ba1a1a',
         'error-container': '#ffdad6',
         'on-error': '#ffffff',
-        'on-error-container': '#93000a'
+        'on-error-container': '#93000a',
       },
       fontFamily: {
         sans: ['Inter', 'Noto Sans Ethiopic', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'Noto Sans Ethiopic', 'sans-serif'],
         ethiopic: ['Noto Sans Ethiopic', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace']
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      // Quiet Luxury type ramp — shared across customer, merchant & rider apps.
+      // Floor for meaningful text is 13px (body-sm); micro is uppercase-only.
+      fontSize: {
+        micro: ['0.6875rem', { lineHeight: '1rem' }], // 11px uppercase micro-labels
+        'label-sm': ['0.75rem', { lineHeight: '1.125rem' }], // 12px captions
+        'label-md': ['0.875rem', { lineHeight: '1.25rem' }], // 14px form labels
+        'body-sm': ['0.8125rem', { lineHeight: '1.25rem' }], // 13px compact body
+        'body-md': ['0.9375rem', { lineHeight: '1.4rem' }], // 15px primary body
+        'body-lg': ['1rem', { lineHeight: '1.5rem' }], // 16px emphasis body
+        'title-sm': ['0.9375rem', { lineHeight: '1.35rem' }], // 15px card titles
+        'title-md': ['1.0625rem', { lineHeight: '1.5rem' }], // 17px section titles
+        'title-lg': ['1.25rem', { lineHeight: '1.75rem' }], // 20px screen headings
+        'title-xl': ['1.5rem', { lineHeight: '2rem' }], // 24px page headings
+        display: ['1.625rem', { lineHeight: '2.1rem' }], // 26px hero numbers
       },
       borderRadius: {
         DEFAULT: '0.5rem',
@@ -71,25 +86,25 @@ module.exports = {
         lg: '1rem',
         xl: '1.5rem',
         '2xl': '2rem',
-        full: '9999px'
+        full: '9999px',
       },
       boxShadow: {
         'level-1': '0 4px 16px rgba(45, 31, 23, 0.05)',
         'level-2': '0 8px 24px -4px rgba(45, 31, 23, 0.08), 0 2px 6px -1px rgba(45, 31, 23, 0.04)',
         'level-3': '0 16px 36px -6px rgba(45, 31, 23, 0.16)',
-        floating: '0 20px 40px -10px rgba(167, 52, 0, 0.25)'
+        floating: '0 20px 40px -10px rgba(167, 52, 0, 0.25)',
       },
       animation: {
-        'pulse-ring': 'pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+        'pulse-ring': 'pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         'pulse-ring': {
           '0%': { transform: 'scale(0.9)', opacity: '0.85' },
           '50%': { transform: 'scale(1.4)', opacity: '0.15' },
-          '100%': { transform: 'scale(0.9)', opacity: '0.85' }
-        }
-      }
-    }
+          '100%': { transform: 'scale(0.9)', opacity: '0.85' },
+        },
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };

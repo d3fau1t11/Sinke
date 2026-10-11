@@ -13,9 +13,10 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ children, variant = 'default', padding = 'md', hoverable = false, className, ...props }, ref) => {
     const variantStyles = {
-      default: 'bg-surface-container-lowest border border-outline-variant',
-      outlined: 'bg-surface-container-lowest border-2 border-outline',
-      elevated: 'bg-surface-container-lowest shadow-level-2 border border-outline-variant/50'
+      // Quiet Luxury: borders are reserved for selection & inputs — cards use shadow.
+      default: 'bg-surface-container-lowest shadow-level-1',
+      outlined: 'bg-surface-container-lowest border border-outline-variant shadow-level-1',
+      elevated: 'bg-surface-container-lowest shadow-level-2'
     };
 
     const paddingStyles = {
@@ -32,7 +33,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           'rounded-2xl',
           variantStyles[variant],
           paddingStyles[padding],
-          hoverable && 'hover:shadow-level-3 hover:border-primary/30 transition-all cursor-pointer',
+          hoverable && 'hover:shadow-level-2 transition-all cursor-pointer',
           className
         )}
         {...props}
