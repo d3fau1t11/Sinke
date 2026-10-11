@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ordersApi } from "@senik/api";
-import { Card } from "@senik/ui";
+import { Card, StatusBadge, Skeleton, EmptyState } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import type { OrderSummary } from "@senik/types";
 import { useRiderAuthStore } from "../auth/store/riderAuthStore";
@@ -34,80 +34,82 @@ export function DeliveryHistoryScreen() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-on-surface">Delivery History</h2>
-        <p className="text-xs text-on-surface-variant">
+        <h2 className="font-display font-bold text-title-lg text-on-surface">
+          Delivery History
+        </h2>
+        <p className="text-body-sm text-on-surface-variant">
           Your completed trips and earnings
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Card
-          variant="outlined"
-          padding="md"
-          className="bg-emerald-50/50 border-emerald-200"
-        >
-          <p className="text-xs font-semibold text-emerald-700">
-            COMPLETED TRIPS
+        <Card padding="md">
+          <p className="text-micro font-bold uppercase tracking-[0.05em] text-on-surface-variant">
+            Completed Trips
           </p>
-          <p className="text-2xl font-black text-emerald-800 mt-1">
+          <p className="font-display font-black text-title-xl text-on-surface mt-1 tabular-nums">
             {delivered.length}
           </p>
         </Card>
-        <Card
-          variant="outlined"
-          padding="md"
-          className="bg-green-50/50 border-green-200"
-        >
-          <p className="text-xs font-semibold text-green-700">TOTAL EARNINGS</p>
-          <p className="text-2xl font-black text-green-800 mt-1">
+        {/* Money — green */}
+        <Card padding="md" className="bg-secondary/5">
+          <p className="text-micro font-bold uppercase tracking-[0.05em] text-on-surface-variant">
+            Total Earnings
+          </p>
+          <p className="font-display font-black text-title-xl text-secondary mt-1 tabular-nums">
             {formatETB(totalEarned)}
           </p>
         </Card>
       </div>
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-          <p className="text-xs text-on-surface-variant">
-            Loading trip history...
-          </p>
+        <div className="space-y-2">
+          <Skeleton variant="rectangular" height="64px" />
+          <Skeleton variant="rectangular" height="64px" />
+          <Skeleton variant="rectangular" height="64px" />
         </div>
       ) : delivered.length === 0 ? (
-        <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10">
-          <p className="text-sm font-semibold text-on-surface">
-            No completed deliveries yet
-          </p>
-          <p className="text-xs text-on-surface-variant mt-1">
-            Deliveries you finish will be recorded here.
-          </p>
-        </div>
+        <EmptyState
+          t={(k) => k}
+          isAm={false}
+          title="No completed deliveries yet"
+          message="Deliveries you finish will be recorded here."
+          icon={
+            <span className="material-symbols-outlined text-[40px]">
+              two_wheeler
+            </span>
+          }
+        />
       ) : (
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {delivered.map((order) => (
-            <Card
-              key={order.id}
-              variant="outlined"
-              padding="sm"
-              className="space-y-1"
-            >
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-mono font-bold text-secondary">
+            <Card key={order.id} padding="sm" className="space-y-1">
+              <div className="flex justify-between items-center gap-2">
+                <span className="font-mono font-bold text-body-sm text-on-surface">
                   #{order.order_number}
                 </span>
-                <span className="font-bold text-green-700">
+                {/* Money — green */}
+                <span className="font-mono font-bold text-body-sm text-secondary tabular-nums">
                   +{formatETB(order.delivery_fee)}
                 </span>
               </div>
-              <p className="text-xs text-on-surface font-medium truncate">
-                {order.business?.name_en} ➔ {order.delivery_address}
+              <p className="text-body-sm text-on-surface-variant truncate flex items-center gap-1">
+                <span className="truncate">{order.business?.name_en}</span>
+                <span className="material-symbols-outlined text-[13px] shrink-0">
+                  arrow_forward
+                </span>
+                <span className="truncate">{order.delivery_address}</span>
               </p>
-              <p className="text-[10px] text-on-surface-variant">
-                {new Date(order.created_at).toLocaleDateString()}{" "}
-                {new Date(order.created_at).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-label-sm text-on-surface-variant/70 tabular-nums">
+                  {new Date(order.created_at).toLocaleDateString()}{" "}
+                  {new Date(order.created_at).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+                <StatusBadge tone="success">Delivered</StatusBadge>
+              </div>
             </Card>
           ))}
         </div>

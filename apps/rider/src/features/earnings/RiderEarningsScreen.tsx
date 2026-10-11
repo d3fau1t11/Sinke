@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ordersApi } from "@senik/api";
-import { Button } from "@senik/ui";
+import { Button, StatusBadge, Skeleton, EmptyState } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import type { OrderSummary } from "@senik/types";
 import { useRiderAuthStore } from "../auth/store/riderAuthStore";
@@ -36,89 +36,101 @@ export function RiderEarningsScreen() {
     .reduce((acc, o) => acc + (o.delivery_fee || 0), 0);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-bold text-on-surface">My Earnings</h2>
-        <p className="text-xs text-on-surface-variant">
-          Balance & delivery payout history
+        <h2 className="font-display font-bold text-title-lg text-on-surface">
+          My Earnings
+        </h2>
+        <p className="text-body-sm text-on-surface-variant">
+          Balance &amp; delivery payout history
         </p>
       </div>
 
-      {/* Balance Card */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 p-5 shadow-xl text-white">
-        <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/10" />
-        <div className="absolute bottom-2 left-32 w-16 h-16 rounded-full bg-white/5" />
-        <p className="text-[11px] font-bold uppercase tracking-widest text-green-200">
+      {/* Money hero — the one place green takes over */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-secondary to-[#14521c] p-5 shadow-level-3 text-white">
+        <div
+          className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/5"
+          aria-hidden="true"
+        />
+        <p className="text-micro font-bold uppercase tracking-[0.08em] text-white/80">
           Available Balance
         </p>
-        <p className="text-4xl font-black font-mono mt-1">
+        <p className="font-display font-black text-[36px] leading-tight mt-1 tabular-nums">
           {formatETB(balance)}
         </p>
-        <div className="flex gap-4 mt-3 pt-3 border-t border-white/20 text-xs">
+        <div className="flex gap-5 mt-3 pt-3 border-t border-white/20 text-body-sm">
           <div>
-            <p className="text-green-300">Lifetime Earned</p>
-            <p className="font-bold">{formatETB(lifetimeEarnings)}</p>
+            <p className="text-white/70">Lifetime Earned</p>
+            <p className="font-bold tabular-nums">{formatETB(lifetimeEarnings)}</p>
           </div>
           <div>
-            <p className="text-green-300">Today</p>
-            <p className="font-bold">{formatETB(todayEarnings)}</p>
+            <p className="text-white/70">Today</p>
+            <p className="font-bold tabular-nums">{formatETB(todayEarnings)}</p>
           </div>
           <div>
-            <p className="text-green-300">Trips Done</p>
-            <p className="font-bold">{delivered.length}</p>
+            <p className="text-white/70">Trips Done</p>
+            <p className="font-bold tabular-nums">{delivered.length}</p>
           </div>
         </div>
         <Button
-          variant="secondary"
-          size="sm"
-          className="mt-4 bg-white/20 hover:bg-white/30 border-white/30 text-white font-bold w-full"
+          variant="primary"
+          size="md"
+          className="mt-4 w-full !bg-white !text-secondary hover:!bg-white/90 shadow-none"
           onClick={() => setShowWithdrawal(true)}
         >
-          💸 Withdraw Earnings
+          <span className="material-symbols-outlined text-[18px]">
+            account_balance_wallet
+          </span>
+          Withdraw Earnings
         </Button>
       </div>
 
       {/* Recent Deliveries */}
       <div>
-        <h3 className="text-sm font-bold text-on-surface mb-2">
+        <h3 className="font-display font-bold text-title-md text-on-surface mb-2.5">
           Recent Deliveries
         </h3>
         {loading ? (
-          <div className="text-center py-8">
-            <div className="w-7 h-7 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-xs text-on-surface-variant">
-              Loading history...
-            </p>
+          <div className="space-y-2">
+            <Skeleton variant="rectangular" height="64px" />
+            <Skeleton variant="rectangular" height="64px" />
           </div>
         ) : delivered.length === 0 ? (
-          <div className="text-center py-12 bg-surface rounded-2xl border border-outline/10">
-            <span className="text-3xl block mb-2">🚴</span>
-            <p className="text-sm font-semibold text-on-surface">
-              No completed deliveries yet
-            </p>
-            <p className="text-xs text-on-surface-variant mt-1">
-              Complete your first delivery to earn!
-            </p>
-          </div>
+          <EmptyState
+            t={(k) => k}
+            isAm={false}
+            title="No completed deliveries yet"
+            message="Complete your first delivery to earn!"
+            icon={
+              <span className="material-symbols-outlined text-[40px]">
+                two_wheeler
+              </span>
+            }
+          />
         ) : (
           <div className="space-y-2">
             {delivered.slice(0, 15).map((order) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between bg-surface border border-outline/10 rounded-xl px-3 py-2.5"
+                className="flex items-center justify-between gap-3 bg-surface-container-lowest rounded-2xl shadow-level-1 px-3.5 py-3"
               >
-                <div>
-                  <p className="text-xs font-mono font-bold text-on-surface">
+                <div className="min-w-0">
+                  <p className="text-body-sm font-mono font-bold text-on-surface">
                     #{order.order_number}
                   </p>
-                  <p className="text-[10px] text-on-surface-variant truncate max-w-[180px]">
-                    {order.business?.name_en} ➔ {order.delivery_address}
+                  <p className="text-label-sm text-on-surface-variant truncate max-w-[200px] flex items-center gap-1">
+                    <span className="truncate">{order.business?.name_en}</span>
+                    <span className="material-symbols-outlined text-[13px] shrink-0">
+                      arrow_forward
+                    </span>
+                    <span className="truncate">{order.delivery_address}</span>
                   </p>
-                  <p className="text-[10px] text-on-surface-variant">
+                  <p className="text-micro text-on-surface-variant/70">
                     {new Date(order.created_at).toLocaleDateString()}
                   </p>
                 </div>
-                <span className="font-mono font-bold text-sm text-green-600">
+                {/* Money — green */}
+                <span className="font-mono font-bold text-body-sm text-secondary tabular-nums shrink-0">
                   +{formatETB(order.delivery_fee)}
                 </span>
               </div>
@@ -130,33 +142,40 @@ export function RiderEarningsScreen() {
       {/* Withdrawal History */}
       {withdrawals.length > 0 && (
         <div>
-          <h3 className="text-sm font-bold text-on-surface mb-2">
+          <h3 className="font-display font-bold text-title-md text-on-surface mb-2.5">
             Withdrawal Requests
           </h3>
           <div className="space-y-2">
             {withdrawals.map((w) => (
               <div
                 key={w.id}
-                className="flex items-center justify-between bg-surface border border-outline/10 rounded-xl px-3 py-2.5"
+                className="flex items-center justify-between gap-3 bg-surface-container-lowest rounded-2xl shadow-level-1 px-3.5 py-3"
               >
-                <div>
-                  <p className="text-xs font-bold text-on-surface">
-                    {w.method === "cbe" ? "🏦 CBE" : "📱 telebirr"} —{" "}
-                    {w.accountName}
-                  </p>
-                  <p className="text-[10px] font-mono text-on-surface-variant">
-                    {w.referenceNumber}
-                  </p>
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-9 h-9 rounded-full bg-surface-container-low text-primary flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-[18px]">
+                      {w.method === "cbe" ? "account_balance" : "smartphone"}
+                    </span>
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-body-sm font-bold text-on-surface truncate">
+                      {w.method === "cbe" ? "CBE" : "telebirr"} · {w.accountName}
+                    </p>
+                    <p className="text-micro font-mono text-on-surface-variant">
+                      {w.referenceNumber}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-mono font-bold text-sm text-on-surface">
+                <div className="text-right shrink-0">
+                  <p className="font-mono font-bold text-body-sm text-on-surface tabular-nums">
                     -{formatETB(w.amount)}
                   </p>
-                  <span
-                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${w.status === "completed" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
+                  <StatusBadge
+                    tone={w.status === "completed" ? "success" : "progress"}
+                    className="mt-1"
                   >
                     {w.status}
-                  </span>
+                  </StatusBadge>
                 </div>
               </div>
             ))}
