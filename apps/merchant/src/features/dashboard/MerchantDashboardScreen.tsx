@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Button } from "@senik/ui";
+import { Card, Button, Skeleton } from "@senik/ui";
 import { ordersApi } from "@senik/api";
 import type { OrderSummary } from "@senik/types";
 import { useMerchantAuthStore } from "../auth/store/merchantAuthStore";
 import { useMerchantWalletStore } from "../finances/store/merchantWalletStore";
 import { formatETB } from "@senik/utils";
+import { PipelineTile } from "./PipelineTile";
 
 export function MerchantDashboardScreen() {
   const navigate = useNavigate();
@@ -42,117 +43,128 @@ export function MerchantDashboardScreen() {
   const availableBalance = Math.max(0, grossEarnings - totalWithdrawn);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 className="text-xl font-bold text-on-surface">Store Overview</h2>
-          <p className="text-sm text-on-surface-variant">
-            Live operations for {businessName}
-          </p>
-        </div>
-        <Card
-          variant="outlined"
-          padding="sm"
-          className="bg-primary/5 border-primary/20 flex items-center justify-between gap-4 px-4 py-2"
-        >
+    <div className="space-y-5">
+      <div>
+        <h2 className="font-display font-bold text-title-lg text-on-surface">
+          Store Overview
+        </h2>
+        <p className="text-body-sm text-on-surface-variant">
+          Live operations for {businessName}
+        </p>
+      </div>
+
+      {/* Available balance — money is always green */}
+      <Card padding="md" className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[20px]">
+              account_balance_wallet
+            </span>
+          </span>
           <div>
-            <p className="text-[10px] font-bold text-primary uppercase">
-              Current Balance
+            <p className="text-micro font-bold uppercase tracking-[0.05em] text-on-surface-variant">
+              Available Balance
             </p>
-            <p className="text-base font-black font-mono text-on-surface">
+            <p className="font-display font-black text-display text-secondary tabular-nums leading-tight">
               {formatETB(availableBalance)}
             </p>
           </div>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => navigate("/finances")}
-          >
-            Payout
-          </Button>
-        </Card>
-      </div>
+        </div>
+        <Button
+          size="sm"
+          variant="secondary"
+          onClick={() => navigate("/finances")}
+        >
+          Payout
+        </Button>
+      </Card>
 
+      {/* Order pipeline — tap a stage to open the filtered queue */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-amber-200 bg-amber-50/50"
-        >
-          <p className="text-xs font-semibold text-amber-700">INCOMING</p>
-          <p className="text-2xl font-black text-amber-800 mt-1">
-            {incoming.length}
-          </p>
-          <p className="text-[11px] text-amber-600 mt-0.5">Needs action</p>
-        </Card>
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-blue-200 bg-blue-50/50"
-        >
-          <p className="text-xs font-semibold text-blue-700">PREPARING</p>
-          <p className="text-2xl font-black text-blue-800 mt-1">
-            {preparing.length}
-          </p>
-          <p className="text-[11px] text-blue-600 mt-0.5">In kitchen</p>
-        </Card>
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-emerald-200 bg-emerald-50/50"
-        >
-          <p className="text-xs font-semibold text-emerald-700">READY</p>
-          <p className="text-2xl font-black text-emerald-800 mt-1">
-            {ready.length}
-          </p>
-          <p className="text-[11px] text-emerald-600 mt-0.5">Awaiting rider</p>
-        </Card>
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-gray-200 bg-gray-50/50"
-        >
-          <p className="text-xs font-semibold text-gray-700">COMPLETED</p>
-          <p className="text-2xl font-black text-gray-800 mt-1">
-            {delivered.length}
-          </p>
-          <p className="text-[11px] text-gray-600 mt-0.5">Delivered</p>
-        </Card>
+        <PipelineTile
+          label="Incoming"
+          count={incoming.length}
+          helper="Needs action"
+          icon="notifications_active"
+          tone="primary"
+          onClick={() => navigate("/orders?tab=placed")}
+        />
+        <PipelineTile
+          label="Preparing"
+          count={preparing.length}
+          helper="In kitchen"
+          icon="skillet"
+          tone="progress"
+          onClick={() => navigate("/orders?tab=preparing")}
+        />
+        <PipelineTile
+          label="Ready"
+          count={ready.length}
+          helper="Awaiting rider"
+          icon="inventory_2"
+          tone="success"
+          onClick={() => navigate("/orders?tab=ready")}
+        />
+        <PipelineTile
+          label="Completed"
+          count={delivered.length}
+          helper="Balance credited"
+          icon="check_circle"
+          tone="neutral"
+          onClick={() => navigate("/orders?tab=completed")}
+        />
       </div>
 
-      <Card variant="outlined" padding="md" className="space-y-3">
+      {/* Live order queue */}
+      <Card padding="md" className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-on-surface">Live Order Queue</h3>
+          <h3 className="font-display font-bold text-title-md text-on-surface">
+            Live Order Queue
+          </h3>
           <Button size="sm" variant="ghost" onClick={() => navigate("/orders")}>
-            View All Orders
+            View All
           </Button>
         </div>
         {loading ? (
-          <p className="text-sm text-on-surface-variant py-4 text-center">
-            Loading orders...
-          </p>
+          <div className="space-y-2 py-1">
+            <Skeleton variant="rectangular" height="56px" />
+            <Skeleton variant="rectangular" height="56px" />
+          </div>
         ) : incoming.length > 0 ? (
-          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 flex items-center justify-between">
-            <div>
-              <p className="font-bold text-sm text-amber-900">
-                You have {incoming.length} new incoming order(s)!
-              </p>
-              <p className="text-xs text-amber-700">
-                Review and accept to begin preparation.
-              </p>
+          <div className="p-3.5 rounded-2xl bg-primary/5 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[19px]">
+                  notifications_active
+                </span>
+              </span>
+              <div className="min-w-0">
+                <p className="font-bold text-title-sm text-on-surface">
+                  {incoming.length} new incoming order
+                  {incoming.length > 1 ? "s" : ""}!
+                </p>
+                <p className="text-body-sm text-on-surface-variant">
+                  Review and accept to begin preparation.
+                </p>
+              </div>
             </div>
             <Button
               size="sm"
               variant="primary"
-              onClick={() => navigate("/orders")}
+              onClick={() => navigate("/orders?tab=placed")}
             >
-              Open Queue
+              Open
             </Button>
           </div>
         ) : (
-          <p className="text-sm text-on-surface-variant py-6 text-center">
-            No pending orders waiting right now.
-          </p>
+          <div className="py-6 flex flex-col items-center text-center gap-1.5">
+            <span className="material-symbols-outlined text-[28px] text-secondary">
+              check_circle
+            </span>
+            <p className="text-body-sm text-on-surface-variant">
+              All caught up — no pending orders right now.
+            </p>
+          </div>
         )}
       </Card>
     </div>
