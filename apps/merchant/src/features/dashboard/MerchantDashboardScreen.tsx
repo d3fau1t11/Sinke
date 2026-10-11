@@ -4,10 +4,13 @@ import { Card, Button } from "@senik/ui";
 import { ordersApi } from "@senik/api";
 import type { OrderSummary } from "@senik/types";
 import { useMerchantAuthStore } from "../auth/store/merchantAuthStore";
+import { useMerchantWalletStore } from "../finances/store/merchantWalletStore";
+import { formatETB } from "@senik/utils";
 
 export function MerchantDashboardScreen() {
   const navigate = useNavigate();
   const { merchantId, businessName } = useMerchantAuthStore();
+  const { withdrawals } = useMerchantWalletStore();
   const [orders, setOrders] = useState<OrderSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,14 +35,42 @@ export function MerchantDashboardScreen() {
   );
   const ready = orders.filter((o) => o.status === "ready");
   const delivered = orders.filter((o) => o.status === "delivered");
+  const grossEarnings = delivered.reduce((sum, o) => sum + o.subtotal, 0);
+  const totalWithdrawn = withdrawals
+    .filter((w) => w.businessId === merchantId)
+    .reduce((s, w) => s + w.amount, 0);
+  const availableBalance = Math.max(0, grossEarnings - totalWithdrawn);
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-bold text-on-surface">Store Overview</h2>
-        <p className="text-sm text-on-surface-variant">
-          Live operations for {businessName}
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-bold text-on-surface">Store Overview</h2>
+          <p className="text-sm text-on-surface-variant">
+            Live operations for {businessName}
+          </p>
+        </div>
+        <Card
+          variant="outlined"
+          padding="sm"
+          className="bg-primary/5 border-primary/20 flex items-center justify-between gap-4 px-4 py-2"
+        >
+          <div>
+            <p className="text-[10px] font-bold text-primary uppercase">
+              Current Balance
+            </p>
+            <p className="text-base font-black font-mono text-on-surface">
+              {formatETB(availableBalance)}
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => navigate("/finances")}
+          >
+            Payout
+          </Button>
+        </Card>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

@@ -87,4 +87,38 @@ export const productsApi = {
 
     if (error) throw error;
   },
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async create(product: Record<string, any>): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (supabase as any)
+      .from("products")
+      .insert(product)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async update(id: string, updates: Record<string, any>): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any)
+      .from("products")
+      .update(updates)
+      .eq("id", id);
+
+    if (error) throw error;
+  },
+
+  async delete(id: string): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any)
+      .from("products")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+  },
 };

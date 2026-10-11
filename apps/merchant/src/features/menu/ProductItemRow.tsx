@@ -6,12 +6,16 @@ import type { ProductWithOptions } from "@senik/types";
 interface ProductItemRowProps {
   product: ProductWithOptions;
   onToggleAvailability: (productId: string, current: boolean) => void;
+  onEditPrice: (product: ProductWithOptions) => void;
+  onDelete: (productId: string, name: string) => void;
   updatingId: string | null;
 }
 
 export function ProductItemRow({
   product,
   onToggleAvailability,
+  onEditPrice,
+  onDelete,
   updatingId,
 }: ProductItemRowProps) {
   const isUpdating = updatingId === product.id;
@@ -30,12 +34,21 @@ export function ProductItemRow({
         <p className="text-xs text-on-surface-variant truncate">
           {product.name_am}
         </p>
-        <span className="font-mono font-bold text-xs text-primary mt-0.5 block">
-          {formatETB(product.price)}
-        </span>
+        <div className="flex items-center gap-2 mt-1">
+          <span className="font-mono font-bold text-xs text-primary">
+            {formatETB(product.price)}
+          </span>
+          <button
+            type="button"
+            onClick={() => onEditPrice(product)}
+            className="text-[11px] text-primary hover:underline font-semibold"
+          >
+            ✏ Edit Price
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col items-end gap-1 flex-shrink-0">
+      <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
         <button
           type="button"
           disabled={isUpdating}
@@ -48,9 +61,14 @@ export function ProductItemRow({
         >
           {isUpdating ? "..." : product.is_available ? "Available" : "Sold Out"}
         </button>
-        <span className="text-[10px] text-on-surface-variant">
-          Tap to switch
-        </span>
+
+        <button
+          type="button"
+          onClick={() => onDelete(product.id, product.name_en)}
+          className="text-[11px] text-error/80 hover:text-error hover:underline"
+        >
+          🗑 Remove
+        </button>
       </div>
     </Card>
   );

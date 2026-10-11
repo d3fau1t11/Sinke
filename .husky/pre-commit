@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm lint-staged
+npx lint-staged
 if command -v gitleaks > /dev/null 2>&1; then
   gitleaks protect --staged --redact
 fi

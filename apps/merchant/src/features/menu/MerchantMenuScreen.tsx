@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { productsApi } from "@senik/api";
+import { Button } from "@senik/ui";
 import type { ProductWithOptions } from "@senik/types";
 import { useMerchantAuthStore } from "../auth/store/merchantAuthStore";
 import { ProductItemRow } from "./ProductItemRow";
+import { AddProductModal } from "./AddProductModal";
+import { EditPriceModal } from "./EditPriceModal";
 
 export function MerchantMenuScreen() {
   const { merchantId } = useMerchantAuthStore();
   const [products, setProducts] = useState<ProductWithOptions[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editingProduct, setEditingProduct] =
+    useState<ProductWithOptions | null>(null);
 
   const loadMenu = async () => {
     if (!merchantId) return;
@@ -43,13 +49,39 @@ export function MerchantMenuScreen() {
     }
   };
 
+  const handleDelete = async (productId: string, name: string) => {
+    if (
+      !window.confirm(
+        `Are you sure you want to delete "${name}" from your menu?`,
+      )
+    ) {
+      return;
+    }
+    setUpdatingId(productId);
+    try {
+      await productsApi.delete(productId);
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
+    } catch (err) {
+      console.error("Failed to delete product", err);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="text-xl font-bold text-on-surface">Menu & Inventory</h2>
-        <p className="text-xs text-on-surface-variant">
-          Toggle item availability in real-time when dishes run out.
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-xl font-bold text-on-surface">
+            Menu & Inventory
+          </h2>
+          <p className="text-xs text-on-surface-variant">
+            Manage your dishes, adjust ETB prices, and toggle availability.
+          </p>
+        </div>
+        <Button size="sm" variant="primary" onClick={() => setIsAddOpen(true)}>
+          + Add Dish
+        </Button>
       </div>
 
       {loading ? (
@@ -58,10 +90,17 @@ export function MerchantMenuScreen() {
           <p className="text-xs text-on-surface-variant">Loading menu...</p>
         </div>
       ) : products.length === 0 ? (
-        <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10">
+        <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10 space-y-3">
           <p className="text-sm font-semibold text-on-surface">
             No products found for this store
           </p>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => setIsAddOpen(true)}
+          >
+            Add Your First Dish
+          </Button>
         </div>
       ) : (
         <div className="space-y-2">
@@ -70,11 +109,27 @@ export function MerchantMenuScreen() {
               key={prod.id}
               product={prod}
               onToggleAvailability={handleToggle}
+              onEditPrice={(p) => setEditingProduct(p)}
+              onDelete={handleDelete}
               updatingId={updatingId}
             />
           ))}
         </div>
       )}
+
+      <AddProductModal
+        businessId={merchantId || ""}
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        onSuccess={() => void loadMenu()}
+      />
+
+      <EditPriceModal
+        product={editingProduct}
+        isOpen={!!editingProduct}
+        onClose={() => setEditingProduct(null)}
+        onSuccess={() => void loadMenu()}
+      />
     </div>
   );
 }

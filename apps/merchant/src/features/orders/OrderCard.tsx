@@ -97,9 +97,27 @@ export function OrderCard({
             {isUpdating ? "Updating..." : "Mark Ready for Pickup"}
           </Button>
         )}
-        {order.status === "ready" && (
-          <p className="text-xs text-center w-full py-1 text-emerald-700 bg-emerald-50 rounded-lg font-medium">
-            Ready for rider pickup 🚴
+        {(order.status === "ready" || order.status === "picked_up") && (
+          <div className="w-full space-y-1.5">
+            <p className="text-xs text-center w-full py-1 text-emerald-700 bg-emerald-50 rounded-lg font-medium">
+              {order.status === "ready"
+                ? "Ready for rider pickup 🚴"
+                : "Out for delivery with rider 🛵"}
+            </p>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="w-full text-xs"
+              disabled={isUpdating}
+              onClick={() => onUpdateStatus(order.id, "delivered")}
+            >
+              ✓ Mark Completed (Credit Store Balance)
+            </Button>
+          </div>
+        )}
+        {order.status === "delivered" && (
+          <p className="text-xs text-center w-full py-1 text-emerald-800 bg-emerald-100 rounded-lg font-bold">
+            ✓ Delivered & Balance Credited
           </p>
         )}
       </div>

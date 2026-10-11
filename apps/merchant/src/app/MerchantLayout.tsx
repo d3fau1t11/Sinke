@@ -57,6 +57,19 @@ export function MerchantLayout() {
           </span>
           <span>Menu</span>
         </NavLink>
+        <NavLink
+          to="/finances"
+          className={({ isActive }) =>
+            `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
+              isActive ? "text-primary" : "text-on-surface-variant"
+            }`
+          }
+        >
+          <span className="material-symbols-outlined text-[22px]">
+            account_balance_wallet
+          </span>
+          <span>Finances</span>
+        </NavLink>
       </nav>
     </div>
   );
