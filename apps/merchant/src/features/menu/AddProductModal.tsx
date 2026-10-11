@@ -65,17 +65,18 @@ export function AddProductModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface w-full max-w-md rounded-2xl p-6 shadow-2xl border border-outline/10 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center border-b border-outline/10 pb-3">
-          <h3 className="font-bold text-lg text-on-surface">
+      <div className="bg-surface-container-lowest w-full max-w-md rounded-3xl p-6 shadow-level-3 space-y-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center border-b border-outline-variant/60 pb-3">
+          <h3 className="font-display font-bold text-title-md text-on-surface">
             Add New Menu Dish
           </h3>
           <button
             type="button"
             onClick={onClose}
-            className="text-on-surface-variant hover:text-on-surface"
+            className="w-10 h-10 -mr-1 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+            aria-label="Close"
           >
-            ✕
+            <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
@@ -106,7 +107,7 @@ export function AddProductModal({
           <div>
             <label
               htmlFor="dish-category"
-              className="block text-xs font-semibold text-on-surface-variant mb-1"
+              className="block text-label-md text-on-surface-variant mb-1.5"
             >
               Category
             </label>
@@ -114,7 +115,7 @@ export function AddProductModal({
               id="dish-category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-surface-container-low border border-outline/20 rounded-xl px-3 py-2 text-sm text-on-surface focus:outline-none focus:border-primary"
+              className="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-3 py-3 text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
             >
               <option value="Food">Food / ዋና ምግብ</option>
               <option value="Meat & Tibs">Meat & Tibs / ጥብስ እና ክትፎ</option>
@@ -128,19 +129,23 @@ export function AddProductModal({
 
           <DishPhotoPicker imageUrl={imageUrl} onChange={setImageUrl} />
 
-          <label className="flex items-center gap-2 cursor-pointer pt-1">
+          <label className="flex items-center gap-2.5 cursor-pointer pt-1">
             <input
               type="checkbox"
               checked={isFasting}
               onChange={(e) => setIsFasting(e.target.checked)}
               className="rounded text-primary focus:ring-primary w-4 h-4"
             />
-            <span className="text-xs text-on-surface font-medium">
+            <span className="text-body-sm text-on-surface font-medium">
               Fasting Friendly / የጾም ምግብ
             </span>
           </label>
 
-          {error && <p className="text-xs text-error font-medium">{error}</p>}
+          {error && (
+            <p className="text-body-sm text-error font-medium" role="alert">
+              {error}
+            </p>
+          )}
 
           <div className="pt-3 flex gap-2">
             <Button type="button" variant="ghost" fullWidth onClick={onClose}>

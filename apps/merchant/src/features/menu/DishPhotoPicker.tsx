@@ -71,9 +71,12 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={compressing}
-          className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+          className="text-label-sm font-bold text-primary hover:underline inline-flex items-center gap-1"
         >
-          {compressing ? "⏳ Compressing..." : "📸 Take Photo / Upload"}
+          <span className="material-symbols-outlined text-[15px]">
+            {compressing ? "hourglass_top" : "photo_camera"}
+          </span>
+          {compressing ? "Compressing..." : "Take Photo / Upload"}
         </button>
       </div>
 
@@ -92,7 +95,10 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
               onClick={() => fileInputRef.current?.click()}
               disabled={compressing}
             >
-              📸 Retake
+              <span className="material-symbols-outlined text-[16px]">
+                photo_camera
+              </span>
+              Retake
             </Button>
           </div>
         </div>
@@ -101,13 +107,15 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={compressing}
-          className="w-full h-24 border-2 border-dashed border-outline/30 rounded-xl flex flex-col items-center justify-center gap-1 hover:border-primary transition-colors bg-surface-container-lowest"
+          className="w-full h-24 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-1 hover:border-primary hover:bg-primary/5 transition-colors bg-surface-container-lowest"
         >
-          <span className="text-2xl">📸</span>
-          <span className="text-xs font-bold text-on-surface">
+          <span className="material-symbols-outlined text-[26px] text-primary">
+            photo_camera
+          </span>
+          <span className="text-label-sm font-bold text-on-surface">
             Snap Photo from Phone
           </span>
-          <span className="text-[10px] text-on-surface-variant">
+          <span className="text-label-sm text-on-surface-variant">
             Tap to launch camera or gallery
           </span>
         </button>
@@ -116,7 +124,7 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
       {error && <p className="text-xs text-error">{error}</p>}
 
       <div>
-        <p className="text-[10px] font-semibold text-on-surface-variant mb-1">
+        <p className="text-label-sm font-semibold text-on-surface-variant mb-1">
           Or Pick Preset:
         </p>
         <div className="grid grid-cols-4 gap-1.5">
@@ -125,10 +133,11 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
               type="button"
               key={img.label}
               onClick={() => onChange(img.url)}
-              className={`p-1 rounded-lg border text-center transition-all ${
+              aria-pressed={imageUrl === img.url}
+              className={`p-1 rounded-lg border-2 text-center transition-all ${
                 imageUrl === img.url
-                  ? "border-primary bg-primary/10 font-bold"
-                  : "border-outline/20"
+                  ? "border-primary bg-primary/5 font-bold"
+                  : "border-transparent bg-surface-container-low hover:bg-surface-container"
               }`}
             >
               <img
@@ -136,7 +145,7 @@ export function DishPhotoPicker({ imageUrl, onChange }: DishPhotoPickerProps) {
                 alt={img.label}
                 className="w-full h-8 object-cover rounded mb-0.5"
               />
-              <span className="text-[9px] text-on-surface block truncate">
+              <span className="text-micro text-on-surface block truncate">
                 {img.label}
               </span>
             </button>

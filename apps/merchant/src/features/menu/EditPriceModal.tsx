@@ -63,31 +63,32 @@ export function EditPriceModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface w-full max-w-sm rounded-2xl p-6 shadow-2xl border border-outline/10 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center border-b border-outline/10 pb-3">
+      <div className="bg-surface-container-lowest w-full max-w-sm rounded-3xl p-6 shadow-level-3 space-y-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-start border-b border-outline-variant/60 pb-3">
           <div>
-            <h3 className="font-bold text-base text-on-surface">
-              Edit Dish & Price
+            <h3 className="font-display font-bold text-title-md text-on-surface">
+              Edit Dish &amp; Price
             </h3>
-            <p className="text-xs text-on-surface-variant truncate max-w-[240px]">
+            <p className="text-body-sm text-on-surface-variant truncate max-w-[240px]">
               {product.name_en}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-on-surface-variant hover:text-on-surface"
+            className="w-10 h-10 -mr-1 -mt-1 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+            aria-label="Close"
           >
-            ✕
+            <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="text-center py-2 bg-surface-container-low rounded-xl border border-outline/10">
-            <p className="text-[11px] text-on-surface-variant uppercase font-semibold">
+          <div className="text-center py-3 bg-surface-container-low rounded-2xl">
+            <p className="text-micro font-bold text-on-surface-variant uppercase tracking-[0.05em]">
               Current Menu Price
             </p>
-            <p className="text-2xl font-black font-mono text-primary mt-0.5">
+            <p className="font-display font-black text-title-lg text-on-surface mt-1 tabular-nums">
               {formatETB(product.price)}
             </p>
           </div>
@@ -107,7 +108,7 @@ export function EditPriceModal({
                   key={delta}
                   type="button"
                   onClick={() => handleAdjust(delta)}
-                  className="px-2 py-1 rounded text-xs font-semibold bg-surface-container border border-outline/10 hover:border-primary text-on-surface"
+                  className="px-2.5 py-1 rounded-full text-body-sm font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container hover:text-primary transition-colors tabular-nums"
                 >
                   {delta > 0 ? `+${delta}` : delta}
                 </button>
@@ -117,7 +118,11 @@ export function EditPriceModal({
 
           <DishPhotoPicker imageUrl={imageUrl} onChange={setImageUrl} />
 
-          {error && <p className="text-xs text-error font-medium">{error}</p>}
+          {error && (
+            <p className="text-body-sm text-error font-medium" role="alert">
+              {error}
+            </p>
+          )}
 
           <div className="pt-2 flex gap-2">
             <Button type="button" variant="ghost" fullWidth onClick={onClose}>

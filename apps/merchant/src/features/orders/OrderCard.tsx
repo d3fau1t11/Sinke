@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, Button } from "@senik/ui";
+import { Card, Button, StatusBadge } from "@senik/ui";
+import type { StatusTone } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import type { OrderSummary, OrderStatus } from "@senik/types";
 
@@ -9,66 +10,80 @@ interface OrderCardProps {
   updatingId: string | null;
 }
 
+const STATUS_PRESENTATION: Record<
+  string,
+  { tone: StatusTone; label: string; dot?: boolean }
+> = {
+  placed: { tone: "primary", label: "Incoming", dot: true },
+  accepted: { tone: "progress", label: "Accepted" },
+  preparing: { tone: "progress", label: "Preparing", dot: true },
+  ready: { tone: "success", label: "Ready for pickup" },
+  picked_up: { tone: "primary", label: "With rider" },
+  delivered: { tone: "success", label: "Delivered" },
+  cancelled: { tone: "neutral", label: "Cancelled" },
+};
+
 export function OrderCard({
   order,
   onUpdateStatus,
   updatingId,
 }: OrderCardProps) {
   const isUpdating = updatingId === order.id;
+  const presentation = STATUS_PRESENTATION[order.status] ?? {
+    tone: "neutral" as StatusTone,
+    label: order.status,
+  };
 
   return (
-    <Card
-      variant="outlined"
-      padding="md"
-      className="space-y-3 border-outline/20"
-    >
-      <div className="flex items-center justify-between border-b border-outline/10 pb-2">
-        <div>
-          <span className="font-mono font-bold text-sm text-primary">
+    <Card padding="md" className="space-y-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="font-mono font-bold text-body-sm text-primary">
             #{order.order_number}
           </span>
-          <span className="text-xs text-on-surface-variant ml-2">
+          <span className="text-label-sm text-on-surface-variant tabular-nums">
             {new Date(order.created_at).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}
           </span>
         </div>
-        <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-md bg-secondary/10 text-secondary">
-          {order.status}
-        </span>
+        <StatusBadge tone={presentation.tone} dot={presentation.dot}>
+          {presentation.label}
+        </StatusBadge>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5 py-1 border-y border-outline-variant/60">
         {order.order_items?.map((item) => (
-          <div key={item.id} className="flex justify-between text-sm">
-            <span className="text-on-surface">
-              <span className="font-bold text-primary mr-2">
-                {item.quantity}x
-              </span>
+          <div key={item.id} className="flex justify-between text-body-sm gap-3">
+            <span className="text-on-surface truncate">
+              <span className="font-bold text-primary mr-2 tabular-nums">{item.quantity}x</span>
               {item.product?.name_en || "Item"}
             </span>
-            <span className="text-on-surface-variant font-mono">
+            <span className="text-on-surface-variant tabular-nums shrink-0">
               {formatETB(item.price * item.quantity)}
             </span>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-2 border-t border-outline/10 text-sm">
-        <span className="text-xs text-on-surface-variant truncate max-w-[200px]">
-          📍 {order.delivery_address}
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex items-center gap-1.5 text-body-sm text-on-surface-variant min-w-0">
+          <span className="material-symbols-outlined text-[16px] text-primary shrink-0">
+            location_on
+          </span>
+          <span className="truncate">{order.delivery_address}</span>
         </span>
-        <span className="font-bold text-on-surface">
+        <span className="font-display font-extrabold text-title-sm text-on-surface tabular-nums shrink-0">
           {formatETB(order.total)}
         </span>
       </div>
 
-      <div className="flex gap-2 pt-1">
+      <div className="flex gap-2">
         {order.status === "placed" && (
           <>
             <Button
-              size="sm"
+              size="md"
               variant="primary"
               className="flex-1"
               disabled={isUpdating}
@@ -77,7 +92,7 @@ export function OrderCard({
               {isUpdating ? "Updating..." : "Accept & Prepare"}
             </Button>
             <Button
-              size="sm"
+              size="md"
               variant="danger"
               disabled={isUpdating}
               onClick={() => onUpdateStatus(order.id, "cancelled")}
@@ -88,7 +103,7 @@ export function OrderCard({
         )}
         {(order.status === "preparing" || order.status === "accepted") && (
           <Button
-            size="sm"
+            size="md"
             variant="primary"
             className="w-full"
             disabled={isUpdating}
@@ -98,26 +113,34 @@ export function OrderCard({
           </Button>
         )}
         {(order.status === "ready" || order.status === "picked_up") && (
-          <div className="w-full space-y-1.5">
-            <p className="text-xs text-center w-full py-1 text-emerald-700 bg-emerald-50 rounded-lg font-medium">
+          <div className="w-full space-y-2">
+            <p className="w-full py-1.5 px-3 rounded-xl bg-secondary/10 text-secondary text-body-sm font-semibold text-center flex items-center justify-center gap-1.5">
+              <span className="material-symbols-outlined text-[16px]">
+                {order.status === "ready" ? "package_2" : "two_wheeler"}
+              </span>
               {order.status === "ready"
-                ? "Ready for rider pickup 🚴"
-                : "Out for delivery with rider 🛵"}
+                ? "Waiting for rider pickup"
+                : "Out for delivery with rider"}
             </p>
             <Button
-              size="sm"
-              variant="secondary"
-              className="w-full text-xs"
+              size="md"
+              variant="primary"
+              className="w-full"
               disabled={isUpdating}
               onClick={() => onUpdateStatus(order.id, "delivered")}
             >
-              ✓ Mark Completed (Credit Store Balance)
+              {isUpdating
+                ? "Updating..."
+                : "Mark Completed (Credit Store Balance)"}
             </Button>
           </div>
         )}
         {order.status === "delivered" && (
-          <p className="text-xs text-center w-full py-1 text-emerald-800 bg-emerald-100 rounded-lg font-bold">
-            ✓ Delivered & Balance Credited
+          <p className="w-full py-1.5 rounded-xl bg-secondary/10 text-secondary text-body-sm font-bold text-center flex items-center justify-center gap-1.5">
+            <span className="material-symbols-outlined text-[17px]">
+              task_alt
+            </span>
+            Delivered &amp; balance credited
           </p>
         )}
       </div>

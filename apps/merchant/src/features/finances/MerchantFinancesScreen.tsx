@@ -1,11 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "@senik/ui";
+import { Card, Button, StatusBadge, Skeleton, EmptyState } from "@senik/ui";
 import { formatETB } from "@senik/utils";
 import { ordersApi } from "@senik/api";
 import type { OrderSummary } from "@senik/types";
 import { useMerchantAuthStore } from "../auth/store/merchantAuthStore";
 import { useMerchantWalletStore } from "./store/merchantWalletStore";
 import { WithdrawalModal } from "./WithdrawalModal";
+
+interface StatTileProps {
+  label: string;
+  value: string;
+  helper: string;
+  emphasis?: boolean;
+  pending?: boolean;
+}
+
+function StatTile({ label, value, helper, emphasis = false, pending = false }: StatTileProps) {
+  return (
+    <Card
+      padding="md"
+      className={emphasis ? "bg-secondary/5" : pending ? "bg-tertiary-fixed/20" : undefined}
+    >
+      <p className="text-micro font-bold uppercase tracking-[0.05em] text-on-surface-variant">
+        {label}
+      </p>
+      <p
+        className={`font-display font-black text-title-lg mt-1 tabular-nums ${
+          pending ? "text-tertiary" : "text-secondary"
+        }`}
+      >
+        {value}
+      </p>
+      <p className="text-label-sm text-on-surface-variant/80 mt-0.5">{helper}</p>
+    </Card>
+  );
+}
 
 export function MerchantFinancesScreen() {
   const { merchantId, businessName } = useMerchantAuthStore();
@@ -42,19 +71,20 @@ export function MerchantFinancesScreen() {
     .reduce((sum, w) => sum + w.amount, 0);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-5">
+      <div className="flex justify-between items-center gap-3">
         <div>
-          <h2 className="text-xl font-bold text-on-surface">
-            Finances & Payouts
+          <h2 className="font-display font-bold text-title-lg text-on-surface">
+            Finances &amp; Payouts
           </h2>
-          <p className="text-xs text-on-surface-variant">
-            Live balance and withdrawal requests for {businessName}
+          <p className="text-body-sm text-on-surface-variant">
+            Live balance for {businessName}
           </p>
         </div>
         <Button
           size="sm"
           variant="primary"
+          className="shrink-0"
           onClick={() => setIsModalOpen(true)}
           disabled={availableBalance <= 0}
         >
@@ -63,114 +93,91 @@ export function MerchantFinancesScreen() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-primary/20 bg-primary/5"
-        >
-          <p className="text-xs font-semibold text-primary">
-            AVAILABLE BALANCE
-          </p>
-          <p className="text-2xl font-black text-on-surface mt-1 font-mono">
-            {formatETB(availableBalance)}
-          </p>
-          <p className="text-[11px] text-on-surface-variant mt-0.5">
-            Ready to withdraw to CBE / telebirr
-          </p>
-        </Card>
-
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-secondary/20 bg-secondary/5"
-        >
-          <p className="text-xs font-semibold text-secondary">LIFETIME SALES</p>
-          <p className="text-2xl font-black text-on-surface mt-1 font-mono">
-            {formatETB(grossEarnings)}
-          </p>
-          <p className="text-[11px] text-on-surface-variant mt-0.5">
-            {delivered.length} completed order(s)
-          </p>
-        </Card>
-
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-amber-200 bg-amber-50/50"
-        >
-          <p className="text-xs font-semibold text-amber-700">
-            PENDING PAYOUTS
-          </p>
-          <p className="text-2xl font-black text-amber-800 mt-1 font-mono">
-            {formatETB(pendingAmount)}
-          </p>
-          <p className="text-[11px] text-amber-600 mt-0.5">
-            Under verification
-          </p>
-        </Card>
-
-        <Card
-          variant="outlined"
-          padding="md"
-          className="border-gray-200 bg-gray-50/50"
-        >
-          <p className="text-xs font-semibold text-gray-700">TOTAL WITHDRAWN</p>
-          <p className="text-2xl font-black text-gray-800 mt-1 font-mono">
-            {formatETB(totalWithdrawn)}
-          </p>
-          <p className="text-[11px] text-gray-600 mt-0.5">
-            {bizWithdrawals.length} withdrawal(s)
-          </p>
-        </Card>
+        <StatTile
+          label="Available Balance"
+          value={formatETB(availableBalance)}
+          helper="Ready to withdraw to CBE / telebirr"
+          emphasis
+        />
+        <StatTile
+          label="Lifetime Sales"
+          value={formatETB(grossEarnings)}
+          helper={`${delivered.length} completed order(s)`}
+        />
+        <StatTile
+          label="Pending Payouts"
+          value={formatETB(pendingAmount)}
+          helper="Under verification"
+          pending
+        />
+        <StatTile
+          label="Total Withdrawn"
+          value={formatETB(totalWithdrawn)}
+          helper={`${bizWithdrawals.length} withdrawal(s)`}
+        />
       </div>
 
-      <Card variant="outlined" padding="md" className="space-y-4">
-        <h3 className="font-bold text-sm text-on-surface">
+      <Card padding="md" className="space-y-4">
+        <h3 className="font-display font-bold text-title-md text-on-surface">
           Recent Payout Requests
         </h3>
         {loading ? (
-          <p className="text-xs text-on-surface-variant py-4 text-center">
-            Loading transactions...
-          </p>
-        ) : bizWithdrawals.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-sm font-medium text-on-surface">
-              No withdrawal requests yet
-            </p>
-            <p className="text-xs text-on-surface-variant mt-1">
-              Earnings from delivered orders will appear in your balance.
-            </p>
+          <div className="space-y-2">
+            <Skeleton variant="rectangular" height="64px" />
+            <Skeleton variant="rectangular" height="64px" />
           </div>
+        ) : bizWithdrawals.length === 0 ? (
+          <EmptyState
+            t={(k) => k}
+            isAm={false}
+            title="No withdrawal requests yet"
+            message="Earnings from delivered orders will appear in your balance."
+            icon={
+              <span className="material-symbols-outlined text-[40px]">
+                account_balance_wallet
+              </span>
+            }
+          />
         ) : (
           <div className="space-y-2">
             {bizWithdrawals.map((w) => (
               <div
                 key={w.id}
-                className="p-3 rounded-xl border border-outline/10 bg-surface flex justify-between items-center"
+                className="p-3.5 rounded-2xl bg-surface-container-low flex justify-between items-center gap-3"
               >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm">
-                      {w.method === "cbe" ? "🏦 CBE" : "📱 telebirr"}
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-9 h-9 rounded-full bg-surface-container-lowest shadow-level-1 text-primary flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-[18px]">
+                      {w.method === "cbe" ? "account_balance" : "smartphone"}
                     </span>
-                    <span className="text-xs text-on-surface-variant font-mono">
-                      ({w.referenceNumber})
-                    </span>
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-body-sm text-on-surface">
+                        {w.method === "cbe" ? "CBE" : "telebirr"}
+                      </span>
+                      <span className="text-label-sm text-on-surface-variant font-mono">
+                        ({w.referenceNumber})
+                      </span>
+                    </div>
+                    <p className="text-label-sm text-on-surface-variant truncate">
+                      {w.accountName} · {w.accountNumber}
+                    </p>
+                    <p className="text-micro text-on-surface-variant/70">
+                      {new Date(w.requestedAt).toLocaleString()}
+                    </p>
                   </div>
-                  <p className="text-xs text-on-surface-variant mt-0.5">
-                    {w.accountName} • {w.accountNumber}
-                  </p>
-                  <p className="text-[10px] text-on-surface-variant">
-                    {new Date(w.requestedAt).toLocaleString()}
-                  </p>
                 </div>
-                <div className="text-right">
-                  <p className="font-mono font-bold text-sm text-primary">
+                <div className="text-right shrink-0">
+                  <p className="font-mono font-bold text-body-sm text-secondary tabular-nums">
                     {formatETB(w.amount)}
                   </p>
-                  <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800">
+                  <StatusBadge
+                    tone={w.status === "completed" ? "success" : "progress"}
+                    className="mt-1"
+                  >
                     {w.status}
-                  </span>
+                  </StatusBadge>
                 </div>
               </div>
             ))}

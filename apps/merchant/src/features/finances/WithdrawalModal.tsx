@@ -59,15 +59,15 @@ export function WithdrawalModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface w-full max-w-md rounded-2xl p-6 shadow-2xl border border-outline/10 space-y-4">
-        <div className="flex justify-between items-center border-b border-outline/10 pb-3">
+      <div className="bg-surface-container-lowest w-full max-w-md rounded-3xl p-6 shadow-level-3 space-y-4">
+        <div className="flex justify-between items-start border-b border-outline-variant/60 pb-3">
           <div>
-            <h3 className="font-bold text-lg text-on-surface">
+            <h3 className="font-display font-bold text-title-md text-on-surface">
               Request Withdrawal
             </h3>
-            <p className="text-xs text-on-surface-variant">
+            <p className="text-body-sm text-on-surface-variant">
               Available:{" "}
-              <span className="font-mono font-bold text-primary">
+              <span className="font-mono font-bold text-secondary tabular-nums">
                 {formatETB(availableBalance)}
               </span>
             </p>
@@ -75,33 +75,59 @@ export function WithdrawalModal({
           <button
             type="button"
             onClick={onClose}
-            className="text-on-surface-variant hover:text-on-surface"
+            className="w-10 h-10 -mr-1 -mt-1 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+            aria-label="Close"
           >
-            ✕
+            <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Payout method — selection uses the terracotta border pattern */}
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => setMethod("cbe")}
-              className={`p-2.5 rounded-xl border text-left ${method === "cbe" ? "border-primary bg-primary/10 text-primary font-bold" : "border-outline/20 text-on-surface"}`}
+              aria-pressed={method === "cbe"}
+              className={`p-3 rounded-xl border-2 text-left transition-all ${
+                method === "cbe"
+                  ? "border-primary bg-primary/5"
+                  : "border-transparent bg-surface-container-low hover:bg-surface-container"
+              }`}
             >
-              <div className="text-sm">🏦 CBE</div>
-              <div className="text-[10px] text-on-surface-variant">
+              <span className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-primary">
+                  account_balance
+                </span>
+                <span className="text-body-sm font-bold text-on-surface">
+                  CBE
+                </span>
+              </span>
+              <span className="text-label-sm text-on-surface-variant block mt-0.5">
                 Commercial Bank
-              </div>
+              </span>
             </button>
             <button
               type="button"
               onClick={() => setMethod("telebirr")}
-              className={`p-2.5 rounded-xl border text-left ${method === "telebirr" ? "border-secondary bg-secondary/10 text-secondary font-bold" : "border-outline/20 text-on-surface"}`}
+              aria-pressed={method === "telebirr"}
+              className={`p-3 rounded-xl border-2 text-left transition-all ${
+                method === "telebirr"
+                  ? "border-primary bg-primary/5"
+                  : "border-transparent bg-surface-container-low hover:bg-surface-container"
+              }`}
             >
-              <div className="text-sm">📱 telebirr</div>
-              <div className="text-[10px] text-on-surface-variant">
+              <span className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-primary">
+                  smartphone
+                </span>
+                <span className="text-body-sm font-bold text-on-surface">
+                  telebirr
+                </span>
+              </span>
+              <span className="text-label-sm text-on-surface-variant block mt-0.5">
                 Mobile Payout
-              </div>
+              </span>
             </button>
           </div>
 
@@ -139,7 +165,7 @@ export function WithdrawalModal({
                   onClick={() =>
                     setAmountStr(String(Math.floor(availableBalance * pct)))
                   }
-                  className="px-2 py-0.5 rounded text-[11px] bg-surface-container border border-outline/10 text-on-surface-variant hover:text-primary"
+                  className="px-2.5 py-1 rounded-full text-label-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors tabular-nums"
                 >
                   {pct === 1.0 ? "100% (All)" : `${pct * 100}%`}
                 </button>
@@ -147,7 +173,11 @@ export function WithdrawalModal({
             </div>
           </div>
 
-          {error && <p className="text-xs text-error font-medium">{error}</p>}
+          {error && (
+            <p className="text-body-sm text-error font-medium" role="alert">
+              {error}
+            </p>
+          )}
 
           <div className="pt-2 flex gap-2">
             <Button type="button" variant="ghost" fullWidth onClick={onClose}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { productsApi } from "@senik/api";
-import { Button } from "@senik/ui";
+import { Button, Skeleton, EmptyState } from "@senik/ui";
 import type { ProductWithOptions } from "@senik/types";
 import { useMerchantAuthStore } from "../auth/store/merchantAuthStore";
 import { ProductItemRow } from "./ProductItemRow";
@@ -70,38 +70,56 @@ export function MerchantMenuScreen() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-3">
         <div>
-          <h2 className="text-xl font-bold text-on-surface">
-            Menu & Inventory
+          <h2 className="font-display font-bold text-title-lg text-on-surface">
+            Menu &amp; Inventory
           </h2>
-          <p className="text-xs text-on-surface-variant">
-            Manage your dishes, adjust ETB prices, and toggle availability.
+          <p className="text-body-sm text-on-surface-variant">
+            Manage dishes, prices and availability.
           </p>
         </div>
-        <Button size="sm" variant="primary" onClick={() => setIsAddOpen(true)}>
-          + Add Dish
+        <Button
+          size="sm"
+          variant="primary"
+          onClick={() => setIsAddOpen(true)}
+          className="shrink-0"
+        >
+          <span className="material-symbols-outlined text-[17px]">add</span>
+          Add Dish
         </Button>
       </div>
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-          <p className="text-xs text-on-surface-variant">Loading menu...</p>
+        <div className="space-y-2">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="bg-surface-container-lowest rounded-2xl shadow-level-1 p-3 flex items-center gap-3"
+            >
+              <Skeleton variant="rectangular" width="56px" height="56px" />
+              <div className="flex-1 space-y-2">
+                <Skeleton variant="text" width="60%" />
+                <Skeleton variant="text" width="40%" />
+              </div>
+              <Skeleton variant="text" width="64px" height="24px" />
+            </div>
+          ))}
         </div>
       ) : products.length === 0 ? (
-        <div className="text-center py-16 bg-surface rounded-2xl border border-outline/10 space-y-3">
-          <p className="text-sm font-semibold text-on-surface">
-            No products found for this store
-          </p>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => setIsAddOpen(true)}
-          >
-            Add Your First Dish
-          </Button>
-        </div>
+        <EmptyState
+          t={(k) => k}
+          isAm={false}
+          title="No products yet"
+          message="Add your first dish to start receiving orders."
+          actionLabel="Add Your First Dish"
+          onAction={() => setIsAddOpen(true)}
+          icon={
+            <span className="material-symbols-outlined text-[40px]">
+              restaurant_menu
+            </span>
+          }
+        />
       ) : (
         <div className="space-y-2">
           {products.map((prod) => (
