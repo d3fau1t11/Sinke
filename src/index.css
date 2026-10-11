@@ -20,6 +20,22 @@
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     overflow-x: hidden;
+    /* Quiet Luxury: comfortable reading floor */
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Accessible keyboard focus (WCAG 2.1) */
+  :focus-visible {
+    outline: 2px solid #a73400;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Numerals in prices stay aligned */
+  .tnum {
+    font-variant-numeric: tabular-nums;
   }
 }
 

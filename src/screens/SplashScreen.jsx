@@ -25,7 +25,7 @@ export default function SplashScreen() {
 
       {/* Top tiny area pill */}
       <div className="z-10 pt-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ffeadf] border border-[#e1bfb5] text-[#a73400] text-xs font-semibold shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ffeadf] text-[#a73400] text-[12px] font-semibold shadow-level-1">
           <span className="w-2 h-2 rounded-full bg-[#1b6d24] animate-pulse"></span>
           <span>Tuludimtu • Koye Feche • Akaki Kality</span>
         </div>
@@ -35,7 +35,7 @@ export default function SplashScreen() {
       <div className="z-10 flex flex-col items-center text-center space-y-4 my-auto">
         {/* Animated Brand Logo Container */}
         <div className="relative group">
-          <div className="w-28 h-28 rounded-3xl bg-white shadow-xl border-2 border-[#e1bfb5] p-2 flex items-center justify-center relative overflow-hidden transition-transform duration-500 hover:scale-105">
+          <div className="w-28 h-28 rounded-3xl bg-white shadow-level-3 p-2 flex items-center justify-center relative overflow-hidden transition-transform duration-500 hover:scale-105">
             <img
               src="/senik-logo.jpg"
               alt="ስንቅ (Senik) Logo"
@@ -48,7 +48,7 @@ export default function SplashScreen() {
 
         {/* Brand Name Typography */}
         <div className="space-y-1">
-          <h1 className="font-display font-black text-4xl sm:text-5xl text-[#a73400] tracking-tight drop-shadow-xs">
+          <h1 className="font-display font-black text-4xl sm:text-5xl text-[#a73400] tracking-tight drop-shadow-sm">
             ስንቅ
           </h1>
           <p className="font-display font-extrabold text-xl text-[#aa6400] tracking-widest">
@@ -56,7 +56,7 @@ export default function SplashScreen() {
           </p>
         </div>
 
-        <p className="text-[#594139] text-sm max-w-[240px] font-medium leading-relaxed">
+        <p className="text-[#594139] text-[15px] max-w-[250px] font-medium leading-relaxed">
           {lang === 'am' ? 'የሰፈርዎ ፈጣን አቅርቦት' : 'Your neighborhood, delivered.'}
         </p>
       </div>
@@ -68,7 +68,7 @@ export default function SplashScreen() {
           <span className="w-2 h-2 rounded-full bg-[#aa6400] animate-bounce" style={{ animationDelay: '150ms' }}></span>
           <span className="w-2 h-2 rounded-full bg-[#1b6d24] animate-bounce" style={{ animationDelay: '300ms' }}></span>
         </div>
-        <span className="text-[11px] text-[#8d7168] font-medium">
+        <span className="text-[12px] text-[#8d7168] font-medium">
           {lang === 'am' ? 'ለመቀጠል ይንኩ • Tap anywhere to enter' : 'Tap anywhere to enter • ለመቀጠል ይንኩ'}
         </span>
       </div>

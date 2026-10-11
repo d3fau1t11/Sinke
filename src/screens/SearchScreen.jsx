@@ -6,12 +6,34 @@ import ProductCard from '../components/ProductCard';
 import BusinessCard from '../components/BusinessCard';
 
 export default function SearchScreen() {
-  const { lang, searchQuery, setSearchQuery, navigateTo } = useApp();
+  const {
+    lang,
+    searchQuery,
+    setSearchQuery,
+    dietaryFilter,
+    setDietaryFilter,
+    navigateTo
+  } = useApp();
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'dishes', 'businesses'
   const [selectedCat, setSelectedCat] = useState('all');
   const isAm = lang === 'am';
 
   const query = (searchQuery || '').trim().toLowerCase();
+
+  // Dietary preference (moved here from Home to simplify the home feed)
+  const businessesById = Object.fromEntries(BUSINESSES.map((b) => [b.id, b]));
+  const matchesDietaryBusiness = (b) =>
+    dietaryFilter === 'all' ||
+    (dietaryFilter === 'fasting' && b.isFastingFriendly) ||
+    (dietaryFilter === 'halal' && b.isHalal) ||
+    (dietaryFilter === 'top' && b.rating >= 4.8);
+  const matchesDietaryProduct = (p) => {
+    if (dietaryFilter === 'all') return true;
+    if (dietaryFilter === 'fasting') return p.isFasting;
+    if (dietaryFilter === 'top') return p.rating >= 4.8;
+    const owner = businessesById[p.businessId];
+    return Boolean(owner && owner.isHalal);
+  };
 
   // Matching dishes
   const matchingProducts = PRODUCTS.filter((p) => {
@@ -25,7 +47,7 @@ export default function SearchScreen() {
       (p.tagsEn && p.tagsEn.some((t) => t.toLowerCase().includes(query)));
 
     const matchesCat = selectedCat === 'all' || p.category === selectedCat;
-    return matchesText && matchesCat;
+    return matchesText && matchesCat && matchesDietaryProduct(p);
   });
 
   // Matching businesses
@@ -40,8 +62,15 @@ export default function SearchScreen() {
       (b.tagsEn && b.tagsEn.some((t) => t.toLowerCase().includes(query)));
 
     const matchesCat = selectedCat === 'all' || b.category === selectedCat;
-    return matchesText && matchesCat;
+    return matchesText && matchesCat && matchesDietaryBusiness(b);
   });
+
+  const dietaryChips = [
+    { id: 'all', labelAm: 'ሁሉም', labelEn: 'All' },
+    { id: 'fasting', labelAm: 'የፆም (Tsom)', labelEn: 'Fasting (Tsom)' },
+    { id: 'halal', labelAm: 'ሃላል (Halal)', labelEn: 'Halal' },
+    { id: 'top', labelAm: '⭐ ምርጥ ደረጃ', labelEn: '⭐ Top Rated' }
+  ];
 
   const popularKeywords = [
     { am: 'ጥብስ', en: 'Tibs' },
@@ -67,35 +96,36 @@ export default function SearchScreen() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={isAm ? "ምግብ፣ ሸቀጥ፣ ምግብ ቤቶችን ይፈልጉ..." : "Search dishes, groceries, restaurants..."}
             autoFocus
-            className="w-full bg-white rounded-2xl border-2 border-[#e1bfb5] focus:border-[#a73400] pl-10 pr-10 py-3 text-sm text-[#261911] shadow-sm outline-none transition-colors"
+            className="w-full bg-white rounded-2xl border border-[#eadfd9] focus:border-[#a73400] focus:ring-4 focus:ring-[#a73400]/10 pl-11 pr-11 py-3.5 text-[15px] text-[#261911] shadow-level-1 outline-none transition-all"
           />
-          <span className="material-symbols-outlined absolute left-3 top-3.5 text-[#a73400] text-[20px]">
+          <span className="material-symbols-outlined absolute left-3.5 top-3.5 text-[#a73400] text-[21px]">
             search
           </span>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-3 text-[#594139] hover:text-[#261911] p-1"
+              className="absolute right-3 top-3.5 text-[#594139] hover:text-[#261911] p-1"
+              aria-label="Clear search"
             >
-              <span className="material-symbols-outlined text-[18px]">cancel</span>
+              <span className="material-symbols-outlined text-[19px]">cancel</span>
             </button>
           )}
         </div>
 
         {/* Quick Suggestion Chips when empty */}
         {!query && (
-          <div className="space-y-2">
-            <h4 className="font-display font-bold text-xs text-[#594139] uppercase tracking-wider">
+          <div className="space-y-2.5">
+            <h4 className="font-display font-bold text-[13px] text-[#594139] uppercase tracking-[0.06em]">
               {isAm ? 'ተወዳጅ ፍለጋዎች' : 'Trending Searches'}
             </h4>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {popularKeywords.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSearchQuery(isAm ? item.am : item.en)}
-                  className="bg-white hover:bg-[#fff1eb] text-[#261911] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#e1bfb5] shadow-2xs active:scale-95 transition-all flex items-center gap-1"
+                  className="bg-white hover:bg-[#fff1eb] text-[#261911] text-[13px] font-semibold px-3.5 py-1.5 rounded-full shadow-level-1 active:scale-95 transition-all flex items-center gap-1.5"
                 >
-                  <span className="material-symbols-outlined text-[14px] text-[#a73400]">trending_up</span>
+                  <span className="material-symbols-outlined text-[15px] text-[#a73400]">trending_up</span>
                   <span>{isAm ? item.am : item.en}</span>
                 </button>
               ))}
@@ -104,13 +134,13 @@ export default function SearchScreen() {
         )}
 
         {/* Category Filters */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button
             onClick={() => setSelectedCat('all')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${
+            className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all ${
               selectedCat === 'all'
-                ? 'bg-[#a73400] text-white border-[#a73400]'
-                : 'bg-white text-[#594139] border-[#e1bfb5]'
+                ? 'bg-[#a73400] text-white shadow-[0_6px_16px_-8px_rgba(167,52,0,0.55)]'
+                : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
             }`}
           >
             {isAm ? 'ሁሉም ምድብ' : 'All Categories'}
@@ -119,40 +149,57 @@ export default function SearchScreen() {
             <button
               key={cat.id}
               onClick={() => setSelectedCat(cat.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border flex items-center gap-1 ${
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 selectedCat === cat.id
-                  ? 'bg-[#a73400] text-white border-[#a73400]'
-                  : 'bg-white text-[#594139] border-[#e1bfb5]'
+                  ? 'bg-[#a73400] text-white shadow-[0_6px_16px_-8px_rgba(167,52,0,0.55)]'
+                  : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
               }`}
             >
-              <span className="material-symbols-outlined text-[14px]">{cat.icon}</span>
+              <span className="material-symbols-outlined text-[15px]">{cat.icon}</span>
               <span>{isAm ? cat.nameAm : cat.nameEn}</span>
             </button>
           ))}
         </div>
 
+        {/* Dietary Preference Filters */}
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+          {dietaryChips.map((chip) => (
+            <button
+              key={chip.id}
+              onClick={() => setDietaryFilter(chip.id)}
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all ${
+                dietaryFilter === chip.id
+                  ? 'bg-[#261911] text-white shadow-sm'
+                  : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
+              }`}
+            >
+              {isAm ? chip.labelAm : chip.labelEn}
+            </button>
+          ))}
+        </div>
+
         {/* Segment Tabs: All / Dishes / Businesses */}
-        <div className="flex bg-[#ffeadf] p-1 rounded-xl border border-[#e1bfb5] text-xs">
+        <div className="flex bg-[#f6ede8] p-1 rounded-xl text-[13px]">
           <button
             onClick={() => setActiveTab('all')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeTab === 'all' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeTab === 'all' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ሁሉም' : 'All'} ({matchingProducts.length + matchingBusinesses.length})
           </button>
           <button
             onClick={() => setActiveTab('dishes')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeTab === 'dishes' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeTab === 'dishes' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ምግቦችና እቃዎች' : 'Items'} ({matchingProducts.length})
           </button>
           <button
             onClick={() => setActiveTab('businesses')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeTab === 'businesses' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeTab === 'businesses' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ሱቆች' : 'Businesses'} ({matchingBusinesses.length})

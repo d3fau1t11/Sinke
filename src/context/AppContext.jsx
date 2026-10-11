@@ -13,7 +13,7 @@ export function AppProvider({ children }) {
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
   const [dietaryFilter, setDietaryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [deliveryMode, setDeliveryMode] = useState('bajaj'); // 'bajaj', 'motor', 'carry'
+  const [deliveryMode, setDeliveryMode] = useState('motor'); // 'bajaj', 'motor', 'carry' — fastest preselected
   
   // Cart state
   const [cart, setCart] = useState([

@@ -49,7 +49,7 @@ export default function BottomNavigation() {
   }
 
   return (
-    <nav className="sticky bottom-0 left-0 right-0 z-40 bg-[#fff8f5]/95 backdrop-blur-md border-t border-[#e1bfb5]/50 px-2 py-1.5 shadow-[0_-4px_12px_rgba(45,31,23,0.04)]">
+    <nav className="sticky bottom-0 left-0 right-0 z-40 bg-[#fff8f5]/95 backdrop-blur-md border-t border-[#f1e7e1] px-2 py-2 shadow-[0_-4px_16px_rgba(45,31,23,0.05)]">
       <div className="flex items-center justify-around">
         {navItems.map((item) => {
           const isActive = currentScreen === item.id || 
@@ -60,6 +60,7 @@ export default function BottomNavigation() {
             <button
               key={item.id}
               onClick={() => navigateTo(item.id)}
+              aria-label={lang === 'am' ? item.labelAm : item.labelEn}
               className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all relative ${
                 isActive
                   ? 'text-[#a73400] font-bold'
@@ -73,7 +74,7 @@ export default function BottomNavigation() {
                 }`}
               >
                 <span
-                  className="material-symbols-outlined text-[21px]"
+                  className="material-symbols-outlined text-[22px]"
                   style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 600" } : { fontVariationSettings: "'FILL' 0, 'wght' 400" }}
                 >
                   {item.icon}
@@ -81,13 +82,13 @@ export default function BottomNavigation() {
 
                 {/* Badge Count */}
                 {Boolean(item.badge && item.badge > 0) && (
-                  <span className="absolute -top-1 -right-1 bg-[#a73400] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-[#fff8f5] shadow-sm animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-[#a73400] text-white text-[10px] font-bold min-w-[17px] h-[17px] px-0.5 rounded-full flex items-center justify-center border-2 border-[#fff8f5] shadow-sm">
                     {item.badge}
                   </span>
                 )}
               </div>
 
-              <span className={`text-[10px] mt-0.5 tracking-tight ${isActive ? 'font-bold text-[#a73400]' : 'text-[#594139]'}`}>
+              <span className={`text-[11px] mt-1 tracking-tight ${isActive ? 'font-bold text-[#a73400]' : 'text-[#594139]'}`}>
                 {lang === 'am' ? item.labelAm : item.labelEn}
               </span>
             </button>

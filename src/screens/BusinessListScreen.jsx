@@ -23,15 +23,15 @@ export default function BusinessListScreen() {
         title={isAm ? 'የሰፈር ሱቆችና ምግብ ቤቶች' : 'Local Businesses'}
       />
 
-      <div className="flex-1 px-4 py-3 space-y-4">
+      <div className="flex-1 px-4 py-4 space-y-3">
         {/* Category Filter Pills */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button
             onClick={() => setSelectedCategoryFilter('all')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${
+            className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all ${
               selectedCategoryFilter === 'all'
-                ? 'bg-[#a73400] text-white border-[#a73400]'
-                : 'bg-white text-[#594139] border-[#e1bfb5]'
+                ? 'bg-[#a73400] text-white shadow-[0_6px_16px_-8px_rgba(167,52,0,0.55)]'
+                : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
             }`}
           >
             {isAm ? 'ሁሉም ምድብ' : 'All Categories'}
@@ -40,26 +40,26 @@ export default function BusinessListScreen() {
             <button
               key={cat.id}
               onClick={() => setSelectedCategoryFilter(cat.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border flex items-center gap-1 ${
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 selectedCategoryFilter === cat.id
-                  ? 'bg-[#a73400] text-white border-[#a73400]'
-                  : 'bg-white text-[#594139] border-[#e1bfb5]'
+                  ? 'bg-[#a73400] text-white shadow-[0_6px_16px_-8px_rgba(167,52,0,0.55)]'
+                  : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
               }`}
             >
-              <span className="material-symbols-outlined text-[14px]">{cat.icon}</span>
+              <span className="material-symbols-outlined text-[15px]">{cat.icon}</span>
               <span>{isAm ? cat.nameAm : cat.nameEn}</span>
             </button>
           ))}
         </div>
 
-        {/* Zone Filter Chips */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+        {/* Zone Filter Chips (secondary filter — dark selection) */}
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button
             onClick={() => setActiveZone('all')}
-            className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all border ${
+            className={`px-3.5 py-1.5 rounded-full text-[12px] font-bold transition-all ${
               activeZone === 'all'
-                ? 'bg-[#261911] text-white border-[#261911]'
-                : 'bg-[#fff1eb] text-[#594139] border-[#e1bfb5]'
+                ? 'bg-[#261911] text-white shadow-sm'
+                : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
             }`}
           >
             {isAm ? 'ሁሉም ሰፈሮች' : 'All Zones'}
@@ -68,10 +68,10 @@ export default function BusinessListScreen() {
             <button
               key={n.id}
               onClick={() => setActiveZone(n.id)}
-              className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all border ${
+              className={`px-3.5 py-1.5 rounded-full text-[12px] font-bold transition-all ${
                 activeZone === n.id
-                  ? 'bg-[#261911] text-white border-[#261911]'
-                  : 'bg-[#fff1eb] text-[#594139] border-[#e1bfb5]'
+                  ? 'bg-[#261911] text-white shadow-sm'
+                  : 'bg-[#f6ede8] text-[#594139] hover:bg-[#ffeadf]'
               }`}
             >
               {isAm ? n.nameAm : n.nameEn}
@@ -81,9 +81,9 @@ export default function BusinessListScreen() {
 
         {/* Business Cards Feed */}
         <div className="space-y-3 pt-1">
-          <div className="flex items-center justify-between text-xs text-[#594139] px-1">
-            <span>{filteredBusinesses.length} {isAm ? 'ሱቆች ተገኝተዋል' : 'merchants found'}</span>
-            <span className="flex items-center gap-1 text-[#1b6d24] font-semibold">
+          <div className="flex items-center justify-between text-[13px] text-[#594139] px-1">
+            <span className="tnum">{filteredBusinesses.length} {isAm ? 'ሱቆች ተገኝተዋል' : 'merchants found'}</span>
+            <span className="flex items-center gap-1.5 text-[#1b6d24] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1b6d24] animate-pulse"></span>
               {isAm ? 'ፈጣን ማድረሻ ክፍት' : 'Fast Delivery Open'}
             </span>

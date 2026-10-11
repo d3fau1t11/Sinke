@@ -51,29 +51,29 @@ export default function OrdersScreen() {
         showBack={false}
       />
 
-      <div className="flex-1 px-4 py-3 space-y-4">
+      <div className="flex-1 px-4 py-4 space-y-4">
         {/* Tabs: All / Active / Past */}
-        <div className="flex bg-[#ffeadf] p-1 rounded-xl border border-[#e1bfb5] text-xs">
+        <div className="flex bg-[#f6ede8] p-1 rounded-xl text-[13px]">
           <button
             onClick={() => setActiveFilter('all')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeFilter === 'all' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeFilter === 'all' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ሁሉም' : 'All'} ({orders.length})
           </button>
           <button
             onClick={() => setActiveFilter('active')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeFilter === 'active' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeFilter === 'active' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ወቅታዊ' : 'Active'} ({orders.filter((o) => o.status !== 'delivered').length})
           </button>
           <button
             onClick={() => setActiveFilter('past')}
-            className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-              activeFilter === 'past' ? 'bg-white text-[#a73400] shadow-xs' : 'text-[#594139]'
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+              activeFilter === 'past' ? 'bg-white text-[#a73400] shadow-level-1' : 'text-[#594139]'
             }`}
           >
             {isAm ? 'ያለፉ' : 'Past'} ({orders.filter((o) => o.status === 'delivered').length})
@@ -89,40 +89,40 @@ export default function OrdersScreen() {
             return (
               <div
                 key={order.id}
-                className="bg-white rounded-2xl p-4 border border-[#e1bfb5] shadow-2xs space-y-3"
+                className="bg-white rounded-2xl p-4 shadow-level-1 space-y-3"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-3">
                     <img
                       src={order.businessImage}
                       alt={order.businessNameAm}
-                      className="w-10 h-10 rounded-xl object-cover"
+                      className="w-11 h-11 rounded-xl object-cover"
                     />
                     <div>
-                      <h4 className="font-display font-bold text-xs text-[#261911]">
+                      <h4 className="font-display font-bold text-[14px] text-[#261911]">
                         {isAm ? order.businessNameAm : order.businessNameEn}
                       </h4>
-                      <p className="text-[10px] text-[#594139]">{order.dateStr}</p>
+                      <p className="text-[11px] text-[#594139]">{order.dateStr}</p>
                     </div>
                   </div>
 
                   <span
-                    className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${badge.bg} ${badge.text}`}
+                    className={`inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${badge.bg} ${badge.text}`}
                   >
-                    <span className="material-symbols-outlined text-[13px]">{badge.icon}</span>
+                    <span className="material-symbols-outlined text-[14px]">{badge.icon}</span>
                     <span>{isAm ? badge.labelAm : badge.labelEn}</span>
                   </span>
                 </div>
 
                 {/* Items Summary */}
-                <div className="text-xs text-[#594139] space-y-1 py-1 border-y border-[#f7ddd0]">
+                <div className="text-[13px] text-[#594139] space-y-1.5 py-2 border-y border-[#f3ebe6]">
                   {order.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between">
-                      <span className="truncate max-w-[200px]">
+                    <div key={idx} className="flex justify-between gap-3">
+                      <span className="truncate">
                         {item.quantity}x {isAm ? item.nameAm : item.nameEn}
                       </span>
-                      <span className="font-semibold text-[#261911]">
+                      <span className="font-semibold text-[#261911] tnum">
                         {item.price * item.quantity} {isAm ? 'ብር' : 'ETB'}
                       </span>
                     </div>
@@ -130,10 +130,10 @@ export default function OrdersScreen() {
                 </div>
 
                 {/* Footer and Actions */}
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center justify-between pt-0.5">
                   <div>
-                    <span className="text-[10px] text-[#594139] block">{isAm ? 'ጠቅላላ ዋጋ' : 'Total'}</span>
-                    <span className="font-display font-extrabold text-sm text-[#a73400]">
+                    <span className="text-[11px] text-[#594139] block">{isAm ? 'ጠቅላላ ዋጋ' : 'Total'}</span>
+                    <span className="font-display font-extrabold text-[16px] text-[#a73400] tnum">
                       {order.total} {isAm ? 'ብር' : 'ETB'}
                     </span>
                   </div>
@@ -142,18 +142,18 @@ export default function OrdersScreen() {
                     {!isDelivered && (
                       <button
                         onClick={() => navigateTo('order-tracking', { orderId: order.id })}
-                        className="bg-[#a73400] hover:bg-[#cb4914] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-2xs active:scale-95 transition-all flex items-center gap-1"
+                        className="bg-[#a73400] hover:bg-[#963000] text-white text-[13px] font-bold px-3.5 py-2 rounded-full shadow-sm active:scale-95 transition-all flex items-center gap-1.5"
                       >
-                        <span className="material-symbols-outlined text-[14px]">navigation</span>
+                        <span className="material-symbols-outlined text-[15px]">navigation</span>
                         <span>{isAm ? 'ተከታተል' : 'Track'}</span>
                       </button>
                     )}
 
                     <button
                       onClick={() => handleReorder(order)}
-                      className="bg-[#fff1eb] hover:bg-[#ffeadf] text-[#a73400] text-xs font-bold px-3 py-1.5 rounded-full border border-[#e1bfb5] active:scale-95 transition-all flex items-center gap-1"
+                      className="bg-[#fff1eb] hover:bg-[#ffdbcf] text-[#a73400] text-[13px] font-bold px-3.5 py-2 rounded-full active:scale-95 transition-all flex items-center gap-1.5"
                     >
-                      <span className="material-symbols-outlined text-[14px]">replay</span>
+                      <span className="material-symbols-outlined text-[15px]">replay</span>
                       <span>{isAm ? 'እንደገና እዘዝ' : 'Reorder'}</span>
                     </button>
                   </div>

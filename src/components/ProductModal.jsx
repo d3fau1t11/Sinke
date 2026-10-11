@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import ProductOptions from './ProductOptions';
 
 export default function ProductModal() {
   const { activeProduct, setActiveProduct, addToCart, lang } = useApp();
@@ -11,7 +12,6 @@ export default function ProductModal() {
 
   const isAm = lang === 'am';
   const name = isAm ? activeProduct.nameAm : activeProduct.nameEn;
-  const desc = isAm ? activeProduct.descriptionAm : activeProduct.descriptionEn;
 
   const toggleOption = (option) => {
     setSelectedOptions((prev) => {
@@ -42,7 +42,7 @@ export default function ProductModal() {
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-[430px] bg-[#fff8f5] rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border-t sm:border border-[#e1bfb5] z-10 animate-slideUp">
+      <div className="relative w-full max-w-[430px] bg-[#fff8f5] rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl z-10 animate-slideUp">
         {/* Header Image & Close */}
         <div className="relative h-52 sm:h-56 bg-[#f7ddd0] shrink-0">
           <img
@@ -77,107 +77,49 @@ export default function ProductModal() {
         </div>
 
         {/* Scrollable Options Content */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 text-[#261911]">
-          {/* Description */}
-          <div>
-            <h3 className="text-xs font-bold text-[#594139] uppercase tracking-wider mb-1">
-              {isAm ? 'ዝርዝር ማብራሪያ' : 'Description'}
-            </h3>
-            <p className="text-sm text-[#594139] leading-relaxed">
-              {desc}
-            </p>
-          </div>
-
-          {/* Options / Add-ons */}
-          {activeProduct.options && activeProduct.options.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-[#f7ddd0]">
-              <h3 className="text-xs font-bold text-[#261911] uppercase tracking-wider flex justify-between items-center">
-                <span>{isAm ? 'ተጨማሪ ምርጫዎች' : 'Customizations & Add-ons'}</span>
-                <span className="text-[11px] font-normal text-[#594139]">{isAm ? 'እንደ ፍላጎትዎ ይምረጡ' : 'Optional'}</span>
-              </h3>
-
-              <div className="space-y-1.5">
-                {activeProduct.options.map((option, idx) => {
-                  const isChecked = selectedOptions.some((o) => o.nameEn === option.nameEn);
-                  const optName = isAm ? option.nameAm : option.nameEn;
-
-                  return (
-                    <label
-                      key={idx}
-                      onClick={() => toggleOption(option)}
-                      className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
-                        isChecked
-                          ? 'bg-[#ffeadf] border-[#a73400] text-[#a73400] font-semibold'
-                          : 'bg-white border-[#e1bfb5] text-[#261911]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div
-                          className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
-                            isChecked ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#8d7168] bg-white'
-                          }`}
-                        >
-                          {isChecked && <span className="material-symbols-outlined text-[16px]">check</span>}
-                        </div>
-                        <span className="text-sm">{optName}</span>
-                      </div>
-                      <span className="text-xs font-bold">
-                        {option.price > 0 ? `+${option.price} ${isAm ? 'ብር' : 'ETB'}` : isAm ? 'ነጻ' : 'Free'}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Special notes */}
-          <div className="space-y-1.5 pt-2 border-t border-[#f7ddd0]">
-            <label className="text-xs font-bold text-[#261911] uppercase tracking-wider block">
-              {isAm ? 'ለማብሰያው ልዩ ማስታወሻ' : 'Special Instructions'}
-            </label>
-            <input
-              type="text"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder={isAm ? "ምሳሌ፡ ቃሪያ እንዳይበዛበት፣ ለብቻው ይሁን..." : "e.g., Less spicy, separate packaging..."}
-              className="w-full px-3 py-2 text-sm bg-white rounded-xl border border-[#e1bfb5] focus:outline-none focus:border-[#a73400] text-[#261911]"
-            />
-          </div>
-        </div>
+        <ProductOptions
+          product={activeProduct}
+          isAm={isAm}
+          selectedOptions={selectedOptions}
+          onToggleOption={toggleOption}
+          notes={notes}
+          onNotesChange={setNotes}
+        />
 
         {/* Footer Actions (Quantity Stepper + Add CTA) */}
-        <div className="p-4 bg-white border-t border-[#e1bfb5] flex items-center gap-3 shrink-0">
+        <div className="p-4 bg-white border-t border-[#f3ebe6] flex items-center gap-3 shrink-0">
           {/* Quantity Stepper */}
-          <div className="flex items-center bg-[#ffeadf] border border-[#e1bfb5] rounded-full p-1 shrink-0">
+          <div className="flex items-center bg-[#f6ede8] rounded-full p-1 gap-0.5 shrink-0">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               disabled={quantity <= 1}
-              className="w-8 h-8 rounded-full bg-white text-[#a73400] disabled:opacity-40 flex items-center justify-center font-bold active:scale-90 shadow-2xs"
+              className="w-8 h-8 rounded-full bg-white text-[#a73400] disabled:opacity-40 flex items-center justify-center font-bold active:scale-90 shadow-level-1"
+              aria-label="Decrease quantity"
             >
-              <span className="material-symbols-outlined text-[18px]">remove</span>
+              <span className="material-symbols-outlined text-[17px]">remove</span>
             </button>
-            <span className="font-display font-bold text-sm w-7 text-center text-[#261911]">
+            <span className="font-display font-bold text-[15px] w-7 text-center text-[#261911] tnum">
               {quantity}
             </span>
             <button
               onClick={() => setQuantity((q) => q + 1)}
-              className="w-8 h-8 rounded-full bg-[#a73400] text-white flex items-center justify-center font-bold active:scale-90 shadow-2xs"
+              className="w-8 h-8 rounded-full bg-[#a73400] text-white flex items-center justify-center font-bold active:scale-90 shadow-sm"
+              aria-label="Increase quantity"
             >
-              <span className="material-symbols-outlined text-[18px]">add</span>
+              <span className="material-symbols-outlined text-[17px]">add</span>
             </button>
           </div>
 
           {/* Add to Cart CTA */}
           <button
             onClick={handleAddToCart}
-            className="flex-1 bg-[#a73400] hover:bg-[#cb4914] text-white font-bold py-3 px-4 rounded-full flex items-center justify-between shadow-md active:scale-[0.98] transition-all"
+            className="flex-1 bg-[#a73400] hover:bg-[#963000] text-white font-bold py-3.5 px-4 rounded-full flex items-center justify-between shadow-[0_12px_28px_-12px_rgba(167,52,0,0.55)] active:scale-[0.98] transition-all"
           >
-            <span className="flex items-center gap-1.5 text-sm">
-              <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+            <span className="flex items-center gap-2 text-[15px]">
+              <span className="material-symbols-outlined text-[19px]">shopping_bag</span>
               {isAm ? 'ወደ ቅርጫት ጨምር' : 'Add to Cart'}
             </span>
-            <span className="font-display font-bold text-sm bg-black/20 px-2.5 py-0.5 rounded-full">
+            <span className="font-display font-bold text-[15px] bg-black/20 px-3 py-1 rounded-full tnum">
               {grandTotal} {isAm ? 'ብር' : 'ETB'}
             </span>
           </button>

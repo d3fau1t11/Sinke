@@ -9,14 +9,14 @@ export default function CategoryCard({ category, isSelected = false, onClick = n
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-center justify-center p-2 rounded-2xl border transition-all active:scale-95 shrink-0 ${
+      className={`flex flex-col items-center justify-center p-2.5 rounded-2xl transition-all active:scale-95 shrink-0 ${
         isSelected
-          ? 'bg-[#a73400] text-white border-[#a73400] shadow-md shadow-[#a73400]/20'
-          : 'bg-white text-[#261911] border-[#e1bfb5]/70 hover:border-[#a73400] shadow-2xs'
-      } min-w-[72px]`}
+          ? 'bg-[#a73400] text-white shadow-[0_8px_20px_-8px_rgba(167,52,0,0.5)]'
+          : 'bg-white text-[#261911] shadow-level-1 hover:bg-[#fff8f5]'
+      } min-w-[76px]`}
     >
       <div
-        className={`w-11 h-11 rounded-xl flex items-center justify-center mb-1 transition-colors ${
+        className={`w-11 h-11 rounded-xl flex items-center justify-center mb-1.5 transition-colors ${
           isSelected ? 'bg-white/20 text-white' : 'bg-[#fff1eb] text-[#a73400]'
         }`}
       >
@@ -24,7 +24,7 @@ export default function CategoryCard({ category, isSelected = false, onClick = n
           {category.icon}
         </span>
       </div>
-      <span className={`text-[11px] font-semibold tracking-tight truncate max-w-[65px] ${isSelected ? 'text-white' : 'text-[#261911]'}`}>
+      <span className={`text-[12px] font-bold tracking-tight truncate max-w-[68px] ${isSelected ? 'text-white' : 'text-[#261911]'}`}>
         {name}
       </span>
     </button>

@@ -55,21 +55,21 @@ export default function CheckoutScreen() {
         title={isAm ? 'ክፍያ እና ማድረሻ' : 'Checkout'}
       />
 
-      <form onSubmit={handleSubmitOrder} className="flex-1 px-4 py-3 space-y-4">
+      <form onSubmit={handleSubmitOrder} className="flex-1 px-4 py-4 space-y-4">
         {/* Delivery Location Section */}
-        <section className="bg-white rounded-2xl p-4 border border-[#e1bfb5] shadow-2xs space-y-3">
+        <section className="bg-white rounded-2xl p-4 shadow-level-1 space-y-3.5">
           <div className="flex items-center justify-between">
-            <h3 className="font-display font-bold text-xs text-[#261911] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[#a73400] text-[18px]">location_on</span>
+            <h3 className="font-display font-bold text-[14px] text-[#261911] uppercase tracking-[0.05em] flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[#a73400] text-[19px]">location_on</span>
               <span>{isAm ? 'የማድረሻ አድራሻ' : 'Delivery Address'}</span>
             </h3>
-            <span className="text-[11px] text-[#1b6d24] font-bold bg-[#e8f5e9] px-2 py-0.5 rounded-full">
+            <span className="text-[12px] text-[#1b6d24] font-bold bg-[#e8f5e9] px-2.5 py-1 rounded-full">
               {isAm ? activeZoneObj.nameAm : activeZoneObj.nameEn}
             </span>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-[11px] font-semibold text-[#594139] block">
+          <div className="space-y-1.5">
+            <label className="text-[13px] font-semibold text-[#594139] block">
               {isAm ? 'ኮንዶሚኒየም / መንደር / ብሎክ' : 'Condominium Site / Block / Gate'}
             </label>
             <input
@@ -77,12 +77,12 @@ export default function CheckoutScreen() {
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-3 py-2.5 text-xs bg-[#fff8f5] rounded-xl border border-[#e1bfb5] focus:outline-none focus:border-[#a73400] text-[#261911] font-medium"
+              className="w-full px-3.5 py-3 text-[15px] bg-white rounded-xl border border-[#eadfd9] focus:border-[#a73400] focus:ring-4 focus:ring-[#a73400]/10 outline-none transition-all text-[#261911] font-medium"
             />
           </div>
 
-          <div className="space-y-1">
-            <label className="text-[11px] font-semibold text-[#594139] block">
+          <div className="space-y-1.5">
+            <label className="text-[13px] font-semibold text-[#594139] block">
               {isAm ? 'ለአድራሹ ተጨማሪ መመሪያ (አማራጭ)' : 'Delivery Notes & Landmark (Optional)'}
             </label>
             <input
@@ -90,20 +90,20 @@ export default function CheckoutScreen() {
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
               placeholder={isAm ? "ምሳሌ፡ ቶታል ጋ፣ 3ኛ ፎቅ ወይም ደውልልኝ..." : "e.g., Near Total Station, 3rd floor..."}
-              className="w-full px-3 py-2 text-xs bg-[#fff8f5] rounded-xl border border-[#e1bfb5] focus:outline-none focus:border-[#a73400] text-[#261911]"
+              className="w-full px-3.5 py-3 text-[15px] bg-white rounded-xl border border-[#eadfd9] focus:border-[#a73400] focus:ring-4 focus:ring-[#a73400]/10 outline-none transition-all text-[#261911] placeholder:text-[#9b857c]"
             />
           </div>
         </section>
 
         {/* Contact Phone Section */}
-        <section className="bg-white rounded-2xl p-4 border border-[#e1bfb5] shadow-2xs space-y-2">
-          <h3 className="font-display font-bold text-xs text-[#261911] uppercase tracking-wider flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[#a73400] text-[18px]">call</span>
+        <section className="bg-white rounded-2xl p-4 shadow-level-1 space-y-2.5">
+          <h3 className="font-display font-bold text-[14px] text-[#261911] uppercase tracking-[0.05em] flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[#a73400] text-[19px]">call</span>
             <span>{isAm ? 'ተቀባይ ስልክ ቁጥር' : 'Contact Phone Number'}</span>
           </h3>
 
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 px-3 py-2.5 rounded-xl bg-[#fff1eb] border border-[#e1bfb5] text-xs font-bold text-[#261911] shrink-0">
+            <div className="flex items-center gap-1.5 px-3.5 py-3 rounded-xl bg-[#f6ede8] text-[15px] font-bold text-[#261911] shrink-0">
               <span>🇪🇹</span>
               <span>+251</span>
             </div>
@@ -113,51 +113,51 @@ export default function CheckoutScreen() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="911234567"
-              className="flex-1 px-3 py-2.5 text-xs bg-[#fff8f5] rounded-xl border border-[#e1bfb5] focus:outline-none focus:border-[#a73400] font-mono font-bold text-[#261911]"
+              className="flex-1 min-w-0 px-3.5 py-3 text-[15px] bg-white rounded-xl border border-[#eadfd9] focus:border-[#a73400] focus:ring-4 focus:ring-[#a73400]/10 outline-none transition-all font-mono font-bold text-[#261911] tnum"
             />
           </div>
         </section>
 
         {/* Payment Methods (Demo Local Integrations) */}
-        <section className="bg-white rounded-2xl p-4 border border-[#e1bfb5] shadow-2xs space-y-3">
+        <section className="bg-white rounded-2xl p-4 shadow-level-1 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="font-display font-bold text-xs text-[#261911] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[#a73400] text-[18px]">payments</span>
+            <h3 className="font-display font-bold text-[14px] text-[#261911] uppercase tracking-[0.05em] flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[#a73400] text-[19px]">payments</span>
               <span>{isAm ? 'የክፍያ ዘዴ' : 'Payment Method'}</span>
             </h3>
-            <span className="text-[10px] text-[#aa6400] font-bold bg-[#ffdcbe]/60 px-2 py-0.5 rounded">
+            <span className="text-[10px] text-[#693c00] font-extrabold bg-[#ffdcbe]/70 px-2 py-1 rounded-full uppercase tracking-[0.06em]">
               DEMO MODE
             </span>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {/* Telebirr */}
             <label
               onClick={() => setPaymentMethod('telebirr')}
-              className={`flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-all ${
+              className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                 paymentMethod === 'telebirr'
-                  ? 'bg-[#e8f5e9] border-[#1b6d24] text-[#1b6d24]'
-                  : 'bg-white border-[#e1bfb5] text-[#261911]'
+                  ? 'bg-[#fff1eb] border-[#a73400]'
+                  : 'bg-white border-[#eadfd9] hover:border-[#d9c6bd]'
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#0082c8]/10 flex items-center justify-center font-black text-[#0082c8] text-xs">
+                <div className="w-10 h-10 rounded-xl bg-[#0082c8]/10 flex items-center justify-center font-black text-[#0082c8] text-[13px]">
                   TB
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-[#261911]">ቴሌብር (telebirr)</h4>
-                  <p className="text-[10px] text-[#594139]">
+                  <h4 className="font-bold text-[14px] text-[#261911]">ቴሌብር (telebirr)</h4>
+                  <p className="text-[12px] text-[#594139]">
                     {isAm ? 'በቴሌብር ፈጣን የሞባይል ክፍያ' : 'Instant digital wallet payment'}
                   </p>
                 </div>
               </div>
               <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                  paymentMethod === 'telebirr' ? 'bg-[#1b6d24] border-[#1b6d24] text-white' : 'border-[#8d7168]'
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                  paymentMethod === 'telebirr' ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#c9b5ac]'
                 }`}
               >
                 {paymentMethod === 'telebirr' && (
-                  <span className="material-symbols-outlined text-[14px]">check</span>
+                  <span className="material-symbols-outlined text-[15px]">check</span>
                 )}
               </div>
             </label>
@@ -165,30 +165,30 @@ export default function CheckoutScreen() {
             {/* CBE Birr / Chapa */}
             <label
               onClick={() => setPaymentMethod('cbe')}
-              className={`flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-all ${
+              className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                 paymentMethod === 'cbe'
-                  ? 'bg-[#ffeadf] border-[#a73400] text-[#a73400]'
-                  : 'bg-white border-[#e1bfb5] text-[#261911]'
+                  ? 'bg-[#fff1eb] border-[#a73400]'
+                  : 'bg-white border-[#eadfd9] hover:border-[#d9c6bd]'
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#7c2079]/10 flex items-center justify-center font-black text-[#7c2079] text-xs">
+                <div className="w-10 h-10 rounded-xl bg-[#7c2079]/10 flex items-center justify-center font-black text-[#7c2079] text-[12px]">
                   CBE
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-[#261911]">ሲቢኢ ብር / Chapa (CBE Birr)</h4>
-                  <p className="text-[10px] text-[#594139]">
+                  <h4 className="font-bold text-[14px] text-[#261911]">ሲቢኢ ብር / Chapa (CBE Birr)</h4>
+                  <p className="text-[12px] text-[#594139]">
                     {isAm ? 'የኢትዮጵያ ንግድ ባንክ ሞባይል ክፍያ' : 'Commercial Bank of Ethiopia'}
                   </p>
                 </div>
               </div>
               <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                  paymentMethod === 'cbe' ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#8d7168]'
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                  paymentMethod === 'cbe' ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#c9b5ac]'
                 }`}
               >
                 {paymentMethod === 'cbe' && (
-                  <span className="material-symbols-outlined text-[14px]">check</span>
+                  <span className="material-symbols-outlined text-[15px]">check</span>
                 )}
               </div>
             </label>
@@ -196,32 +196,32 @@ export default function CheckoutScreen() {
             {/* Cash on Delivery */}
             <label
               onClick={() => setPaymentMethod('cash')}
-              className={`flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-all ${
+              className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                 paymentMethod === 'cash'
-                  ? 'bg-[#ffeadf] border-[#a73400] text-[#a73400]'
-                  : 'bg-white border-[#e1bfb5] text-[#261911]'
+                  ? 'bg-[#fff1eb] border-[#a73400]'
+                  : 'bg-white border-[#eadfd9] hover:border-[#d9c6bd]'
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#1b6d24]/10 flex items-center justify-center text-[#1b6d24]">
-                  <span className="material-symbols-outlined text-[20px]">local_atm</span>
+                <div className="w-10 h-10 rounded-xl bg-[#1b6d24]/10 flex items-center justify-center text-[#1b6d24]">
+                  <span className="material-symbols-outlined text-[22px]">local_atm</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-[#261911]">
+                  <h4 className="font-bold text-[14px] text-[#261911]">
                     {isAm ? 'ሲደርስ በጥሬ ገንዘብ' : 'Cash on Delivery'}
                   </h4>
-                  <p className="text-[10px] text-[#594139]">
+                  <p className="text-[12px] text-[#594139]">
                     {isAm ? 'አድራሹ እቃውን ሲያስረክብ ይክፈሉ' : 'Pay in cash directly to rider'}
                   </p>
                 </div>
               </div>
               <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                  paymentMethod === 'cash' ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#8d7168]'
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                  paymentMethod === 'cash' ? 'bg-[#a73400] border-[#a73400] text-white' : 'border-[#c9b5ac]'
                 }`}
               >
                 {paymentMethod === 'cash' && (
-                  <span className="material-symbols-outlined text-[14px]">check</span>
+                  <span className="material-symbols-outlined text-[15px]">check</span>
                 )}
               </div>
             </label>
@@ -229,11 +229,13 @@ export default function CheckoutScreen() {
         </section>
 
         {/* Order Summary Recap */}
-        <section className="bg-white rounded-2xl p-4 border border-[#e1bfb5] shadow-2xs space-y-2 text-xs text-[#594139]">
-          <div className="flex justify-between font-extrabold text-sm text-[#a73400]">
-            <span>{isAm ? 'የሚከፈል ጠቅላላ ድምር' : 'Total to Pay'}</span>
-            <span className="font-display text-base">{totalAmount} {isAm ? 'ብር' : 'ETB'}</span>
-          </div>
+        <section className="bg-white rounded-2xl p-4 shadow-level-1 flex items-center justify-between">
+          <span className="text-[14px] text-[#594139] font-semibold">
+            {isAm ? 'የሚከፈል ጠቅላላ ድምር' : 'Total to Pay'}
+          </span>
+          <span className="font-display font-extrabold text-[19px] text-[#a73400] tnum">
+            {totalAmount} <span className="text-[13px] text-[#594139] font-bold">{isAm ? 'ብር' : 'ETB'}</span>
+          </span>
         </section>
 
         {/* Submit Order Button */}
@@ -241,18 +243,18 @@ export default function CheckoutScreen() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#a73400] hover:bg-[#cb4914] disabled:bg-[#8d7168] text-white font-bold py-4 px-6 rounded-2xl shadow-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+            className="w-full bg-[#a73400] hover:bg-[#963000] disabled:bg-[#b99a8e] text-white font-bold py-4 px-6 rounded-2xl shadow-[0_16px_36px_-14px_rgba(167,52,0,0.6)] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 text-[15px]"
           >
             {isSubmitting ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2.5">
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 <span>{isAm ? 'ትዕዛዙ እየተላከ ነው...' : 'Placing order...'}</span>
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[20px]">check_circle</span>
+                <span className="material-symbols-outlined text-[21px]">check_circle</span>
                 <span>{isAm ? 'ትዕዛዙን አረጋግጥና እዘዝ' : 'Confirm & Place Order'}</span>
-                <span>({totalAmount} {isAm ? 'ብር' : 'ETB'})</span>
+                <span className="tnum">({totalAmount} {isAm ? 'ብር' : 'ETB'})</span>
               </span>
             )}
           </button>
