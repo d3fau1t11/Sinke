@@ -19,27 +19,28 @@ export function MerchantHeader() {
   };
 
   return (
-    <header className="bg-surface border-b border-outline/10 sticky top-0 z-20 px-4 py-3 shadow-sm">
-      <div className="max-w-4xl mx-auto flex items-center justify-between">
+    <header className="bg-surface sticky top-0 z-20 border-b border-outline-variant">
+      <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <SenikLogo size="md" />
           <div>
-            <h1 className="font-bold text-base text-on-surface leading-tight">
+            <h1 className="font-display font-bold text-title-sm text-on-surface leading-tight">
               {businessName || "Merchant"}
             </h1>
             <button
               type="button"
               onClick={() => void handleToggleOpen()}
-              className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-full mt-0.5 transition-colors ${
+              aria-pressed={isOpen}
+              className={`inline-flex items-center gap-1.5 text-micro font-bold uppercase tracking-[0.05em] px-2.5 py-1 rounded-full mt-1 transition-colors ${
                 isOpen
-                  ? "bg-green-100 text-green-700 hover:bg-green-200"
-                  : "bg-red-100 text-red-700 hover:bg-red-200"
+                  ? "bg-secondary/10 text-secondary hover:bg-secondary/15"
+                  : "bg-error-container text-on-error-container hover:bg-error-container/80"
               }`}
             >
               <span
-                className={`w-2 h-2 rounded-full ${isOpen ? "bg-green-500 animate-pulse" : "bg-red-500"}`}
+                className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-secondary animate-pulse" : "bg-error"}`}
               />
-              {isOpen ? "STORE OPEN (Accepting)" : "STORE CLOSED"}
+              {isOpen ? "Open · Accepting orders" : "Closed"}
             </button>
           </div>
         </div>
@@ -47,11 +48,14 @@ export function MerchantHeader() {
         <button
           type="button"
           onClick={logout}
-          className="text-xs text-on-surface-variant hover:text-error transition-colors px-2 py-1 rounded-md"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors"
+          aria-label="Log out"
         >
-          Logout
+          <span className="material-symbols-outlined text-[20px]">logout</span>
         </button>
       </div>
+      {/* Tibeb accent strip */}
+      <div className="h-0.5 tibeb-accent-strip" aria-hidden="true" />
     </header>
   );
 }

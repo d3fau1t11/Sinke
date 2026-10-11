@@ -46,114 +46,121 @@ export function MerchantLoginScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center px-4 py-8 max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <div className="flex justify-center mb-3">
-          <SenikLogo size="lg" />
-        </div>
-        <h1 className="text-2xl font-bold text-on-surface">
-          Senik Merchant Portal
-        </h1>
-        <p className="text-xs text-on-surface-variant mt-1">
-          የነጋዴ መግቢያ • Restaurant & Store Operations
-        </p>
-      </div>
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Tibeb accent strip */}
+      <div className="h-1 tibeb-accent-strip" aria-hidden="true" />
 
-      <div className="space-y-4">
-        <Card
-          variant="outlined"
-          padding="lg"
-          className="border-primary/20 bg-surface shadow-level-2 space-y-4"
-        >
-          <Button
-            type="button"
-            variant="primary"
-            size="lg"
-            fullWidth
-            onClick={handleOneClickLogin}
-            disabled={loading || businesses.length === 0}
-            className="shadow-floating flex items-center justify-center gap-2"
-          >
-            <span>⚡ One-Click Instant Login</span>
-          </Button>
-
-          <div className="relative flex py-1 items-center">
-            <div className="flex-grow border-t border-outline/20" />
-            <span className="flex-shrink mx-3 text-[11px] text-on-surface-variant uppercase font-semibold">
-              Or Sign In with Credentials
-            </span>
-            <div className="flex-grow border-t border-outline/20" />
+      <div className="flex-1 flex flex-col justify-center px-4 py-8 max-w-md mx-auto w-full">
+        <div className="text-center mb-6">
+          <div className="flex justify-center mb-3">
+            <SenikLogo size="lg" />
           </div>
+          <h1 className="font-display font-extrabold text-title-xl text-on-surface">
+            Senik Merchant Portal
+          </h1>
+          <p className="text-body-sm text-on-surface-variant mt-1">
+            የነጋዴ መግቢያ · Restaurant &amp; Store Operations
+          </p>
+        </div>
 
-          <form onSubmit={handleFormLogin} className="space-y-3">
-            <Input
-              label="Merchant Phone Number"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+251 9..."
-              fullWidth
-            />
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              fullWidth
-            />
+        <div className="space-y-4">
+          <Card padding="lg" className="space-y-4">
             <Button
-              type="submit"
-              variant="secondary"
+              type="button"
+              variant="primary"
+              size="lg"
               fullWidth
-              disabled={loading}
+              onClick={handleOneClickLogin}
+              disabled={loading || businesses.length === 0}
+              className="shadow-floating"
             >
-              Sign In to Dashboard
+              <span className="material-symbols-outlined text-[19px] fill-icon">
+                bolt
+              </span>
+              One-Click Instant Login
             </Button>
-          </form>
-        </Card>
 
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={() => setShowStorePicker(!showStorePicker)}
-            className="text-xs font-semibold text-primary hover:underline"
-          >
-            {showStorePicker
-              ? "Hide Store Switcher"
-              : "⇄ Or Choose a Different Registered Restaurant"}
-          </button>
-        </div>
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-outline-variant/60" />
+              <span className="flex-shrink mx-3 text-micro text-on-surface-variant uppercase font-bold tracking-[0.05em]">
+                Or Sign In with Credentials
+              </span>
+              <div className="flex-grow border-t border-outline-variant/60" />
+            </div>
 
-        {showStorePicker && (
-          <div className="space-y-2 pt-2 border-t border-outline/10">
-            {businesses.map((biz) => (
-              <button
-                type="button"
-                key={biz.id}
-                onClick={() => handleSelect(biz)}
-                className="w-full text-left p-2.5 rounded-xl border border-outline/10 bg-surface hover:border-primary cursor-pointer flex items-center gap-3 transition-all"
+            <form onSubmit={handleFormLogin} className="space-y-3">
+              <Input
+                label="Merchant Phone Number"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+251 9..."
+                fullWidth
+              />
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                fullWidth
+              />
+              <Button
+                type="submit"
+                variant="secondary"
+                fullWidth
+                disabled={loading}
               >
-                <img
-                  src={biz.avatar_image}
-                  alt={biz.name_en}
-                  className="w-10 h-10 rounded-lg object-cover"
-                />
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-xs text-on-surface truncate">
-                    {biz.name_en}
-                  </h4>
-                  <p className="text-[11px] text-on-surface-variant truncate">
-                    {biz.name_am}
-                  </p>
-                </div>
-                <span className="text-xs text-primary font-semibold">
-                  Select →
-                </span>
-              </button>
-            ))}
+                Sign In to Dashboard
+              </Button>
+            </form>
+          </Card>
+
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setShowStorePicker(!showStorePicker)}
+              className="text-label-sm font-bold text-primary hover:underline inline-flex items-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[15px]">
+                swap_horiz
+              </span>
+              {showStorePicker
+                ? "Hide Store Switcher"
+                : "Choose a Different Registered Restaurant"}
+            </button>
           </div>
-        )}
+
+          {showStorePicker && (
+            <div className="space-y-2 pt-2">
+              {businesses.map((biz) => (
+                <button
+                  type="button"
+                  key={biz.id}
+                  onClick={() => handleSelect(biz)}
+                  className="w-full text-left p-3 rounded-2xl bg-surface-container-lowest shadow-level-1 hover:shadow-level-2 cursor-pointer flex items-center gap-3 transition-all"
+                >
+                  <img
+                    src={biz.avatar_image}
+                    alt={biz.name_en}
+                    className="w-10 h-10 rounded-xl object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-body-sm text-on-surface truncate">
+                      {biz.name_en}
+                    </h4>
+                    <p className="text-label-sm text-on-surface-variant truncate">
+                      {biz.name_am}
+                    </p>
+                  </div>
+                  <span className="material-symbols-outlined text-[18px] text-primary">
+                    chevron_right
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

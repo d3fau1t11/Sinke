@@ -1,14 +1,27 @@
 import React from "react";
-import { Outlet, NavLink, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { AppBottomNav } from "@senik/ui";
+import type { AppNavItem } from "@senik/ui";
 import { MerchantHeader } from "./MerchantHeader";
 import { useMerchantAuthStore } from "../features/auth/store/merchantAuthStore";
 
+const NAV_ITEMS: AppNavItem[] = [
+  { id: "dashboard", label: "Dashboard", icon: "dashboard" },
+  { id: "orders", label: "Orders", icon: "receipt_long" },
+  { id: "menu", label: "Menu", icon: "restaurant_menu" },
+  { id: "finances", label: "Finances", icon: "account_balance_wallet" },
+];
+
 export function MerchantLayout() {
   const { isAuthenticated } = useMerchantAuthStore();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+
+  const currentId = pathname.split("/")[1] || "dashboard";
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-20">
@@ -17,60 +30,11 @@ export function MerchantLayout() {
         <Outlet />
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-outline/10 py-2 px-6 flex justify-around items-center z-30 shadow-lg">
-        <NavLink
-          to="/dashboard"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
-              isActive ? "text-primary" : "text-on-surface-variant"
-            }`
-          }
-        >
-          <span className="material-symbols-outlined text-[22px]">
-            dashboard
-          </span>
-          <span>Dashboard</span>
-        </NavLink>
-        <NavLink
-          to="/orders"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
-              isActive ? "text-primary" : "text-on-surface-variant"
-            }`
-          }
-        >
-          <span className="material-symbols-outlined text-[22px]">
-            receipt_long
-          </span>
-          <span>Orders</span>
-        </NavLink>
-        <NavLink
-          to="/menu"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
-              isActive ? "text-primary" : "text-on-surface-variant"
-            }`
-          }
-        >
-          <span className="material-symbols-outlined text-[22px]">
-            restaurant_menu
-          </span>
-          <span>Menu</span>
-        </NavLink>
-        <NavLink
-          to="/finances"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
-              isActive ? "text-primary" : "text-on-surface-variant"
-            }`
-          }
-        >
-          <span className="material-symbols-outlined text-[22px]">
-            account_balance_wallet
-          </span>
-          <span>Finances</span>
-        </NavLink>
-      </nav>
+      <AppBottomNav
+        items={NAV_ITEMS}
+        currentId={currentId}
+        onNavigate={(id) => navigate(`/${id}`)}
+      />
     </div>
   );
 }
