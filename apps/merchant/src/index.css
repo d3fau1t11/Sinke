@@ -33,3 +33,6 @@
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
+
+body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+input, textarea { user-select: text; font-size: 16px; }

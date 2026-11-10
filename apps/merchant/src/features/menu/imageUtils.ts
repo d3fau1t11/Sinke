@@ -2,11 +2,7 @@
  * Compresses an image file from phone camera / file picker
  * to a lightweight web-friendly data URL.
  */
-export function compressImageFile(
-  file: File,
-  maxDimension = 800,
-  quality = 0.8,
-): Promise<string> {
+export function compressImageFile(file: File, maxDimension = 800, quality = 0.8): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = reject;
@@ -25,18 +21,18 @@ export function compressImageFile(
           height = maxDimension;
         }
 
-        const canvas = document.createElement("canvas");
+        const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
 
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         if (!ctx) {
           resolve(reader.result as string);
           return;
         }
 
         ctx.drawImage(img, 0, 0, width, height);
-        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
         resolve(dataUrl);
       };
       img.src = reader.result as string;

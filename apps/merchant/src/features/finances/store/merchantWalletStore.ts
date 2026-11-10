@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface WithdrawalRequest {
   id: string;
   businessId: string;
   amount: number;
-  method: "cbe" | "telebirr";
+  method: 'cbe' | 'telebirr';
   accountNumber: string;
   accountName: string;
-  status: "pending" | "approved" | "completed";
+  status: 'pending' | 'approved' | 'completed';
   requestedAt: string;
   referenceNumber: string;
 }
@@ -18,7 +18,7 @@ interface MerchantWalletState {
   requestWithdrawal: (input: {
     businessId: string;
     amount: number;
-    method: "cbe" | "telebirr";
+    method: 'cbe' | 'telebirr';
     accountNumber: string;
     accountName: string;
   }) => WithdrawalRequest;
@@ -30,7 +30,7 @@ export const useMerchantWalletStore = create<MerchantWalletState>()(
       withdrawals: [],
 
       requestWithdrawal: (input) => {
-        const prefix = input.method === "cbe" ? "CBE-WD" : "TB-WD";
+        const prefix = input.method === 'cbe' ? 'CBE-WD' : 'TB-WD';
         const randomNum = Math.floor(100000 + Math.random() * 900000);
         const newRequest: WithdrawalRequest = {
           id: `wd-${Date.now()}`,
@@ -39,7 +39,7 @@ export const useMerchantWalletStore = create<MerchantWalletState>()(
           method: input.method,
           accountNumber: input.accountNumber,
           accountName: input.accountName,
-          status: "pending",
+          status: 'pending',
           requestedAt: new Date().toISOString(),
           referenceNumber: `${prefix}-${randomNum}`,
         };
@@ -49,7 +49,7 @@ export const useMerchantWalletStore = create<MerchantWalletState>()(
       },
     }),
     {
-      name: "senik-merchant-wallet",
+      name: 'senik-merchant-wallet',
     },
   ),
 );

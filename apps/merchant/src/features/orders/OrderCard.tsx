@@ -1,8 +1,10 @@
-import React from "react";
-import { Card, Button, StatusBadge } from "@senik/ui";
-import type { StatusTone } from "@senik/ui";
-import { formatETB } from "@senik/utils";
-import type { OrderSummary, OrderStatus } from "@senik/types";
+import { useLocalizedName } from '@senik/i18n';
+import { useText } from '@senik/i18n';
+import React from 'react';
+import { Card, Button, StatusBadge } from '@senik/ui';
+import type { StatusTone } from '@senik/ui';
+import { formatETB } from '@senik/utils';
+import type { OrderSummary, OrderStatus } from '@senik/types';
 
 interface OrderCardProps {
   order: OrderSummary;
@@ -10,27 +12,22 @@ interface OrderCardProps {
   updatingId: string | null;
 }
 
-const STATUS_PRESENTATION: Record<
-  string,
-  { tone: StatusTone; label: string; dot?: boolean }
-> = {
-  placed: { tone: "primary", label: "Incoming", dot: true },
-  accepted: { tone: "progress", label: "Accepted" },
-  preparing: { tone: "progress", label: "Preparing", dot: true },
-  ready: { tone: "success", label: "Ready for pickup" },
-  picked_up: { tone: "primary", label: "With rider" },
-  delivered: { tone: "success", label: "Delivered" },
-  cancelled: { tone: "neutral", label: "Cancelled" },
+const STATUS_PRESENTATION: Record<string, { tone: StatusTone; label: string; dot?: boolean }> = {
+  placed: { tone: 'primary', label: 'Incoming', dot: true },
+  accepted: { tone: 'progress', label: 'Accepted' },
+  preparing: { tone: 'progress', label: 'Preparing', dot: true },
+  ready: { tone: 'success', label: 'Ready for pickup' },
+  picked_up: { tone: 'primary', label: 'With rider' },
+  delivered: { tone: 'success', label: 'Delivered' },
+  cancelled: { tone: 'neutral', label: 'Cancelled' },
 };
 
-export function OrderCard({
-  order,
-  onUpdateStatus,
-  updatingId,
-}: OrderCardProps) {
+export function OrderCard({ order, onUpdateStatus, updatingId }: OrderCardProps) {
+  const localizedName = useLocalizedName();
+  const text = useText();
   const isUpdating = updatingId === order.id;
   const presentation = STATUS_PRESENTATION[order.status] ?? {
-    tone: "neutral" as StatusTone,
+    tone: 'neutral' as StatusTone,
     label: order.status,
   };
 
@@ -43,13 +40,13 @@ export function OrderCard({
           </span>
           <span className="text-label-sm text-on-surface-variant tabular-nums">
             {new Date(order.created_at).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
             })}
           </span>
         </div>
         <StatusBadge tone={presentation.tone} dot={presentation.dot}>
-          {presentation.label}
+          {text(presentation.label ?? '')}
         </StatusBadge>
       </div>
 
@@ -58,7 +55,7 @@ export function OrderCard({
           <div key={item.id} className="flex justify-between text-body-sm gap-3">
             <span className="text-on-surface truncate">
               <span className="font-bold text-primary mr-2 tabular-nums">{item.quantity}x</span>
-              {item.product?.name_en || "Item"}
+              {localizedName(item.product) || text('Item')}
             </span>
             <span className="text-on-surface-variant tabular-nums shrink-0">
               {formatETB(item.price * item.quantity)}
@@ -80,67 +77,55 @@ export function OrderCard({
       </div>
 
       <div className="flex gap-2">
-        {order.status === "placed" && (
+        {order.status === 'placed' && (
           <>
             <Button
               size="md"
               variant="primary"
               className="flex-1"
               disabled={isUpdating}
-              onClick={() => onUpdateStatus(order.id, "preparing")}
+              onClick={() => onUpdateStatus(order.id, 'preparing')}
             >
-              {isUpdating ? "Updating..." : "Accept & Prepare"}
+              {isUpdating ? text('Updating...') : text('Accept & Prepare')}
             </Button>
             <Button
               size="md"
               variant="danger"
               disabled={isUpdating}
-              onClick={() => onUpdateStatus(order.id, "cancelled")}
+              onClick={() => onUpdateStatus(order.id, 'cancelled')}
             >
-              Reject
+              {text('Reject')}
             </Button>
           </>
         )}
-        {(order.status === "preparing" || order.status === "accepted") && (
+        {(order.status === 'preparing' || order.status === 'accepted') && (
           <Button
             size="md"
             variant="primary"
             className="w-full"
             disabled={isUpdating}
-            onClick={() => onUpdateStatus(order.id, "ready")}
+            onClick={() => onUpdateStatus(order.id, 'ready')}
           >
-            {isUpdating ? "Updating..." : "Mark Ready for Pickup"}
+            {isUpdating ? text('Updating...') : text('Mark Ready for Pickup')}
           </Button>
         )}
-        {(order.status === "ready" || order.status === "picked_up") && (
+        {(order.status === 'ready' || order.status === 'picked_up') && (
           <div className="w-full space-y-2">
             <p className="w-full py-1.5 px-3 rounded-xl bg-secondary/10 text-secondary text-body-sm font-semibold text-center flex items-center justify-center gap-1.5">
               <span className="material-symbols-outlined text-[16px]">
-                {order.status === "ready" ? "package_2" : "two_wheeler"}
+                {order.status === 'ready' ? 'package_2' : 'two_wheeler'}
               </span>
-              {order.status === "ready"
-                ? "Waiting for rider pickup"
-                : "Out for delivery with rider"}
+              {order.status === 'ready'
+                ? text('Waiting for rider pickup')
+                : text('Out for delivery with rider')}
             </p>
-            <Button
-              size="md"
-              variant="primary"
-              className="w-full"
-              disabled={isUpdating}
-              onClick={() => onUpdateStatus(order.id, "delivered")}
-            >
-              {isUpdating
-                ? "Updating..."
-                : "Mark Completed (Credit Store Balance)"}
-            </Button>
+
           </div>
         )}
-        {order.status === "delivered" && (
+        {order.status === 'delivered' && (
           <p className="w-full py-1.5 rounded-xl bg-secondary/10 text-secondary text-body-sm font-bold text-center flex items-center justify-center gap-1.5">
-            <span className="material-symbols-outlined text-[17px]">
-              task_alt
-            </span>
-            Delivered &amp; balance credited
+            <span className="material-symbols-outlined text-[17px]">task_alt</span>
+            {text('Delivered & balance credited')}
           </p>
         )}
       </div>
