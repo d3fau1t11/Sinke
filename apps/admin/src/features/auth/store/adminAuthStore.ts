@@ -1,20 +1,7 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { endDemoSession, isDemoSession, signOutStaff } from '@senik/api';
 
-const DEMO_ADMINS = [
-  {
-    email: "admin@senik.et",
-    password: "senik2025",
-    name: "Super Admin",
-    role: "Super Admin",
-  },
-  {
-    email: "ops@senik.et",
-    password: "ops2025",
-    name: "Operations Manager",
-    role: "Operations",
-  },
-];
 
 interface AdminAuthState {
   adminName: string;
@@ -22,63 +9,42 @@ interface AdminAuthState {
   adminRole: string;
   isAuthenticated: boolean;
   loginError: string;
-  login: (email: string, password: string) => boolean;
   loginDemo: () => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   clearError: () => void;
 }
 
 export const useAdminAuthStore = create<AdminAuthState>()(
   persist(
     (set) => ({
-      adminName: "",
-      adminEmail: "",
-      adminRole: "",
+      adminName: '',
+      adminEmail: '',
+      adminRole: '',
       isAuthenticated: false,
-      loginError: "",
-
-      login: (email, password) => {
-        const admin = DEMO_ADMINS.find(
-          (a) =>
-            a.email.toLowerCase() === email.toLowerCase() &&
-            a.password === password,
-        );
-        if (admin) {
-          set({
-            adminName: admin.name,
-            adminEmail: admin.email,
-            adminRole: admin.role,
-            isAuthenticated: true,
-            loginError: "",
-          });
-          return true;
-        }
-        set({
-          loginError:
-            "Invalid email or password. Check credentials and try again.",
-        });
-        return false;
-      },
+      loginError: '',
 
       loginDemo: () =>
         set({
-          adminName: "Super Admin",
-          adminEmail: "admin@senik.et",
-          adminRole: "Super Admin",
+          adminName: 'Super Admin',
+          adminEmail: 'admin@senik.et',
+          adminRole: 'Super Admin',
           isAuthenticated: true,
-          loginError: "",
+          loginError: '',
         }),
 
-      logout: () =>
+      logout: async () => {
+        if (!isDemoSession()) await signOutStaff();
+        endDemoSession();
         set({
-          adminName: "",
-          adminEmail: "",
-          adminRole: "",
+          adminName: '',
+          adminEmail: '',
+          adminRole: '',
           isAuthenticated: false,
-        }),
+        });
+      },
 
-      clearError: () => set({ loginError: "" }),
+      clearError: () => set({ loginError: '' }),
     }),
-    { name: "senik-admin-auth" },
+    { name: 'senik-admin-demo-auth-v1' },
   ),
 );

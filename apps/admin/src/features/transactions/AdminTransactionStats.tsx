@@ -1,3 +1,4 @@
+import { useText } from "@senik/i18n";
 import React from "react";
 import { Card } from "@senik/ui";
 import { formatETB } from "@senik/utils";
@@ -10,6 +11,7 @@ interface AdminTransactionStatsProps {
 export function AdminTransactionStats({
   transactions,
 }: AdminTransactionStatsProps) {
+  const text = useText();
   const totalVolume = transactions
     .filter((t) => t.type === "order_payment" && t.status === "completed")
     .reduce((sum, t) => sum + t.amount, 0);
@@ -34,37 +36,13 @@ export function AdminTransactionStats({
         className="bg-slate-900 border-slate-800"
       >
         <p className="text-xs font-semibold text-slate-400">
-          TOTAL SETTLED VOLUME
+          {text("TOTAL SETTLED VOLUME")}
         </p>
         <p className="text-2xl font-black text-emerald-400 mt-1">
           {formatETB(totalVolume)}
         </p>
-        <p className="text-[11px] text-slate-500 mt-1">Completed order gross</p>
-      </Card>
-
-      <Card
-        variant="outlined"
-        padding="md"
-        className="bg-slate-900 border-slate-800"
-      >
-        <p className="text-xs font-semibold text-slate-400">PLATFORM REVENUE</p>
-        <p className="text-2xl font-black text-indigo-400 mt-1">
-          {formatETB(totalFees)}
-        </p>
-        <p className="text-[11px] text-slate-500 mt-1">5% commission cut</p>
-      </Card>
-
-      <Card
-        variant="outlined"
-        padding="md"
-        className="bg-slate-900 border-slate-800"
-      >
-        <p className="text-xs font-semibold text-slate-400">PARTNER PAYOUTS</p>
-        <p className="text-2xl font-black text-amber-400 mt-1">
-          {formatETB(totalPayouts)}
-        </p>
         <p className="text-[11px] text-slate-500 mt-1">
-          Merchant & rider withdrawals
+          {text("Completed order gross")}
         </p>
       </Card>
 
@@ -74,10 +52,44 @@ export function AdminTransactionStats({
         className="bg-slate-900 border-slate-800"
       >
         <p className="text-xs font-semibold text-slate-400">
-          PENDING SETTLEMENTS
+          {text("PLATFORM REVENUE")}
+        </p>
+        <p className="text-2xl font-black text-indigo-400 mt-1">
+          {formatETB(totalFees)}
+        </p>
+        <p className="text-[11px] text-slate-500 mt-1">
+          {text("5% commission cut")}
+        </p>
+      </Card>
+
+      <Card
+        variant="outlined"
+        padding="md"
+        className="bg-slate-900 border-slate-800"
+      >
+        <p className="text-xs font-semibold text-slate-400">
+          {text("PARTNER PAYOUTS")}
+        </p>
+        <p className="text-2xl font-black text-amber-400 mt-1">
+          {formatETB(totalPayouts)}
+        </p>
+        <p className="text-[11px] text-slate-500 mt-1">
+          {text("Merchant & rider withdrawals")}
+        </p>
+      </Card>
+
+      <Card
+        variant="outlined"
+        padding="md"
+        className="bg-slate-900 border-slate-800"
+      >
+        <p className="text-xs font-semibold text-slate-400">
+          {text("PENDING SETTLEMENTS")}
         </p>
         <p className="text-2xl font-black text-blue-400 mt-1">{pendingCount}</p>
-        <p className="text-[11px] text-slate-500 mt-1">Awaiting confirmation</p>
+        <p className="text-[11px] text-slate-500 mt-1">
+          {text("Awaiting confirmation")}
+        </p>
       </Card>
     </div>
   );
