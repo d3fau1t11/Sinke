@@ -10,12 +10,12 @@
     "lint": "eslint src --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "security": "gitleaks detect --source . --no-banner && pnpm audit --audit-level=high",
-    "cap:init": "cap init Senik Merchant com.senik.merchant --web-dir dist",
+    "security": "gitleaks detect --source . --no-banner --redact && pnpm audit --audit-level=high",
+    "cap:init": "cap init \"Senik Merchant\" com.senik.merchant --web-dir dist",
     "cap:sync": "cap sync",
     "cap:open": "cap open android",
-    "android:build": "pnpm build && cap sync android && cd android && ./gradlew assembleDebug",
-    "android:release": "pnpm build && cap sync android && cd android && ./gradlew assembleRelease"
+    "android:build": "node ../../scripts/android.mjs merchant",
+    "android:release": "node ../../scripts/android.mjs merchant prod release"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
@@ -32,7 +32,11 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "@senik/native": "workspace:*",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/network": "^8.0.0",
+    "@capacitor/camera": "^8.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
@@ -40,12 +44,12 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "4.7.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.8",
-    "vitest": "^1.5.3"
+    "vite": "6.4.4",
+    "vitest": "4.1.12"
   }
 }

@@ -4,12 +4,33 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "turbo dev",
+    "dev:customer": "turbo dev --filter=@senik/customer",
+    "dev:merchant": "turbo dev --filter=@senik/merchant",
+    "dev:rider": "turbo dev --filter=@senik/rider",
+    "dev:admin": "turbo dev --filter=@senik/admin",
     "build": "turbo build",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "test": "turbo test",
-    "security": "turbo security",
-    "verify": "turbo verify",
+    "build:customer": "turbo build --filter=@senik/customer",
+    "build:merchant": "turbo build --filter=@senik/merchant",
+    "build:rider": "turbo build --filter=@senik/rider",
+    "build:admin": "turbo build --filter=@senik/admin",
+    "preview:customer": "pnpm --filter @senik/customer preview",
+    "preview:merchant": "pnpm --filter @senik/merchant preview",
+    "preview:rider": "pnpm --filter @senik/rider preview",
+    "preview:admin": "pnpm --filter @senik/admin preview",
+    "android:customer": "node scripts/android.mjs customer",
+    "android:merchant": "node scripts/android.mjs merchant",
+    "android:rider": "node scripts/android.mjs rider",
+    "lint": "pnpm lint:tooling && pnpm lint:e2e && turbo lint",
+    "lint:tooling": "eslint scripts --ext .mjs,.cjs --max-warnings 0",
+    "lint:e2e": "eslint tests/e2e --ext .ts --max-warnings 0",
+    "typecheck": "turbo typecheck && pnpm typecheck:e2e",
+    "typecheck:e2e": "tsc --project tests/e2e/tsconfig.json",
+    "test": "pnpm test:tooling && turbo test && pnpm test:e2e",
+    "test:e2e": "turbo build && playwright test",
+    "test:tooling": "node --test scripts/android-options.test.mjs scripts/security.test.mjs",
+    "security": "node scripts/security.mjs",
+    "security:database": "supabase db lint --level warning --fail-on warning && supabase test db",
+    "verify": "pnpm lint:tooling && pnpm lint:e2e && pnpm typecheck:e2e && pnpm test:tooling && turbo lint typecheck test build && pnpm security && pnpm test:e2e",
     "db:push": "turbo db:push",
     "db:migrate": "turbo db:migrate",
     "db:seed": "turbo db:seed",
@@ -23,6 +44,7 @@
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
+    "@playwright/test": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
     "dependency-cruiser": "^16.5.0",
@@ -40,14 +62,23 @@
     "supabase": "^1.158.0",
     "turbo": "^1.13.3",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.3"
+    "vitest": "4.1.12"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=22.12.0",
     "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.1.4",
   "dependencies": {
-    "zod": "^4.6.5"
+    "zod": "4.6.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "6.4.5",
+      "fast-uri@^3.0.0": "3.1.9",
+      "postcss-selector-parser@^6.0.0": "6.1.5",
+      "tar": "7.5.22",
+      "undici": "8.12.4"
+    }
   }
 }

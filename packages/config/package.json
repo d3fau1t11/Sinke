@@ -15,6 +15,7 @@
     "eslint",
     "tsconfig",
     "tailwind",
+    "android",
     "prettier"
   ],
   "scripts": {
@@ -37,6 +38,6 @@
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.3"
+    "vitest": "4.1.12"
   }
 }

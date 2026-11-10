@@ -3,17 +3,20 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**", ".next/**", "android/app/build/outputs/**"]
+      "inputs": ["$TURBO_DEFAULT$", ".env", ".env.*"],
+      "env": ["SENIK_BUILD_MODE", "VITE_*"],
+      "outputs": ["dist/**", "build/**", ".next/**"]
     },
     "lint": {
       "outputs": []
     },
     "typecheck": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "test": {
       "outputs": ["coverage/**"],
-      "dependsOn": []
+      "dependsOn": ["^build"]
     },
     "security": {
       "outputs": [],
@@ -23,6 +26,7 @@
       "dependsOn": ["lint", "typecheck", "test", "build", "security"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

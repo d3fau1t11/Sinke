@@ -5,7 +5,9 @@
   "type": "module",
   "main": "./dist/index.d.ts",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "gen": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > src/database.ts",
