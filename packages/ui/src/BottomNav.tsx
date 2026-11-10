@@ -1,3 +1,4 @@
+import { useText } from '@senik/i18n';
 import React from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -19,29 +20,29 @@ const defaultItems: NavItem[] = [
     label: 'Home',
     labelAm: 'መነሻ',
     icon: <span className="material-symbols-outlined">home</span>,
-    activeIcon: <span className="material-symbols-outlined fill-icon">home</span>
+    activeIcon: <span className="material-symbols-outlined fill-icon">home</span>,
   },
   {
     id: 'search',
     label: 'Search',
     labelAm: 'ፈልግ',
     icon: <span className="material-symbols-outlined">search</span>,
-    activeIcon: <span className="material-symbols-outlined fill-icon">search</span>
+    activeIcon: <span className="material-symbols-outlined fill-icon">search</span>,
   },
   {
     id: 'orders',
     label: 'Orders',
     labelAm: 'ትዕዛዞች',
     icon: <span className="material-symbols-outlined">receipt_long</span>,
-    activeIcon: <span className="material-symbols-outlined fill-icon">receipt_long</span>
+    activeIcon: <span className="material-symbols-outlined fill-icon">receipt_long</span>,
   },
   {
     id: 'profile',
     label: 'Profile',
     labelAm: 'መለያ',
     icon: <span className="material-symbols-outlined">person</span>,
-    activeIcon: <span className="material-symbols-outlined fill-icon">person</span>
-  }
+    activeIcon: <span className="material-symbols-outlined fill-icon">person</span>,
+  },
 ];
 
 export interface BottomNavProps {
@@ -55,12 +56,20 @@ export interface BottomNavProps {
   isAm: boolean;
 }
 
-export function BottomNav({ items = defaultItems, currentScreen, onNavigate, cartCount = 0, t: _t, isAm }: BottomNavProps) {
+export function BottomNav({
+  items = defaultItems,
+  currentScreen,
+  onNavigate,
+  cartCount = 0,
+  t: _t,
+  isAm,
+}: BottomNavProps) {
+  const text = useText();
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-outline-variant shadow-level-2 safe-area-bottom"
       role="navigation"
-      aria-label="Main navigation"
+      aria-label={text('Main navigation')}
     >
       <div className="flex items-center justify-around h-16 px-2">
         {items.map((item) => {
@@ -74,16 +83,16 @@ export function BottomNav({ items = defaultItems, currentScreen, onNavigate, car
               className={cn(
                 'flex flex-col items-center justify-center gap-0.5 flex-1 min-w-0',
                 'transition-all active:scale-95',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
               )}
               aria-current={isActive ? 'page' : undefined}
-              aria-label={label}
+              aria-label={text(label ?? '')}
             >
               <div className="relative">
                 <span
                   className={cn(
                     'text-[24px] transition-all',
-                    isActive ? 'text-primary' : 'text-on-surface-variant/60'
+                    isActive ? 'text-primary' : 'text-on-surface-variant/60',
                   )}
                 >
                   {isActive && item.activeIcon ? item.activeIcon : item.icon}
@@ -100,10 +109,10 @@ export function BottomNav({ items = defaultItems, currentScreen, onNavigate, car
               <span
                 className={cn(
                   'text-label-sm font-semibold whitespace-nowrap truncate max-w-[60px] transition-colors',
-                  isActive ? 'text-primary' : 'text-on-surface-variant'
+                  isActive ? 'text-primary' : 'text-on-surface-variant',
                 )}
               >
-                {label}
+                {text(label ?? '')}
               </span>
             </button>
           );

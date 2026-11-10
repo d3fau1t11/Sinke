@@ -40,7 +40,8 @@ export type OrderStatus = Order['status'];
 // ---------------------------------------------------------------------------
 
 /** `business:businesses(id, name_am, name_en, avatar_image)` */
-export type OrderBusinessSummary = Pick<Business, 'id' | 'name_am' | 'name_en' | 'avatar_image'>;
+export type OrderBusinessSummary = Pick<Business, 'id' | 'name_am' | 'name_en' | 'avatar_image'> &
+  Partial<Pick<Business, 'latitude' | 'longitude'>>;
 
 /** `product:products(id, name_am, name_en, price, image)` */
 export type OrderProductSummary = Pick<Product, 'id' | 'name_am' | 'name_en' | 'price' | 'image'>;
@@ -61,6 +62,7 @@ export type RiderSummary = Pick<Profile, 'id' | 'full_name' | 'phone' | 'avatar_
 
 /** Result of `ordersApi.getMyOrders()` */
 export type OrderSummary = Order & {
+  customer?: Pick<Profile, 'id' | 'full_name' | 'phone'> | null;
   business: OrderBusinessSummary | null;
   order_items: OrderItemWithProduct[];
 };

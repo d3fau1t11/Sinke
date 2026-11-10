@@ -11,14 +11,21 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   lines?: number;
 }
 
-export function Skeleton({ variant = 'text', width, height, lines = 1, className, ...props }: SkeletonProps) {
+export function Skeleton({
+  variant = 'text',
+  width,
+  height,
+  lines = 1,
+  className,
+  ...props
+}: SkeletonProps) {
   const baseStyle = 'bg-surface-variant animate-pulse rounded';
 
   const variantStyles = {
     text: 'h-4 rounded-full',
     circular: 'rounded-full',
     rectangular: 'rounded-xl',
-    card: 'rounded-2xl'
+    card: 'rounded-2xl',
   };
 
   if (variant === 'text' && lines > 1) {

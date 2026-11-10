@@ -10,7 +10,7 @@ interface LogEntry {
 // Vite sets import.meta.env.DEV at build time; declare for TS
 declare global {
   interface ImportMetaEnv {
-    readonly DEV?: boolean;
+    DEV: boolean;
   }
 
   interface ImportMeta {

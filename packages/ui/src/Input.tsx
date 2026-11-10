@@ -15,18 +15,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      label,
-      error,
-      helperText,
-      leftIcon,
-      rightIcon,
-      fullWidth = true,
-      className,
-      id,
-      ...props
-    },
-    ref
+    { label, error, helperText, leftIcon, rightIcon, fullWidth = true, className, id, ...props },
+    ref,
   ) => {
     const generatedId = React.useId();
     const inputId = id || generatedId;
@@ -61,7 +51,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               error
                 ? 'border-error focus:ring-error'
                 : 'border-outline-variant hover:border-outline',
-              className
+              className,
             )}
             {...props}
           />
@@ -72,7 +62,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && (
-          <p id={errorId} className="mt-1.5 text-body-sm text-error flex items-center gap-1" role="alert">
+          <p
+            id={errorId}
+            className="mt-1.5 text-body-sm text-error flex items-center gap-1"
+            role="alert"
+          >
             <span className="material-symbols-outlined text-[14px]">error</span>
             {error}
           </p>
@@ -84,7 +78,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';
@@ -120,15 +114,17 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             'h-24 px-4 py-3',
-            error
-              ? 'border-error focus:ring-error'
-              : 'border-outline-variant hover:border-outline',
-            className
+            error ? 'border-error focus:ring-error' : 'border-outline-variant hover:border-outline',
+            className,
           )}
           {...props}
         />
         {error && (
-          <p id={errorId} className="mt-1.5 text-body-sm text-error flex items-center gap-1" role="alert">
+          <p
+            id={errorId}
+            className="mt-1.5 text-body-sm text-error flex items-center gap-1"
+            role="alert"
+          >
             <span className="material-symbols-outlined text-[14px]">error</span>
             {error}
           </p>
@@ -140,7 +136,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Textarea.displayName = 'Textarea';
