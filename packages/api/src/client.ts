@@ -1,16 +1,12 @@
-import {
-  createClient as createSupabaseClient,
-  SupabaseClient,
-} from "@supabase/supabase-js";
-import type { Database } from "@senik/types";
+import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@senik/types';
 
 declare global {
   interface ImportMetaEnv {
     readonly VITE_SUPABASE_URL?: string;
     readonly VITE_SUPABASE_ANON_KEY?: string;
-    readonly VITE_SUPABASE_SERVICE_ROLE_KEY?: string;
     readonly VITE_APP_ENV?: string;
-    readonly DEV?: boolean;
+    DEV: boolean;
   }
   interface ImportMeta {
     readonly env: ImportMetaEnv;
@@ -25,13 +21,13 @@ export function createClient(): SupabaseClient<Database> {
 
   if (!url || !anonKey) {
     throw new Error(
-      "Missing Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY",
+      'Missing Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY',
     );
   }
 
   return createSupabaseClient<Database>(url, anonKey, {
     auth: {
-      storageKey: "senik-auth",
+      storageKey: 'senik-supabase-auth',
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: true,
@@ -46,7 +42,14 @@ export function getClient(): SupabaseClient<Database> {
   return clientInstance;
 }
 
-export const supabase = getClient();
+// Defer creating the live client so local demos also work without backend configuration.
+export const supabase = new Proxy({} as SupabaseClient<Database>, {
+  get(_target, property) {
+    const client = getClient();
+    const value: unknown = Reflect.get(client, property);
+    return typeof value === 'function' ? value.bind(client) : value;
+  },
+});
 
 /**
  * Narrows a PostgREST result to the row shape the caller expects.
