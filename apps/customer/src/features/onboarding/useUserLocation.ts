@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { getNearestZoneId, type Coordinates } from "@senik/utils";
-import type { ZoneListItem } from "@senik/types";
+import { useState } from 'react';
+import { getNearestZoneId, type Coordinates } from '@senik/utils';
+import type { ZoneListItem } from '@senik/types';
+import { getPhoneLocation } from '@senik/native';
 
 export function useUserLocation(
   zones: ZoneListItem[],
@@ -28,24 +29,9 @@ export function useUserLocation(
     };
 
     try {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            onCoords({
-              latitude: pos.coords.latitude,
-              longitude: pos.coords.longitude,
-            });
-          },
-          (err) => {
-            onError(err.message || "GPS location permission denied");
-          },
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
-        );
-      } else {
-        onError("Geolocation is not supported by your device");
-      }
+      onCoords(await getPhoneLocation());
     } catch (_e) {
-      onError("Failed to acquire GPS location");
+      onError('Allow location access in Android settings, then try again.');
     }
   };
 

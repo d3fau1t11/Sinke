@@ -23,6 +23,6 @@ export const useLanguageStore = create<LanguageState>()(
     }),
     {
       name: 'senik-language',
-    }
-  )
+    },
+  ),
 );

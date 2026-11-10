@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface ZoneState {
   selectedZoneId: string | null;
@@ -16,8 +16,8 @@ export const useZoneStore = create<ZoneState>()(
   persist(
     (set) => ({
       selectedZoneId: null,
-      selectedZoneName: "",
-      selectedZoneNameAm: "",
+      selectedZoneName: '',
+      selectedZoneNameAm: '',
       deliveryFee: 0,
       userCoords: null,
 
@@ -34,14 +34,14 @@ export const useZoneStore = create<ZoneState>()(
       clearZone: () =>
         set({
           selectedZoneId: null,
-          selectedZoneName: "",
-          selectedZoneNameAm: "",
+          selectedZoneName: '',
+          selectedZoneNameAm: '',
           deliveryFee: 0,
           userCoords: null,
         }),
     }),
     {
-      name: "senik-zone",
+      name: 'senik-zone',
     },
   ),
 );

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { supabase } from '@senik/api';
+import { signOutStaff, endDemoSession, isDemoSession } from '@senik/api';
 
 export interface UserProfile {
   id: string;
@@ -31,25 +31,25 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       session: null,
 
-      setSession: (session) =>
-        set({ session, isAuthenticated: !!session }),
+      setSession: (session) => set({ session, isAuthenticated: !!session }),
 
       setUser: (user) => set({ user }),
 
       setLoading: (loading) => set({ isLoading: loading }),
 
       logout: async () => {
-        await supabase.auth.signOut();
+        if (!isDemoSession()) await signOutStaff();
+        endDemoSession();
         set({ isAuthenticated: false, user: null, session: null });
       },
     }),
     {
-      name: 'senik-auth',
+      name: 'senik-customer-auth',
       partialize: (state) => ({
         isAuthenticated: state.isAuthenticated,
         user: state.user,
         session: state.session,
       }),
-    }
-  )
+    },
+  ),
 );
