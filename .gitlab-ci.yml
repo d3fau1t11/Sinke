@@ -9,7 +9,7 @@ stages:
   - supabase
 
 variables:
-  PNPM_HOME: "$CI_PROJECT_DIR/.pnpm-store"
+  PNPM_HOME: '$CI_PROJECT_DIR/.pnpm-store'
   SUPABASE_DB_URL: $STAGING_SUPABASE_URL
   SUPABASE_DB_PASSWORD: $STAGING_SUPABASE_PASSWORD
 
@@ -25,7 +25,7 @@ cache:
 
 install:
   stage: install
-  image: node:20-alpine
+  image: node:22-alpine
   script:
     - corepack enable
     - corepack prepare pnpm@9.1.4 --activate
@@ -41,7 +41,7 @@ install:
 
 lint:
   stage: lint
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
@@ -54,7 +54,7 @@ lint:
 
 typecheck:
   stage: typecheck
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
@@ -67,10 +67,11 @@ typecheck:
 
 test:
   stage: test
-  image: node:20-alpine
+  image: node:22-bookworm
   needs: [install]
   script:
     - corepack enable
+    - pnpm exec playwright install --with-deps chromium
     - pnpm test
   coverage: '/All files[^|]*\|[^|]*\s+([\d.]+)/'
   artifacts:
@@ -88,11 +89,11 @@ test:
 
 build:customer:
   stage: build
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
-    - pnpm --filter @senik/customer build
+    - pnpm build:customer
   artifacts:
     paths:
       - apps/customer/dist
@@ -103,11 +104,11 @@ build:customer:
 
 build:merchant:
   stage: build
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
-    - pnpm --filter @senik/merchant build
+    - pnpm build:merchant
   artifacts:
     paths:
       - apps/merchant/dist
@@ -118,11 +119,11 @@ build:merchant:
 
 build:rider:
   stage: build
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
-    - pnpm --filter @senik/rider build
+    - pnpm build:rider
   artifacts:
     paths:
       - apps/rider/dist
@@ -133,11 +134,11 @@ build:rider:
 
 build:admin:
   stage: build
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
-    - pnpm --filter @senik/admin build
+    - pnpm build:admin
   artifacts:
     paths:
       - apps/admin/dist
@@ -161,7 +162,7 @@ security:gitleaks:
 
 security:audit:
   stage: security
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
@@ -173,7 +174,7 @@ security:audit:
 
 security:sast:
   stage: security
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
@@ -192,7 +193,7 @@ security:sast:
 
 security:secret-detection:
   stage: security
-  image: node:20-alpine
+  image: node:22-alpine
   needs: []
   script:
     - echo "GitLab Secret Detection template"
@@ -202,7 +203,7 @@ security:secret-detection:
 
 security:dependency-scanning:
   stage: security
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [install]
   script:
     - corepack enable
@@ -219,7 +220,7 @@ security:dependency-scanning:
 
 security:dist-check:
   stage: security
-  image: node:20-alpine
+  image: node:22-alpine
   needs: [build:customer, build:merchant, build:rider, build:admin]
   script:
     - echo "Checking for secrets in dist/..."
@@ -236,71 +237,57 @@ security:dist-check:
 
 # ─── Android ───────────────────────────────────────────────────────────────
 
-android:customer:
+.android-build:
   stage: android
-  image: node:20-alpine
-  needs: [build:customer]
-  variables:
-    CAPACITOR_APP_ID: com.senik.customer
-    CAPACITOR_APP_NAME: Senik
-  script:
+  image: ghcr.io/cirruslabs/android-sdk:36
+  needs: [install]
+  before_script:
+    - curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt -o /tmp/node-shasums.txt
+    - NODE_ARCHIVE=$(awk '$2 ~ /^node-v22.*-linux-x64.tar.xz$/ { print $2 }' /tmp/node-shasums.txt)
+    - test -n "$NODE_ARCHIVE"
+    - curl -fsSL "https://nodejs.org/dist/latest-v22.x/$NODE_ARCHIVE" -o "/tmp/$NODE_ARCHIVE"
+    - (cd /tmp && grep "$NODE_ARCHIVE" node-shasums.txt | sha256sum --check)
+    - tar -xf "/tmp/$NODE_ARCHIVE" -C /opt
+    - export PATH="/opt/${NODE_ARCHIVE%.tar.xz}/bin:$PATH"
     - corepack enable
-    - pnpm --filter @senik/customer exec cap sync android
-    - cd apps/customer/android
-    - ./gradlew assembleDebug
-  artifacts:
-    paths:
-      - apps/customer/android/app/build/outputs/apk/debug/*.apk
-    expire_in: 1 week
+    - corepack prepare pnpm@9.1.4 --activate
+    - pnpm install --frozen-lockfile
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_TAG
+
+android:customer:
+  extends: .android-build
+  script:
+    - pnpm android:customer dev debug
+  artifacts:
+    paths:
+      - release-apks/senik-customer-dev-debug.apk
+    expire_in: 1 week
 
 android:merchant:
-  stage: android
-  image: node:20-alpine
-  needs: [build:merchant]
-  variables:
-    CAPACITOR_APP_ID: com.senik.merchant
-    CAPACITOR_APP_NAME: Senik Merchant
+  extends: .android-build
   script:
-    - corepack enable
-    - pnpm --filter @senik/merchant exec cap sync android
-    - cd apps/merchant/android
-    - ./gradlew assembleDebug
+    - pnpm android:merchant dev debug
   artifacts:
     paths:
-      - apps/merchant/android/app/build/outputs/apk/debug/*.apk
+      - release-apks/senik-merchant-dev-debug.apk
     expire_in: 1 week
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_TAG
 
 android:rider:
-  stage: android
-  image: node:20-alpine
-  needs: [build:rider]
-  variables:
-    CAPACITOR_APP_ID: com.senik.rider
-    CAPACITOR_APP_NAME: Senik Rider
+  extends: .android-build
   script:
-    - corepack enable
-    - pnpm --filter @senik/rider exec cap sync android
-    - cd apps/rider/android
-    - ./gradlew assembleDebug
+    - pnpm android:rider dev debug
   artifacts:
     paths:
-      - apps/rider/android/app/build/outputs/apk/debug/*.apk
+      - release-apks/senik-rider-dev-debug.apk
     expire_in: 1 week
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_TAG
 
 # ─── Supabase ──────────────────────────────────────────────────────────────
 
 supabase:migration-check:
   stage: supabase
-  image: node:20-alpine
+  image: node:22-alpine
   needs: []
   services:
     - name: supabase/postgres:latest
@@ -321,7 +308,7 @@ supabase:migration-check:
 
 supabase:policy-tests:
   stage: supabase
-  image: node:20-alpine
+  image: node:22-alpine
   needs: []
   services:
     - name: supabase/postgres:latest

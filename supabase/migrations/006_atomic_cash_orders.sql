@@ -5,7 +5,7 @@ language plpgsql security definer set search_path = '' as $$
 declare
   actor uuid := auth.uid(); store public.businesses; dish public.products;
   option_row public.product_options; item jsonb; choice jsonb;
-  choices jsonb; prepared jsonb := '[]'; quantity integer; unit_price bigint;
+  choices jsonb; prepared jsonb := '[]'::jsonb; quantity integer; unit_price bigint;
   subtotal bigint := 0; total bigint; order_id uuid; existing public.orders; number text;
   address text := btrim(p_input->>'deliveryAddress'); key text := p_input->>'idempotencyKey';
 begin
@@ -40,7 +40,7 @@ begin
     if not found or not dish.is_available or dish.business_id <> store.id or dish.price < 0 then
       raise exception 'A dish is unavailable.' using errcode = '22023';
     end if;
-    choices := '[]'; unit_price := dish.price;
+    choices := '[]'::jsonb; unit_price := dish.price;
     if item ? 'selectedOptions' and jsonb_typeof(item->'selectedOptions') <> 'array' then
       raise exception 'Invalid selected options' using errcode = '22023';
     end if;

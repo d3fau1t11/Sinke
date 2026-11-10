@@ -4,7 +4,8 @@
 
 -- Enable required extensions
 create extension if not exists "uuid-ossp";
-create extension if not exists "postgis";
+create schema if not exists extensions;
+create extension if not exists "postgis" with schema extensions;
 
 -- Custom types
 create type user_role as enum ('customer', 'merchant_staff', 'rider', 'admin');
