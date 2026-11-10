@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface RiderWithdrawal {
   id: string;
   riderId: string;
   amount: number;
-  method: "cbe" | "telebirr";
+  method: 'cbe' | 'telebirr';
   accountNumber: string;
   accountName: string;
-  status: "pending" | "approved" | "completed";
+  status: 'pending' | 'approved' | 'completed';
   requestedAt: string;
   referenceNumber: string;
 }
@@ -21,7 +21,7 @@ interface RiderWalletState {
   requestWithdrawal: (input: {
     riderId: string;
     amount: number;
-    method: "cbe" | "telebirr";
+    method: 'cbe' | 'telebirr';
     accountNumber: string;
     accountName: string;
   }) => RiderWithdrawal;
@@ -44,7 +44,10 @@ export const useRiderWalletStore = create<RiderWalletState>()(
 
       requestWithdrawal: (input) => {
         const { balance } = get();
-        const prefix = input.method === "cbe" ? "CBE-RD" : "TB-RD";
+        if (!Number.isFinite(input.amount) || input.amount < 50 || input.amount > balance) {
+          throw new Error('Enter an amount between 50 ETB and your available balance.');
+        }
+        const prefix = input.method === 'cbe' ? 'CBE-RD' : 'TB-RD';
         const randomNum = Math.floor(100000 + Math.random() * 900000);
         const newRequest: RiderWithdrawal = {
           id: `rwd-${Date.now()}`,
@@ -53,7 +56,7 @@ export const useRiderWalletStore = create<RiderWalletState>()(
           method: input.method,
           accountNumber: input.accountNumber,
           accountName: input.accountName,
-          status: "pending",
+          status: 'pending',
           requestedAt: new Date().toISOString(),
           referenceNumber: `${prefix}-${randomNum}`,
         };
@@ -64,6 +67,6 @@ export const useRiderWalletStore = create<RiderWalletState>()(
         return newRequest;
       },
     }),
-    { name: "senik-rider-wallet" },
+    { name: 'senik-rider-wallet' },
   ),
 );

@@ -1,5 +1,6 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { endDemoSession, isDemoSession, signOutStaff, setRiderAvailability } from '@senik/api';
 
 interface RiderAuthState {
   riderId: string | null;
@@ -11,15 +12,15 @@ interface RiderAuthState {
   setRider: (id: string, name: string, phone: string) => void;
   setIsOnline: (online: boolean) => void;
   setCoords: (coords: { latitude: number; longitude: number }) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const useRiderAuthStore = create<RiderAuthState>()(
   persist(
     (set) => ({
       riderId: null,
-      riderName: "",
-      phone: "",
+      riderName: '',
+      phone: '',
       isOnline: true,
       isAuthenticated: false,
       currentCoords: null,
@@ -37,18 +38,24 @@ export const useRiderAuthStore = create<RiderAuthState>()(
 
       setCoords: (coords) => set({ currentCoords: coords }),
 
-      logout: () =>
+      logout: async () => {
+        if (!isDemoSession()) {
+          await setRiderAvailability(false);
+          await signOutStaff();
+        }
+        endDemoSession();
         set({
           riderId: null,
-          riderName: "",
-          phone: "",
+          riderName: '',
+          phone: '',
           isOnline: false,
           isAuthenticated: false,
           currentCoords: null,
-        }),
+        });
+      },
     }),
     {
-      name: "senik-rider-auth",
+      name: 'senik-rider-demo-auth-v1',
     },
   ),
 );
