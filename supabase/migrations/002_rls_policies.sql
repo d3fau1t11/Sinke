@@ -108,7 +108,7 @@ create policy "Riders can update own status" on riders for update using (auth.ui
 
 -- Rider locations policies
 create policy "Rider locations are viewable by everyone" on rider_locations for select using (true);
-create policy "Riders can update own location" on rider_locations for insert with check (auth.uid() = rider_id);
+create policy "Riders can insert own location" on rider_locations for insert with check (auth.uid() = rider_id);
 create policy "Riders can update own location" on rider_locations for update using (auth.uid() = rider_id);
 
 -- Payments policies

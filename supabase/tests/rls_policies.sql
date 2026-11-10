@@ -1,49 +1,26 @@
--- pgTAP tests for RLS policies
--- Run with: supabase db test
-
-BEGIN;
-
-SELECT plan(8);
-
--- Test 1: Profiles are viewable by everyone
-SELECT tests.test('profiles are viewable by everyone', $$
-  SELECT has_table_privilege('authenticated', 'public.profiles', 'SELECT');
-$$);
-
--- Test 2: Users can update own profile
-SELECT tests.test('users can update own profile', $$
-  SELECT has_function_privilege('authenticated', 'public.profiles', 'UPDATE');
-$$);
-
--- Test 3: Users can view own addresses
-SELECT tests.test('users can view own addresses', $$
-  SELECT has_table_privilege('authenticated', 'public.addresses', 'SELECT');
-$$);
-
--- Test 4: Users can insert own addresses
-SELECT tests.test('users can insert own addresses', $$
-  SELECT has_table_privilege('authenticated', 'public.addresses', 'INSERT');
-$$);
-
--- Test 5: Orders are viewable by owner
-SELECT tests.test('orders are viewable by owner', $$
-  SELECT has_table_privilege('authenticated', 'public.orders', 'SELECT');
-$$);
-
--- Test 6: Products are viewable by everyone
-SELECT tests.test('products are viewable by everyone', $$
-  SELECT has_table_privilege('authenticated', 'public.products', 'SELECT');
-$$);
-
--- Test 7: Zones are viewable by everyone
-SELECT tests.test('zones are viewable by everyone', $$
-  SELECT has_table_privilege('authenticated', 'public.zones', 'SELECT');
-$$);
-
--- Test 8: Messages are viewable by order participants
-SELECT tests.test('messages are viewable by order participants', $$
-  SELECT has_table_privilege('authenticated', 'public.messages', 'SELECT');
-$$);
-
-SELECT * FROM finish();
-ROLLBACK;
+-- Baseline access checks; behavior and privilege-escalation regressions are in sibling tests.
+begin;
+select plan(8);
+select ok(not exists (select 1 from pg_tables t join pg_class c
+  on c.oid = (quote_ident(t.schemaname) || '.' || quote_ident(t.tablename))::regclass
+  where t.schemaname = 'public' and not c.relrowsecurity
+    and not exists (select 1 from pg_depend d where d.classid = 'pg_class'::regclass
+      and d.objid = c.oid and d.deptype = 'e')),
+  'Every application table enables row level security');
+select ok(not has_column_privilege('authenticated', 'public.profiles', 'role', 'update'),
+  'Authenticated users cannot promote their role');
+select ok(has_table_privilege('authenticated', 'public.addresses', 'select'),
+  'Authenticated address reads are subject to RLS');
+select ok(has_table_privilege('authenticated', 'public.addresses', 'insert'),
+  'Authenticated address creation is subject to RLS');
+select ok(not has_table_privilege('authenticated', 'public.orders', 'insert'),
+  'Orders must use validated atomic checkout');
+select ok(has_table_privilege('anon', 'public.products', 'select'),
+  'Anonymous users can browse the catalog');
+select ok(has_table_privilege('anon', 'public.zones', 'select'),
+  'Anonymous users can browse delivery zones');
+select ok(exists (select 1 from pg_policies where schemaname = 'public'
+  and tablename = 'messages' and policyname = 'Participants can send order messages'),
+  'Messages require order participation');
+select * from finish();
+rollback;
