@@ -12,6 +12,9 @@ build/
 .env
 .env.local
 .env.*.local
+.env.dev
+.env.staging
+.env.prod
 
 # IDE
 .vscode/
@@ -38,11 +41,15 @@ android/app/build/
 android/build/
 android/.gradle/
 android/local.properties
+**/android/.gradle/
+**/android/local.properties
+**/android/app/src/main/assets/public/
+**/android/app/src/main/assets/capacitor.config.json
+**/android/app/src/main/assets/capacitor.plugins.json
 android/app/src/main/assets/public/
 *.apk
 *.aab
 *.keystore
-!debug.keystore
 
 # iOS
 ios/
@@ -77,4 +84,15 @@ playwright/.cache/
 scratch/
 release-apks/
 senik-app-debug.apk
+
+# Publish only the root README; retain local contributor/setup notes on disk.
+*.[mM][dD]
+!/README.md
+
+# All real environment/signing configuration stays private.
+.env*
+!.env.example
+*.pfx
+*.keystore
+*service-account*.json
 
