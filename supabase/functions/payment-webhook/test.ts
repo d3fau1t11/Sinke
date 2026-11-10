@@ -7,7 +7,7 @@ Deno.test('payment-webhook: rejects non-POST methods', async () => {
   assertEquals(res.status, 405);
 });
 
-Deno.test('payment-webhook: rejects missing signature', async () => {
+Deno.test('payment-webhook: refuses settlement while online payments are disabled', async () => {
   const req = new Request('http://localhost', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -16,5 +16,5 @@ Deno.test('payment-webhook: rejects missing signature', async () => {
 
   const { default: handler } = await import('./index.ts');
   const res = await handler(req);
-  assertEquals(res.status, 401);
+  assertEquals(res.status, 503);
 });

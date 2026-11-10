@@ -126,13 +126,5 @@ export class ChapaPaymentProvider implements PaymentProvider {
 }
 
 export function getPaymentProvider(): PaymentProvider {
-  const provider = Deno.env.get('PAYMENT_PROVIDER') || 'mock';
-
-  switch (provider) {
-    case 'chapa':
-      return new ChapaPaymentProvider(Deno.env.get('CHAPA_API_KEY') || '');
-    case 'mock':
-    default:
-      return new MockPaymentProvider();
-  }
+  throw new Error('Online payments are disabled until settlement is implemented and verified.');
 }

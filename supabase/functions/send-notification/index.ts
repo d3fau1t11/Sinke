@@ -1,87 +1,47 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { sendFirebaseNotification } from '../_shared/fcm.ts';
 
-serve(async (req) => {
-  if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
-  }
-
+Deno.serve(async (request) => {
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+  const bearer = request.headers.get('Authorization');
+  if (!bearer) return new Response('Unauthorized', { status: 401 });
   try {
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response('Unauthorized', { status: 401 });
-    }
-
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-      { global: { headers: { Authorization: authHeader } } }
+    const backend = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     );
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return new Response('Unauthorized', { status: 401 });
-    }
-
-    const { userId, title, body, data } = await req.json();
-
-    if (!userId || !title || !body) {
-      return new Response('Missing userId, title, or body', { status: 400 });
-    }
-
-    // Get user's device tokens
-    const { data: tokens, error: tokensError } = await supabase
+    const {
+      data: { user },
+      error,
+    } = await backend.auth.getUser(bearer.replace(/^Bearer /i, ''));
+    if (error || !user) return new Response('Unauthorized', { status: 401 });
+    const { data: profile } = await backend
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    if (profile?.role !== 'admin') return new Response('Forbidden', { status: 403 });
+    const payload = (await request.json()) as {
+      userId: string;
+      title: string;
+      body: string;
+      data?: Record<string, string>;
+    };
+    if (!payload.userId || !payload.title || !payload.body)
+      return new Response('Missing fields', { status: 400 });
+    const { data: tokens, error: tokensError } = await backend
       .from('device_tokens')
-      .select('token, platform')
-      .eq('user_id', userId);
-
-    if (tokensError || !tokens || tokens.length === 0) {
-      return new Response('No device tokens found', { status: 404 });
-    }
-
-    // Send notifications via FCM
-    const fcmKey = Deno.env.get('FCM_SERVER_KEY');
-    if (!fcmKey) {
-      return new Response('FCM not configured', { status: 500 });
-    }
-
-    const results = [];
-    for (const token of tokens) {
-      try {
-        const response = await fetch('https://fcm.googleapis.com/fcm/send', {
-          method: 'POST',
-          headers: {
-            'Authorization': `key=${fcmKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            to: token.token,
-            notification: {
-              title,
-              body
-            },
-            data: data || {},
-            priority: 'high'
-          })
-        });
-
-        const result = await response.json();
-        results.push({ token: token.token, success: result.success === 1 });
-      } catch (error) {
-        results.push({ token: token.token, success: false, error: error.message });
-      }
-    }
-
-    return new Response(JSON.stringify({ success: true, results }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-  } catch (error) {
-    console.error('Send notification error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      .select('token')
+      .eq('user_id', payload.userId);
+    if (tokensError) throw tokensError;
+    const results = await Promise.allSettled(
+      (tokens ?? []).map((device) =>
+        sendFirebaseNotification(device.token, payload.title, payload.body, payload.data),
+      ),
     );
+    const failed = results.filter((result) => result.status === 'rejected').length;
+    return Response.json({ success: failed === 0, sent: results.length - failed, failed });
+  } catch {
+    return Response.json({ error: 'Notification delivery failed' }, { status: 500 });
   }
 });

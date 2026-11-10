@@ -50,7 +50,6 @@ enable_confirmations = false
 [auth.sms]
 enable_signup = true
 enable_confirmations = true
-test_otp = "123456"
 
 [auth.external.apple]
 enabled = false
@@ -78,3 +77,5 @@ verify_jwt = true
 
 [analytics]
 enabled = false
+[functions.order-notification]
+verify_jwt = false

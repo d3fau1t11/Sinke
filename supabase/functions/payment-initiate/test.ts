@@ -7,7 +7,7 @@ Deno.test('payment-initiate: rejects non-POST methods', async () => {
   assertEquals(res.status, 405);
 });
 
-Deno.test('payment-initiate: rejects unauthorized requests', async () => {
+Deno.test('payment-initiate: refuses initiation while online payments are disabled', async () => {
   const req = new Request('http://localhost', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -16,5 +16,5 @@ Deno.test('payment-initiate: rejects unauthorized requests', async () => {
 
   const { default: handler } = await import('./index.ts');
   const res = await handler(req);
-  assertEquals(res.status, 401);
+  assertEquals(res.status, 503);
 });
